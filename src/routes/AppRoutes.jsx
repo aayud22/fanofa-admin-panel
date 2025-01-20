@@ -1,11 +1,11 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
 import AuthRoutes from './AuthRoutes';
 import DashboardRoutes from './DashboardRoutes';
+import { Route, Routes } from 'react-router-dom';
 import NotFound from '../components/Error/NotFound';
-import MaintenancePage from '../pages/error/MaintenancePage';
-import ServerError from '../components/Error/ServerError';
 import { APP_ROUTES } from '../constants/routeConstants';
+import ServerError from '../components/Error/ServerError';
+import MaintenancePage from '../pages/error/MaintenancePage';
 
 const AppRoutes = () => {
   return (

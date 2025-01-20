@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { APP_ROUTES } from '../constants/routeConstants';
 import SubAdminLogin from '../pages/auth/SubAdminLogin';
+import { APP_ROUTES } from '../constants/routeConstants';
 import SuperAdminLogin from '../pages/auth/SuperAdminLogin';
 import SelectUserType from '../components/auth/SelectUserType';
 
