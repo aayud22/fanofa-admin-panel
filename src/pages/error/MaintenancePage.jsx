@@ -91,21 +91,21 @@ const MaintenancePage = () => {
                 type="email"
                 placeholder="Enter your email"
                 {...register('email')}
-                className={`h-12 rounded-lg border px-4 text-black placeholder:text-white bg-transparent focus:outline-none focus:ring-2 ${
+                className={`h-12 rounded-lg border bg-transparent px-4 text-black placeholder:text-white focus:outline-none focus:ring-2 ${
                   errors.email
                     ? 'border-red-500 focus:ring-red-300'
                     : 'border-gray-300 focus:ring-blue-300'
                 }`}
               />
               {errors.email && (
-                <p className="mt-1 text-sm text-start text-red-500">
+                <p className="mt-1 text-start text-sm text-red-500">
                   {errors.email.message}
                 </p>
               )}
             </div>
             <button
               type="submit"
-              className="h-12 rounded-lg bg-white px-8 font-semibold text-tertiary hover:bg-gray-100 focus:outline-none"
+              className="text-brightBlue h-12 rounded-lg bg-white px-8 font-semibold hover:bg-gray-100 focus:outline-none"
             >
               Notify Me
             </button>

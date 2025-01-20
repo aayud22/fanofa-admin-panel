@@ -37,7 +37,7 @@ const SuperAdminLogin = () => {
           </div>
 
           {/* Heading */}
-          <h2 className="text-primary mb-8 text-center text-2xl font-bold md:text-3xl">
+          <h2 className="text-deepBlue mb-8 text-center text-2xl font-bold md:text-3xl">
             Login for Super-Admin
           </h2>
 
@@ -79,7 +79,7 @@ const SuperAdminLogin = () => {
 
             <button
               type="submit"
-              className="bg-primary-gradient hover:bg-secondaryHover w-full rounded-md py-3 text-white transition-colors"
+              className="bg-deepBlue-gradient hover:bg-oceanBlue w-full rounded-md py-3 text-white transition-colors"
             >
               Login
             </button>

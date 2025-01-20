@@ -79,7 +79,7 @@ const SubAdminLogin = () => {
 
             <button
               type="submit"
-              className="bg-primary-gradient hover:bg-secondaryHover w-full rounded-md py-3 text-white transition-colors"
+              className="bg-deepBlue-gradient hover:bg-oceanBlue w-full rounded-md py-3 text-white transition-colors"
             >
               Login
             </button>
