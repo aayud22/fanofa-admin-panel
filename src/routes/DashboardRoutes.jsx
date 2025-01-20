@@ -12,6 +12,10 @@ const DashboardRoutes = () => {
           path={APP_ROUTES.DASHBOARD.HOME.replace('/dashboard', '')}
           element={<Dashboard />}
         />
+        <Route
+          path={APP_ROUTES.DASHBOARD.ANALYTICS.replace('/dashboard', '')}
+          element={<>ACTIVITY</>} // Add the new route
+        />
       </Routes>
     </Layout>
   );

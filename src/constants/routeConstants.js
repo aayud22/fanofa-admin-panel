@@ -1,9 +1,9 @@
 export const APP_ROUTES = {
   HOME: '/',
   LOGIN: {
-    SUB_ADMIN: '/login/sub-admin',
-    SUPER_ADMIN: '/login/super-admin',
-    SELECT_USER_TYPE: '/login/select-user',
+    SUB_ADMIN: 'select-user',
+    SUPER_ADMIN: 'super-admin',
+    SELECT_USER_TYPE: 'select-user',
   },
   DASHBOARD: {
     HOME: '/dashboard',
