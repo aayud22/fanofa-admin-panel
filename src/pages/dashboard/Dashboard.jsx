@@ -1,11 +1,20 @@
 import React from 'react';
+import {
+  TopUser,
+  GenderStats,
+  AvailableWithdraw,
+  VisitorsByCountries,
+} from '../../components/dashboard';
 
 const Dashboard = () => {
   return (
     <div>
-      {/* Dashboard content here */}
-      <h1 className="mb-4 text-2xl font-bold">Dashboard</h1>
-      {/* Add charts, cards, and tables */}
+      <AvailableWithdraw />
+      <div className="my-3.5 grid gap-3.5 md:grid-cols-[70%_30%] pr-3">
+        <TopUser />
+        <VisitorsByCountries />
+      </div>
+      <GenderStats />
     </div>
   );
 };

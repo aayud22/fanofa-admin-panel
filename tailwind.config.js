@@ -5,16 +5,21 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        white: '#FFFFFF',
         skyBlue: '#3498db',
+        softPink: '#FFEFEF',
+        deepBlue: '#2F3349',
         oceanBlue: '#2980b9',
-        white: '#FFFFFF', // Added for background
-        deepBlue: '#2F3349', // Added from the code
-        lightGray: '#EDEEF2', // Added from the code
-        mutedBlue: '#A3AED0', // Added for user icon
-        brightBlue: '#4C7EF3', // Added from the code
-        darkBlueText: '#2B3674', // Added for text and icons
-        grayBackground: '#F6F7F9', // Added for the user dropdown
-        lightGrayIcon: '#E3E5EB', // Added for user icon background
+        lightGray: '#EDEEF2',
+        mutedBlue: '#A3AED0',
+        limeGreen: '#EEFFEB',
+        crimsonRed: '#D80027',
+        brightBlue: '#4C7EF3',
+        forestGreen: '#3F9431',
+        darkBlueText: '#2B3674',
+        lightGrayIcon: '#E3E5EB',
+        grayBackground: '#F6F7F9',
+        transparentOlive: '#308E871A',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
@@ -58,6 +63,9 @@ module.exports = {
         'login-bg': "url('/src/assets/images/auth/login-bg.png')",
         'primary-gradient':
           'linear-gradient(180deg, #6DE9F4 0%, #3EB1E0 0.01%, #0E77CC 100%)',
+      },
+      boxShadow: {
+        'soft-xl': '6px 6px 54px 0px #0000000D',
       },
     },
   },
