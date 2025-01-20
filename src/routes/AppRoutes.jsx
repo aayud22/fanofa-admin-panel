@@ -13,7 +13,9 @@ const AppRoutes = () => {
       {/* Auth routes */}
       <Route
         path="/"
-        element={<Navigate to={APP_ROUTES.LOGIN.SELECT_USER_TYPE} replace />}
+        element={
+          <Navigate to={`login/${APP_ROUTES.LOGIN.SELECT_USER_TYPE}`} replace />
+        }
       />
       <Route path="/login/*" element={<AuthRoutes />} />
 

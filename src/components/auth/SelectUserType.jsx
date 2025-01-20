@@ -6,10 +6,10 @@ const SelectUserType = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="bg-login-bg flex min-h-screen flex-1 items-center justify-center bg-cover bg-center p-4">
+    <div className="flex min-h-screen flex-1 items-center justify-center bg-login-bg bg-cover bg-center p-4">
       <div className="w-full max-w-4xl rounded-lg bg-white p-8 shadow-lg">
         <div className="space-y-6">
-          <h2 className="text-deepBlue text-center text-2xl font-bold md:text-3xl">
+          <h2 className="text-center text-2xl font-bold text-deepBlue md:text-3xl">
             Select User Type
           </h2>
           <div className="mx-auto grid max-w-2xl gap-4 md:grid-cols-2">
@@ -22,8 +22,10 @@ const SelectUserType = () => {
                   Access all administrative features and manage system settings
                 </p>
                 <button
-                  onClick={() => navigate(APP_ROUTES?.LOGIN?.SUPER_ADMIN)}
-                  className="bg-skyBlue hover:bg-oceanBlue w-full rounded py-2 text-white"
+                  onClick={() =>
+                    navigate(`/login/${APP_ROUTES?.LOGIN?.SUPER_ADMIN}`)
+                  }
+                  className="w-full rounded bg-skyBlue py-2 text-white hover:bg-oceanBlue"
                 >
                   Continue as Super Admin
                 </button>
@@ -38,8 +40,10 @@ const SelectUserType = () => {
                   tasks
                 </p>
                 <button
-                  onClick={() => navigate(APP_ROUTES?.LOGIN?.SUB_ADMIN)}
-                  className="bg-skyBlue hover:bg-oceanBlue w-full rounded py-2 text-white"
+                  onClick={() =>
+                    navigate(`/login/${APP_ROUTES?.LOGIN?.SUB_ADMIN}`)
+                  }
+                  className="w-full rounded bg-skyBlue py-2 text-white hover:bg-oceanBlue"
                 >
                   Continue as Sub Admin
                 </button>

@@ -79,7 +79,7 @@ const SubAdminLogin = () => {
 
             <button
               type="submit"
-              className="bg-deepBlue-gradient hover:bg-oceanBlue w-full rounded-md py-3 text-white transition-colors"
+              className="w-full rounded-md bg-primary-gradient py-3 text-white transition-colors hover:bg-oceanBlue"
             >
               Login
             </button>
@@ -101,14 +101,7 @@ const SubAdminLogin = () => {
       </div>
 
       <div className="hidden lg:block lg:w-1/2">
-        <div
-          className="bg-login-bg h-full w-full bg-cover bg-center"
-          // style={{
-          //   backgroundImage: `url(${encodeURI('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-9hZlokcVqFPlT9oUI7WFeDRfI9WsVA.png')})`,
-          //   backgroundSize: 'cover',
-          //   backgroundPosition: 'center',
-          // }}
-        />
+        <div className="h-full w-full bg-login-bg bg-cover bg-center" />
       </div>
     </div>
   );

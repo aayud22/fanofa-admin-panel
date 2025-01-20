@@ -1,7 +1,7 @@
 export const APP_ROUTES = {
   HOME: '/',
   LOGIN: {
-    SUB_ADMIN: 'select-user',
+    SUB_ADMIN: 'sub-admin',
     SUPER_ADMIN: 'super-admin',
     SELECT_USER_TYPE: 'select-user',
   },

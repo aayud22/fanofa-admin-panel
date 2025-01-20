@@ -28,7 +28,7 @@ const SuperAdminLogin = () => {
   };
 
   return (
-    <div className="bg-login-bg min-h-screen overflow-hidden bg-cover bg-center">
+    <div className="min-h-screen overflow-hidden bg-login-bg bg-cover bg-center">
       <div className="relative flex min-h-screen items-center justify-center p-4">
         <div className="w-full max-w-[480px] rounded-lg bg-white p-8 shadow-xl">
           {/* Logo */}
@@ -37,7 +37,7 @@ const SuperAdminLogin = () => {
           </div>
 
           {/* Heading */}
-          <h2 className="text-deepBlue mb-8 text-center text-2xl font-bold md:text-3xl">
+          <h2 className="mb-8 text-center text-2xl font-bold text-[#1e3799] md:text-3xl">
             Login for Super-Admin
           </h2>
 
@@ -79,7 +79,7 @@ const SuperAdminLogin = () => {
 
             <button
               type="submit"
-              className="bg-deepBlue-gradient hover:bg-oceanBlue w-full rounded-md py-3 text-white transition-colors"
+              className="w-full rounded-md bg-primary-gradient py-3 text-white transition-colors hover:bg-oceanBlue"
             >
               Login
             </button>
