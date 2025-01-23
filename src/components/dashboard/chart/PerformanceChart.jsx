@@ -9,6 +9,34 @@ import {
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement);
 
+// Custom Plugin with Validation
+const backgroundPlugin = {
+  id: 'backgroundPlugin',
+  beforeDraw(chart) {
+    if (!chart.chartArea) return; // Ensure chartArea is available
+
+    const { ctx, chartArea } = chart;
+    const gradient = ctx.createLinearGradient(
+      0,
+      chartArea.top,
+      0,
+      chartArea.bottom
+    );
+    gradient.addColorStop(0, 'rgba(76, 175, 80, 0.3)'); // Start color
+    gradient.addColorStop(1, 'rgba(76, 175, 80, 0)'); // End color
+
+    ctx.save();
+    ctx.fillStyle = gradient;
+    ctx.fillRect(
+      chartArea.left,
+      chartArea.top,
+      chartArea.width,
+      chartArea.height
+    );
+    ctx.restore();
+  },
+};
+
 const options = {
   responsive: true,
   maintainAspectRatio: false,
@@ -16,6 +44,7 @@ const options = {
     legend: {
       display: false,
     },
+    backgroundPlugin, // Register custom plugin
   },
   scales: {
     x: {
@@ -44,7 +73,7 @@ const generateData = () => ({
   datasets: [
     {
       data: [20, 40, 30, 70, 50, 60, 80, 65, 75, 85],
-      fill: false,
+      fill: false, // No dataset fill; handled by plugin
     },
   ],
 });
@@ -52,7 +81,11 @@ const generateData = () => ({
 function PerformanceChart() {
   return (
     <div className="h-10 w-20">
-      <Line options={options} data={generateData()} />
+      <Line
+        options={options}
+        data={generateData()}
+        plugins={[backgroundPlugin]}
+      />
     </div>
   );
 }
