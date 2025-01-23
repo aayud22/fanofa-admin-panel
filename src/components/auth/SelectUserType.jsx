@@ -22,9 +22,7 @@ const SelectUserType = () => {
                   Access all administrative features and manage system settings
                 </p>
                 <button
-                  onClick={() =>
-                    navigate(`/login/${APP_ROUTES?.LOGIN?.SUPER_ADMIN}`)
-                  }
+                  onClick={() => navigate(APP_ROUTES?.LOGIN?.SUPER_ADMIN)}
                   className="w-full rounded bg-skyBlue py-2 text-white hover:bg-oceanBlue"
                 >
                   Continue as Super Admin
@@ -40,9 +38,7 @@ const SelectUserType = () => {
                   tasks
                 </p>
                 <button
-                  onClick={() =>
-                    navigate(`/login/${APP_ROUTES?.LOGIN?.SUB_ADMIN}`)
-                  }
+                  onClick={() => navigate(APP_ROUTES?.LOGIN?.SUB_ADMIN)}
                   className="w-full rounded bg-skyBlue py-2 text-white hover:bg-oceanBlue"
                 >
                   Continue as Sub Admin

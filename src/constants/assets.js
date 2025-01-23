@@ -1,3 +1,6 @@
+import YEARLY_TOTAL_SALES from '../assets/images/dashboard/yearly_sales.svg';
+import YEARLY_SALES_EXPENSES from '../assets/images/dashboard/yearly_expense.svg';
+
 export const ASSETS = {
   AUTH: {
     LOGO: require('../assets/images/auth/logo.png'),
@@ -6,5 +9,9 @@ export const ASSETS = {
   },
   ERROR: {
     UNDER_MAINTAIN: require('../assets/images/Error/under-maintain.png'),
+  },
+  DASHBOARD: {
+    YEARLY_TOTAL_SALES,
+    YEARLY_SALES_EXPENSES,
   },
 };

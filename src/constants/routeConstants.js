@@ -1,11 +1,13 @@
 export const APP_ROUTES = {
   HOME: '/',
   LOGIN: {
-    SUB_ADMIN: 'sub-admin',
-    SUPER_ADMIN: 'super-admin',
-    SELECT_USER_TYPE: 'select-user',
+    BASE: '/login',
+    SUB_ADMIN: '/login/sub-admin',
+    SUPER_ADMIN: '/login/super-admin',
+    SELECT_USER_TYPE: '/login/select-user-type',
   },
   DASHBOARD: {
+    BASE: '/dashboard',
     HOME: '/dashboard',
     ANALYTICS: '/dashboard/analytics',
     REPORTS: '/dashboard/reports',
