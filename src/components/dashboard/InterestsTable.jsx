@@ -8,6 +8,8 @@ import {
   TableRow,
 } from '../ui/table';
 import { Star } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { APP_ROUTES } from '../../constants/routeConstants';
 
 const interests = [
   {
@@ -61,6 +63,8 @@ const interests = [
 ];
 
 const InterestsTable = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="rounded-xl bg-white p-6 shadow-soft-xl">
       <div className="mb-6 flex items-center justify-between">
@@ -70,9 +74,14 @@ const InterestsTable = () => {
             (This Week)
           </span>
         </div>
-        <a href="#" className="text-sm text-blue-600 hover:underline">
+        <p
+          className="cursor-pointer text-sm text-blue-600 transition-all hover:underline"
+          onClick={() =>
+            navigate(`/dashboard${APP_ROUTES?.DASHBOARD?.TOP_INTERESTED}`)
+          }
+        >
           View All
-        </a>
+        </p>
       </div>
       <div className="overflow-x-auto">
         <Table>
@@ -131,7 +140,9 @@ const InterestsTable = () => {
                 <TableCell>
                   <div className="flex items-center gap-1">
                     <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                    <span className="text-sm font-semibold text-deepBlue">{interest.rating}</span>
+                    <span className="text-sm font-semibold text-deepBlue">
+                      {interest.rating}
+                    </span>
                   </div>
                 </TableCell>
               </TableRow>

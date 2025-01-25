@@ -7,7 +7,8 @@ import {
 } from '../../components/dashboard';
 import YearlySales from '../../components/dashboard/YearlySales';
 import CategoryList from '../../components/dashboard/CategoryList';
-import TopInterested from '../../components/dashboard/InterestsAndPlans';
+import InterestsAndPlans from '../../components/dashboard/InterestsAndPlans';
+import ConversionAndSource from '../../components/dashboard/ConversionAndSource';
 
 const Dashboard = () => {
   return (
@@ -19,10 +20,9 @@ const Dashboard = () => {
       </div>
       <GenderStats />
       <CategoryList />
-      <TopInterested />
+      <InterestsAndPlans />
       <YearlySales />
-
-      <div> Conversion Rate</div>
+      <ConversionAndSource />
     </div>
   );
 };

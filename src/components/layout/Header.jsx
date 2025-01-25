@@ -7,8 +7,12 @@ import {
 } from '../ui/dropdown-menu';
 import { Button } from '../ui/button';
 import { Bell, ChevronDown, CircleUserRound, Search } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
+import { APP_ROUTES } from '../../constants/routeConstants';
 
 const Header = () => {
+  const location = useLocation();
+
   const [selectedCountry, setSelectedCountry] = useState({
     code: 'gb',
     name: 'English',
@@ -18,18 +22,60 @@ const Header = () => {
     setSelectedCountry({ code: countryCode, name: countryName });
   };
 
+  const generateBreadcrumbs = () => {
+    const pathSegments = location.pathname
+      .split('/')
+      .filter((segment) => segment); // Remove empty strings
+
+    // If the path is "/dashboard", return only "Home"
+    if (pathSegments.length === 1 && pathSegments[0] === 'dashboard') {
+      return null;
+    }
+
+    // Map segments to breadcrumb links
+    return pathSegments.map((segment, index) => {
+      // Skip "dashboard" in the breadcrumb unless it's the last segment
+      if (segment === 'dashboard' && index === 0) {
+        return null;
+      }
+
+      const path = `/${pathSegments.slice(0, index + 1).join('/')}`;
+      const isLast = index === pathSegments.length - 1;
+
+      return (
+        <React.Fragment key={path}>
+          <span className="text-sm font-normal text-deepBlue">{`//`}</span>
+          {isLast ? (
+            <span className="cursor-pointer bg-primary-gradient bg-clip-text text-sm font-normal text-transparent">
+              {segment.replace(/-/g, ' ')}
+            </span>
+          ) : (
+            <Link
+              to={path}
+              className="text-sm font-normal text-deepBlue hover:underline"
+            >
+              {segment.replace(/-/g, ' ')}
+            </Link>
+          )}
+        </React.Fragment>
+      );
+    });
+  };
+
   return (
-    <header className="border-lightGray sticky top-0 w-full rounded-2xl border-b bg-white">
+    <header className="sticky top-0 w-full rounded-2xl border-b border-lightGray bg-white">
       <div className="mx-auto flex h-[86px] w-full max-w-[1400px] flex-col justify-center px-4 lg:px-6">
         <div className="flex items-center justify-between">
           <div className="flex flex-col">
             <h1 className="text-xl font-bold text-deepBlue">Dashboard</h1>
             <div className="flex items-center space-x-2 text-sm">
-              <span className="text-sm font-normal text-deepBlue">Home</span>
-              <span className="text-sm font-normal text-deepBlue">{`//`}</span>
-              <span className="cursor-pointer bg-primary-gradient bg-clip-text text-sm font-normal text-transparent">
-                Dashboard
-              </span>
+              <Link
+                to={APP_ROUTES?.DASHBOARD?.BASE}
+                className="text-sm font-normal text-deepBlue"
+              >
+                Home
+              </Link>
+              {generateBreadcrumbs()}
             </div>
           </div>
 
@@ -100,12 +146,12 @@ const Header = () => {
             </DropdownMenu>
             {/* Search Button */}
             <Button variant="ghost" size="icon" className="h-9 w-9">
-              <Search className="text-darkBlueText h-6 w-6" />
+              <Search className="h-6 w-6 text-darkBlueText" />
             </Button>
 
             {/* Notification Button */}
             <Button variant="ghost" size="icon" className="h-9 w-9">
-              <Bell className="text-darkBlueText h-6 w-6" />
+              <Bell className="h-6 w-6 text-darkBlueText" />
             </Button>
 
             {/* User Info Dropdown */}
@@ -114,12 +160,12 @@ const Header = () => {
                 <Button
                   size="sm"
                   variant="ghost"
-                  className="bg-grayBackground flex h-10 items-center gap-2 rounded-full px-3 py-3"
+                  className="flex h-10 items-center gap-2 rounded-full bg-grayBackground px-3 py-3"
                 >
-                  <div className="bg-lightGrayIcon rounded-full p-2">
-                    <CircleUserRound className="text-mutedBlue h-4 w-4" />
+                  <div className="rounded-full bg-lightGrayIcon p-2">
+                    <CircleUserRound className="h-4 w-4 text-mutedBlue" />
                   </div>
-                  <span className="text-darkBlueText hidden text-sm font-bold sm:inline-block">
+                  <span className="hidden text-sm font-bold text-darkBlueText sm:inline-block">
                     John Smith
                   </span>
                   <ChevronDown className="h-5 w-5" />

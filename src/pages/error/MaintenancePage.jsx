@@ -66,7 +66,7 @@ const MaintenancePage = () => {
         </div>
 
         {/* Maintenance Text and Countdown */}
-        <div className="space-y-4 bg-blue-700 py-8 text-center shadow-lg">
+        <div className="space-y-4 bg-maintenance-page-bg bg-cover bg-center py-8 text-center shadow-lg">
           <h1 className="text-3xl font-bold text-white md:text-4xl">
             Hang on! We are under maintenance
           </h1>
@@ -105,7 +105,7 @@ const MaintenancePage = () => {
             </div>
             <button
               type="submit"
-              className="text-brightBlue h-12 rounded-lg bg-white px-8 font-semibold hover:bg-gray-100 focus:outline-none"
+              className="h-12 rounded-lg bg-white px-8 font-semibold text-darkBlueText hover:bg-gray-100 focus:outline-none"
             >
               Notify Me
             </button>

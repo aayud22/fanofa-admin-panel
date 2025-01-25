@@ -49,6 +49,7 @@ import ServerError from '../components/Error/ServerError';
 import SuperAdminLogin from '../pages/auth/SuperAdminLogin';
 import MaintenancePage from '../pages/error/MaintenancePage';
 import SelectUserType from '../components/auth/SelectUserType';
+import TopInterests from '../pages/topInterests/TopInterests';
 
 const AppRoutes = () => {
   return (
@@ -72,10 +73,18 @@ const AppRoutes = () => {
         element={
           <Layout>
             <Routes>
-              <Route path="/" element={<Dashboard />} />
+              <Route
+                path={APP_ROUTES?.DASHBOARD?.HOME}
+                element={<Dashboard />}
+              />
+              <Route
+                path={APP_ROUTES?.DASHBOARD?.TOP_INTERESTED}
+                element={<TopInterests />}
+              />
+              {/* <Route path="/" element={<Dashboard />} />
               <Route path="analytics" element={<>ACTIVITY</>} />
               <Route path="reports" element={<>REPORTS</>} />
-              <Route path="settings" element={<>SETTINGS</>} />
+              <Route path="settings" element={<>SETTINGS</>} /> */}
             </Routes>
           </Layout>
         }

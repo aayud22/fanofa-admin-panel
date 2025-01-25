@@ -7,11 +7,9 @@ export const APP_ROUTES = {
     SELECT_USER_TYPE: '/login/select-user-type',
   },
   DASHBOARD: {
+    HOME: '/',
     BASE: '/dashboard',
-    HOME: '/dashboard',
-    ANALYTICS: '/dashboard/analytics',
-    REPORTS: '/dashboard/reports',
-    SETTINGS: '/dashboard/settings',
+    TOP_INTERESTED: '/top-interests',
   },
   ERROR: {
     NOT_FOUND: '/404',

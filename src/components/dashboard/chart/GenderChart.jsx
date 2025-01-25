@@ -7,7 +7,7 @@ const GenderChart = ({ malePercentage, femalePercentage }) => {
     <div className="rounded-xl bg-white p-6 shadow-soft-xl">
       <Card className="border-none shadow-none">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 p-0 pb-2">
-          <CardTitle className="text-lg font-bold text-deepBlue">
+          <CardTitle className="text-lg font-bold text-darkBlueText">
             Gender
           </CardTitle>
           <HelpCircle className="h-6 w-6 fill-mutedBlue text-white" />

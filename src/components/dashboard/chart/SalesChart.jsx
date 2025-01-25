@@ -96,7 +96,9 @@ const SalesChart = () => {
     <div className="my-3 w-full rounded-xl bg-white p-6 shadow-soft-xl">
       <Card className="border-none shadow-none">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 p-0">
-          <CardTitle className="text-lg font-bold">Yearly Sales</CardTitle>
+          <CardTitle className="text-lg font-bold text-darkBlueText">
+            Yearly Sales
+          </CardTitle>
           <Select defaultValue="this-year">
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Period" />
@@ -113,7 +115,7 @@ const SalesChart = () => {
 
             <div className="mt-7 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <div className="bg-paleBlue rounded-lg p-3">
+                <div className="rounded-lg bg-paleBlue p-3">
                   <img
                     width={'100%'}
                     height={'100%'}
@@ -131,7 +133,7 @@ const SalesChart = () => {
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                <div className="bg-paleBlue rounded-lg p-3">
+                <div className="rounded-lg bg-paleBlue p-3">
                   <img
                     width={'100%'}
                     height={'100%'}

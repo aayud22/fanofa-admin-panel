@@ -17,6 +17,7 @@ module.exports = {
         mutedBlue: '#A3AED0',
         limeGreen: '#EEFFEB',
         slateGray: '#8E95A9',
+        mediumBlue: '#127CCE',
         crimsonRed: '#D80027',
         brightBlue: '#4C7EF3',
         forestGreen: '#3F9431',
@@ -67,6 +68,10 @@ module.exports = {
       },
       backgroundImage: {
         'login-bg': "url('/src/assets/images/auth/login-bg.png')",
+        'error-page-bg': "url('/src/assets/images/auth/404-bg.png')",
+        'maintenance-page-bg':
+          "url('src/assets/images/auth/under-maintenance-bg.png')",
+        'internal-error-page-bg': "url('/src/assets/images/auth/500-bg.png)",
         'primary-gradient':
           'linear-gradient(180deg, #6DE9F4 0%, #3EB1E0 0.01%, #0E77CC 100%)',
       },

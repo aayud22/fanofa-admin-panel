@@ -1,24 +1,32 @@
 import React from 'react';
 import {
-  Line,
-  LineChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-  ReferenceLine,
-} from 'recharts';
+  ChartTooltip,
+  ChartContainer,
+  ChartTooltipContent,
+} from '../../ui/chart';
+import { Line, XAxis, YAxis, LineChart, CartesianGrid } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '../../ui/card';
 
-const data = [
-  { day: 'Sun', value: 50000, value2: 45000 },
-  { day: 'Mon', value: 40000, value2: 55000 },
-  { day: 'Tue', value: 60000, value2: 35000 },
-  { day: 'Wed', value: 85000, value2: 45000 },
-  { day: 'Thu', value: 70000, value2: 60000 },
-  { day: 'Fri', value: 55000, value2: 50000 },
-  { day: 'Sat', value: 45000, value2: 40000 },
+const chartData = [
+  { month: 'Sun', desktop: 50000, mobile: 45000 },
+  { month: 'Mon', desktop: 40000, mobile: 55000 },
+  { month: 'Tue', desktop: 60000, mobile: 35000 },
+  { month: 'Wed', desktop: 85000, mobile: 45000 },
+  { month: 'Thu', desktop: 70000, mobile: 60000 },
+  { month: 'Fri', desktop: 55000, mobile: 50000 },
+  { month: 'Sat', desktop: 45000, mobile: 40000 },
 ];
+
+const chartConfig = {
+  desktop: {
+    label: 'Desktop',
+    color: 'hsl(var(--chart-1))',
+  },
+  mobile: {
+    label: 'Mobile',
+    color: 'hsl(var(--chart-2))',
+  },
+};
 
 const TrafficChart = () => {
   return (
@@ -39,10 +47,10 @@ const TrafficChart = () => {
             </div>
           </div>
           <div className="flex items-center space-x-2">
-            <div className="shadow-soft-lg flex flex-col items-start space-x-1 rounded-lg border bg-white p-1">
+            <div className="flex flex-col items-start space-x-1 rounded-lg border bg-white p-1 shadow-soft-lg">
               <div className="flex items-center gap-1 pl-1">
-                <div className="bg-aquaBlue h-[5px] w-[5px] rounded-full" />
-                <span className="text-slateGray text-[8px] font-bold">
+                <div className="h-[5px] w-[5px] rounded-full bg-aquaBlue" />
+                <span className="text-[8px] font-bold text-slateGray">
                   Seller
                 </span>
               </div>
@@ -50,34 +58,74 @@ const TrafficChart = () => {
                 <span className="text-sm font-semibold text-deepBlue">
                   8950
                 </span>
-                <span className="text-vibrantGreen text-[8px] font-bold">
+                <span className="text-[8px] font-bold text-vibrantGreen">
                   +22%
                 </span>
               </div>
             </div>
-            <div className="shadow-soft-lg flex flex-col items-start space-x-1 rounded-lg border bg-white p-1">
+            <div className="flex flex-col items-start space-x-1 rounded-lg border bg-white p-1 shadow-soft-lg">
               <div className="flex items-center gap-1 pl-1">
-                <div className="bg-aquaBlue h-[5px] w-[5px] rounded-full" />
-                <span className="text-slateGray text-[8px] font-bold">
-                Buyer
+                <div className="h-[5px] w-[5px] rounded-full bg-aquaBlue" />
+                <span className="text-[8px] font-bold text-slateGray">
+                  Buyer
                 </span>
               </div>
               <div className="flex items-center gap-3">
                 <span className="text-sm font-semibold text-deepBlue">
-                1520
+                  1520
                 </span>
-                <span className="text-vibrantOrange text-[8px] font-bold">
-                - 24%
+                <span className="text-[8px] font-bold text-vibrantOrange">
+                  - 24%
                 </span>
               </div>
             </div>
           </div>
         </CardHeader>
         <CardContent className="p-0">
-          <div className="mt-4 h-[200px]">
+          <ChartContainer config={chartConfig}>
+            <LineChart
+              accessibilityLayer
+              data={chartData}
+              margin={{
+                left: 12,
+                right: 12,
+              }}
+            >
+              <CartesianGrid vertical={false} />
+              <XAxis
+                dataKey="month"
+                tickLine={false}
+                axisLine={false}
+                tickMargin={8}
+                tickFormatter={(value) => value.slice(0, 3)}
+              />
+              <YAxis
+                tickLine={false}
+                axisLine={false}
+                tickFormatter={(value) => `${value / 1000}K`}
+                ticks={[0, 50000, 100000]}
+                tickMargin={8}
+              />
+              <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+              <Line
+                dataKey="desktop"
+                type="monotone"
+                stroke="var(--color-desktop)"
+                strokeWidth={2}
+                dot={false}
+              />
+              <Line
+                dataKey="mobile"
+                type="monotone"
+                stroke="var(--color-mobile)"
+                strokeWidth={2}
+                dot={false}
+              />
+            </LineChart>
+          </ChartContainer>
+          {/* <div className="mt-4 h-[200px]">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={data}>
-                {/* X-Axis */}
                 <XAxis
                   dataKey="day"
                   stroke="#888888"
@@ -86,14 +134,12 @@ const TrafficChart = () => {
                   axisLine={false}
                 />
 
-                {/* Y-Axis with labels */}
                 <YAxis
                   domain={[0, 100000]}
                   tick={{ fontSize: 12, fill: '#888888' }}
-                  tickFormatter={(value) => `${value / 1000}k`} // Converts 50000 to 50k
+                  tickFormatter={(value) => `${value / 1000}k`}
                 />
 
-                {/* Horizontal Reference Lines */}
                 <ReferenceLine
                   y={100000}
                   stroke="#E0E0E0"
@@ -106,7 +152,6 @@ const TrafficChart = () => {
                 />
                 <ReferenceLine y={0} stroke="#E0E0E0" strokeDasharray="5 5" />
 
-                {/* Tooltip with Vertical Hover Line */}
                 <Tooltip
                   cursor={{
                     stroke: '#3b82f6',
@@ -115,7 +160,6 @@ const TrafficChart = () => {
                   }}
                 />
 
-                {/* Line 1 (Seller) */}
                 <Line
                   type="monotone"
                   dataKey="value"
@@ -130,7 +174,6 @@ const TrafficChart = () => {
                   }}
                 />
 
-                {/* Line 2 (Buyer) */}
                 <Line
                   type="monotone"
                   dataKey="value2"
@@ -145,7 +188,6 @@ const TrafficChart = () => {
                   }}
                 />
 
-                {/* Define Gradient Strokes */}
                 <defs>
                   <linearGradient
                     id="lineGradient1"
@@ -171,7 +213,7 @@ const TrafficChart = () => {
                 </defs>
               </LineChart>
             </ResponsiveContainer>
-          </div>
+          </div> */}
         </CardContent>
       </Card>
     </div>

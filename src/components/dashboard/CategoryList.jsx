@@ -57,7 +57,7 @@ const CategoryList = () => {
     <div className="my-3 w-full rounded-xl bg-white p-6 shadow-soft-xl">
       <Card className="border-none shadow-none">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 p-0 pb-2">
-          <CardTitle className="text-lg font-bold text-deepBlue">
+          <CardTitle className="text-lg font-bold text-darkBlueText">
             Listed Categories
           </CardTitle>
           <a href="/view-all" className="text-sm text-blue-600 hover:underline">
@@ -79,7 +79,7 @@ const CategoryList = () => {
                   height={80}
                   alt={category.title}
                   src={category.image || '/placeholder.svg'}
-                  className="h-16 w-16 object-cover transition-transform group-hover:scale-105 rounded-[8px] border-[1px]"
+                  className="h-16 w-16 rounded-[8px] border-[1px] object-cover transition-transform group-hover:scale-105"
                 />
               </div>
               <span className="text-center text-sm font-bold text-deepBlue">
