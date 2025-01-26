@@ -4,7 +4,7 @@ import InterestsTable from './InterestsTable';
 
 const InterestsAndPlans = () => {
   return (
-    <div className="grid gap-6 lg:grid-cols-[40%_60%]">
+    <div className="grid gap-6 lg:grid-cols-[40%_58%]">
       <InterestsTable />
       <ValuedPlans />
     </div>

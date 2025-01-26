@@ -104,7 +104,7 @@ const ValuedPlans = () => {
           </Select>
         </CardHeader>
       </div>
-      <div className="grid gap-6 md:grid-cols-[250px_1fr]">
+      <div className="grid md:grid-cols-[250px_1fr]">
         <Card className="flex flex-col border-none shadow-none">
           <CardHeader className="items-start p-0">
             <CardTitle className="text-sm font-semibold text-darkBlueText">
@@ -114,7 +114,7 @@ const ValuedPlans = () => {
           <CardContent className="p-0">
             <ChartContainer
               config={chartConfig}
-              className="mx-auto aspect-square max-h-[250px]"
+              className="aspect-square max-h-[250px]"
             >
               <PieChart>
                 <ChartTooltip

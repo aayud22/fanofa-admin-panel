@@ -21,6 +21,7 @@ module.exports = {
         crimsonRed: '#D80027',
         brightBlue: '#4C7EF3',
         forestGreen: '#3F9431',
+        softPaleBlue: "#E9EDF7",
         darkBlueText: '#2B3674',
         vibrantGreen: '#279F51',
         lightGrayIcon: '#E3E5EB',
@@ -66,6 +67,8 @@ module.exports = {
         md: `calc(var(--radius) - 2px)`,
         sm: 'calc(var(--radius) - 4px)',
       },
+      
+
       backgroundImage: {
         'login-bg': "url('/src/assets/images/auth/login-bg.png')",
         'error-page-bg': "url('/src/assets/images/auth/404-bg.png')",
@@ -78,6 +81,7 @@ module.exports = {
       boxShadow: {
         'soft-xl': '6px 6px 54px 0px #0000000D',
         'soft-lg': '0px 4.57px 12.18px 0px #3326AE14',
+        'soft-2xl': '5.97px 5.97px 53.72px 0px #0000000D',
       },
     },
   },

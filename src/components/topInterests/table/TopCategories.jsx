@@ -16,12 +16,12 @@ import { Label, Pie, PieChart } from 'recharts';
 import { Card, CardTitle, CardHeader, CardContent } from '../../ui/card';
 
 const chartData = [
-  { browser: 'Cat 1', visitors: 173, fill: 'var(--color-edge)' },
-  { browser: 'Cat 2', visitors: 90, fill: 'var(--color-other)' },
-  { browser: 'Cat 3', visitors: 275, fill: 'var(--color-chrome)' },
-  { browser: 'Cat 4', visitors: 200, fill: 'var(--color-safari)' },
-  { browser: 'Cat 5', visitors: 187, fill: 'var(--color-firefox)' },
-  { browser: 'Cat 6', visitors: 187, fill: 'var(--color-firefox)' },
+  { browser: 'Cat 1', visitors: 173, fill: '#3EB1E0' },
+  { browser: 'Cat 2', visitors: 90, fill: '#499FDB' },
+  { browser: 'Cat 3', visitors: 275, fill: '#72B1E2' },
+  { browser: 'Cat 4', visitors: 200, fill: '#8FC5E9' },
+  { browser: 'Cat 5', visitors: 187, fill: '#BEE0F3' },
+  { browser: 'Cat 6', visitors: 187, fill: '#D6ECF8' },
 ];
 
 const category = [
@@ -66,6 +66,7 @@ const category = [
 const chartConfig = {
   visitors: {
     label: 'Cat 1',
+    color: 'hsl(var(--chart-1))',
   },
   chrome: {
     label: 'Cat 2',
@@ -91,15 +92,18 @@ const chartConfig = {
 
 const TopCategories = () => {
   return (
-    <div className="flex items-center justify-between rounded-xl bg-white p-6 shadow-soft-xl">
-      <Card className="flex flex-col border-none shadow-none">
-        <CardHeader className="items-center pb-0">
-          <CardTitle className="text-base font-bold text-darkBlueText">
+    <div className="rounded-xl bg-white shadow-soft-xl">
+      <Card className="my-4 flex flex-col border-none shadow-none">
+        <CardHeader className="items-start pb-0">
+          <CardTitle className="text-start text-base font-bold text-darkBlueText">
             Interest Analysts
           </CardTitle>
         </CardHeader>
-        <CardContent className="flex-1 pb-0">
-          <ChartContainer config={chartConfig}>
+        <CardContent className="flex items-center justify-between pb-0">
+          <ChartContainer
+            config={chartConfig}
+            className="aspect-square max-h-[250px]"
+          >
             <PieChart>
               <ChartTooltip
                 cursor={false}
@@ -107,9 +111,10 @@ const TopCategories = () => {
               />
               <Pie
                 data={chartData}
-                innerRadius={85}
-                nameKey="browser"
                 dataKey="visitors"
+                nameKey="browser"
+                innerRadius={80}
+                strokeWidth={5}
               >
                 <Label
                   content={({ viewBox }) => {
@@ -121,8 +126,19 @@ const TopCategories = () => {
                           textAnchor="middle"
                           dominantBaseline="middle"
                         >
-                          <tspan className="fill-darkBlueText text-xl font-bold">
-                            Top Category
+                          <tspan
+                            x={viewBox.cx}
+                            y={viewBox.cy}
+                            className="fill-foreground text-3xl font-bold"
+                          >
+                            123%
+                          </tspan>
+                          <tspan
+                            x={viewBox.cx}
+                            y={(viewBox.cy || 0) + 24}
+                            className="fill-muted-foreground"
+                          >
+                            Visitors
                           </tspan>
                         </text>
                       );
@@ -132,59 +148,59 @@ const TopCategories = () => {
               </Pie>
             </PieChart>
           </ChartContainer>
+
+          <div className="w-[500px] overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="text-sm font-medium text-mutedBlue">
+                    Category
+                  </TableHead>
+                  <TableHead className="text-sm font-medium text-mutedBlue">
+                    %
+                  </TableHead>
+                  <TableHead className="text-sm font-medium text-mutedBlue">
+                    No. of Users
+                  </TableHead>
+                  <TableHead className="text-sm font-medium text-mutedBlue">
+                    Country
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {category.map((plan) => (
+                  <TableRow key={plan.id}>
+                    <TableCell className="py-3">
+                      <div className="flex items-center gap-3">
+                        <div className="h-5 w-5 bg-blue-700" />
+                        <span className="text-sm font-semibold text-deepBlue">
+                          {plan.categoryName}
+                        </span>
+                      </div>
+                    </TableCell>
+                    <TableCell className="py-3 text-sm font-medium text-deepBlue">
+                      {plan.percentage}
+                    </TableCell>
+                    <TableCell className="py-3 text-sm font-medium text-deepBlue">
+                      {plan.users}
+                    </TableCell>
+                    <TableCell className="py-3">
+                      <div className="flex items-center gap-1">
+                        {plan.countries.map((country, i) => (
+                          <span
+                            key={i}
+                            className={`flag-icon flag-icon-${country.toLowerCase()} rounded-full`}
+                          />
+                        ))}
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         </CardContent>
       </Card>
-
-      <div className="overflow-x-auto">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="text-sm font-medium text-mutedBlue">
-                Category
-              </TableHead>
-              <TableHead className="text-sm font-medium text-mutedBlue">
-                %
-              </TableHead>
-              <TableHead className="text-sm font-medium text-mutedBlue">
-                No. of Users
-              </TableHead>
-              <TableHead className="text-sm font-medium text-mutedBlue">
-                Country
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {category.map((plan) => (
-              <TableRow key={plan.id}>
-                <TableCell className="py-3">
-                  <div className="flex items-center gap-3">
-                    <div className="h-5 w-5 bg-blue-700" />
-                    <span className="text-sm font-semibold text-deepBlue">
-                      {plan.categoryName}
-                    </span>
-                  </div>
-                </TableCell>
-                <TableCell className="py-3 text-sm font-medium text-deepBlue">
-                  {plan.percentage}
-                </TableCell>
-                <TableCell className="py-3 text-sm font-medium text-deepBlue">
-                  {plan.users}
-                </TableCell>
-                <TableCell className="py-3">
-                  <div className="flex items-center gap-1">
-                    {plan.countries.map((country, i) => (
-                      <span
-                        key={i}
-                        className={`flag-icon flag-icon-${country.toLowerCase()} rounded-full`}
-                      />
-                    ))}
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
     </div>
   );
 };
