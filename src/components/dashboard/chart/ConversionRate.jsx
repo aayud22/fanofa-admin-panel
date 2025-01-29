@@ -1,78 +1,34 @@
 import React from 'react';
-import ReactApexChart from 'react-apexcharts';
-import { CardHeader, CardTitle } from '../../ui/card';
 import {
   Select,
-  SelectContent,
   SelectItem,
-  SelectTrigger,
   SelectValue,
+  SelectContent,
+  SelectTrigger,
 } from '../../ui/select';
+import {
+  ChartTooltip,
+  ChartContainer,
+  ChartTooltipContent,
+} from '../../ui/chart';
+import { CardHeader, CardTitle } from '../../ui/card';
+import { Bar, BarChart, CartesianGrid, LabelList } from 'recharts';
 
 const ConversionChart = () => {
-  const chartOptions = {
-    chart: {
-      type: 'bar',
-      toolbar: { show: false },
-    },
-    colors: ['#4DB9FF'], // Matches the blue shade
-    plotOptions: {
-      bar: {
-        borderRadius: 6, // Rounded corners
-        columnWidth: '60%', // Adjust bar width
-      },
-    },
-    xaxis: {
-      categories: [
-        'Ads Visitors',
-        'Banner Ads',
-        'Purchase Complete',
-        'Revenue',
-        'Target',
-      ],
-      labels: {
-        show: true,
-        style: {
-          fontSize: '14px',
-          fontWeight: '600',
-          colors: '#111827', // Neutral gray for category labels
-        },
-        offsetY: 10, // Move categories closer to the bars
-      },
-    },
-    yaxis: {
-      show: false, // Hide y-axis labels
-    },
-    grid: {
-      show: false, // Remove grid lines
-    },
-    dataLabels: {
-      enabled: true,
-      formatter: (value) =>
-        `${value > 1000 ? (value / 1000).toFixed(1) + 'K' : value}`, // Format values
-      offsetY: 0, // Align values vertically to the top of the bar
-      style: {
-        fontSize: '14px',
-        fontWeight: '600',
-        colors: ['#111827'], // Dark text for values
-      },
-    },
-    tooltip: {
-      enabled: true,
-    },
-    stroke: {
-      show: true,
-      width: 1, // Thin border for bars
-      colors: ['#E5E7EB'], // Light gray for the border
+  const chartData = [
+    { month: 'January', desktop: 1000, type: 'Ads Visitors' },
+    { month: 'February', desktop: 1200, type: 'Banner Ads' },
+    { month: 'March', desktop: 1300, type: 'Purchase Complete' },
+    { month: 'April', desktop: 1600, type: 'Revenue' },
+    { month: 'May', desktop: 1700, type: 'Target' },
+  ];
+
+  const chartConfig = {
+    desktop: {
+      label: 'Value',
+      color: 'hsl(var(--chart-1))',
     },
   };
-
-  const chartSeries = [
-    {
-      name: 'Data',
-      data: [425424, 67439, 2579, 2579 * 1000, 1579 * 1000], // Values for bars
-    },
-  ];
 
   return (
     <div className="w-full rounded-xl bg-white p-6 shadow-soft-xl">
@@ -90,12 +46,52 @@ const ConversionChart = () => {
           </SelectContent>
         </Select>
       </CardHeader>
-      <ReactApexChart
-        type="bar"
-        height={350}
-        series={chartSeries}
-        options={chartOptions}
-      />
+      <ChartContainer config={chartConfig}>
+        <BarChart
+          data={chartData}
+          margin={{
+            top: 20,
+          }}
+        >
+          <CartesianGrid vertical={false} />
+          <ChartTooltip
+            cursor={false}
+            content={<ChartTooltipContent hideLabel />}
+          />
+          <Bar
+            dataKey="desktop"
+            radius={8}
+            shape={(props) => {
+              const { x, y, width, height, index } = props;
+              const colors = [
+                '#4DB9FF',
+                '#5BC0EB',
+                '#65D3EA',
+                '#7AE2F7',
+                '#A3EAF8',
+              ]; // Define bar colors
+              return (
+                <rect
+                  x={x}
+                  y={y}
+                  width={width}
+                  height={height}
+                  fill={colors[index % colors.length]}
+                  rx={8} // Rounded corners
+                />
+              );
+            }}
+          >
+            {/* Add a LabelList for the type text */}
+            <LabelList
+              dataKey="type" // Use the "type" field for labels
+              position="top" // Display labels on top of the bar
+              offset={8} // Adjust offset for better positioning
+              style={{ fill: '#111827', fontWeight: 600, fontSize: 12 }} // Styling for labels
+            />
+          </Bar>
+        </BarChart>
+      </ChartContainer>
     </div>
   );
 };
