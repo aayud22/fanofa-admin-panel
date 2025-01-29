@@ -1,4 +1,6 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { APP_ROUTES } from '../../constants/routeConstants';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 
 const categories = [
@@ -53,6 +55,7 @@ const categories = [
 ];
 
 const CategoryList = () => {
+  const navigate = useNavigate();
   return (
     <div className="my-3 w-full rounded-xl bg-white p-6 shadow-soft-xl">
       <Card className="border-none shadow-none">
@@ -60,9 +63,14 @@ const CategoryList = () => {
           <CardTitle className="text-lg font-bold text-darkBlueText">
             Listed Categories
           </CardTitle>
-          <a href="/view-all" className="text-sm text-blue-600 hover:underline">
+          <p
+            className="cursor-pointer text-sm text-blue-600 transition-all hover:underline"
+            onClick={() =>
+              navigate(`/dashboard${APP_ROUTES?.DASHBOARD?.CATEGORIES}`)
+            }
+          >
             View All
-          </a>
+          </p>
         </CardHeader>
       </Card>
       <CardContent className="p-0">

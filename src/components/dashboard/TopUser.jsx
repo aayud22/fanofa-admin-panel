@@ -20,7 +20,7 @@ const users = [
     productCat: 'Buy & Sell',
     country: {
       code: 'ZA',
-      flag: '🇿🇦',
+      flag: 'ZA',
     },
     noOfAds: 242,
     plan: {
@@ -86,7 +86,7 @@ const users = [
 
 const TopUser = () => {
   return (
-    <div className="shadow-soft-xl rounded-xl bg-white p-6">
+    <div className="rounded-xl bg-white p-6 shadow-soft-xl">
       <div className="mb-6 flex items-center justify-between">
         <h2 className="text-lg font-extrabold text-darkBlueText">Top User</h2>
         <a href="#" className="text-sm text-blue-600 hover:underline">
@@ -122,7 +122,7 @@ const TopUser = () => {
               <TableRow key={user.id}>
                 <TableCell>
                   <div className="flex items-center gap-3">
-                    <div className="border-transparentOlive bg-transparentOlive rounded-full border-2">
+                    <div className="rounded-full border-2 border-transparentOlive bg-transparentOlive">
                       <img
                         width={40}
                         height={40}

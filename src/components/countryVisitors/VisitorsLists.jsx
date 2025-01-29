@@ -1,11 +1,20 @@
 import React, { useState } from 'react';
+import { Input } from '../ui/input';
+import {
+  ArrowDown,
+  ArrowUp,
+  ArrowUpDown,
+  RotateCcw,
+  Search,
+} from 'lucide-react';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '../../ui/select';
+} from '../ui/select';
+import { Button } from '../ui/button';
 import {
   Table,
   TableBody,
@@ -13,16 +22,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '../../ui/table';
-import { Button } from '../../ui/button';
-import { Input } from '../../ui/input';
-import {
-  Search,
-  ArrowUpDown,
-  ArrowUp,
-  ArrowDown,
-  RotateCcw,
-} from 'lucide-react';
+} from '../ui/table';
 
 const data = [
   {
@@ -33,6 +33,7 @@ const data = [
     agePercentage: 80,
     totalAds: 2231,
     totalEarning: '$542231',
+    stateName: 'Queretaro , Puebla , Queretaro ,Queretaro',
   },
   {
     country: 'Iceland',
@@ -42,10 +43,11 @@ const data = [
     agePercentage: 50,
     totalAds: 213,
     totalEarning: '$54213',
+    stateName: 'Sinaloa , Puebla , Queretaro ,Jalisco,Guanajuato',
   },
 ];
 
-const TopInterestCountry = () => {
+const VisitorsLists = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [sortState, setSortState] = useState({ column: null, direction: null });
 
@@ -86,7 +88,7 @@ const TopInterestCountry = () => {
   });
 
   return (
-    <div className="mx-auto w-full max-w-7xl space-y-4 rounded-xl bg-white p-4 shadow-soft-xl">
+    <div className="mx-auto mt-4 w-full max-w-7xl space-y-4 rounded-xl bg-white p-4 shadow-soft-xl">
       <div className="flex flex-col flex-wrap items-end gap-4 rounded-lg border-[1px] border-softPaleBlue bg-white p-3 sm:flex-row">
         <div className="relative border-r border-softLavender pr-4">
           <Input
@@ -100,24 +102,24 @@ const TopInterestCountry = () => {
         <div className="border-r border-softLavender pr-4">
           <Select>
             <SelectTrigger className="w-[200px]">
-              <SelectValue placeholder="Gender" />
+              <SelectValue placeholder="State" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All</SelectItem>
-              <SelectItem value="male">Male</SelectItem>
-              <SelectItem value="female">Female</SelectItem>
+              <SelectItem value="all">Queretaro</SelectItem>
+              <SelectItem value="male">Puebla</SelectItem>
+              <SelectItem value="female">Durango</SelectItem>
             </SelectContent>
           </Select>
         </div>
         <div className="border-r border-softLavender pr-4">
           <Select>
             <SelectTrigger className="w-[200px]">
-              <SelectValue placeholder="Age" />
+              <SelectValue placeholder="Ratio" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Ages</SelectItem>
-              <SelectItem value="18-24">18-24</SelectItem>
-              <SelectItem value="25-34">25-34</SelectItem>
+              <SelectItem value="all">All Ratios</SelectItem>
+              <SelectItem value="18-24">0-50</SelectItem>
+              <SelectItem value="25-34">50-100</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -159,7 +161,7 @@ const TopInterestCountry = () => {
                 className="flex items-center gap-2"
                 onClick={() => handleSort('male')}
               >
-                Gender
+                No. of State
                 {getSortIcon('male')}
               </button>
             </TableHead>
@@ -168,7 +170,7 @@ const TopInterestCountry = () => {
                 className="flex items-center gap-2"
                 onClick={() => handleSort('agePercentage')}
               >
-                Age
+                State Names
                 {getSortIcon('agePercentage')}
               </button>
             </TableHead>
@@ -177,7 +179,7 @@ const TopInterestCountry = () => {
                 className="ml-auto flex items-center justify-end gap-2"
                 onClick={() => handleSort('totalAds')}
               >
-                Total Ads Posted
+                Ratio
                 {getSortIcon('totalAds')}
               </button>
             </TableHead>
@@ -186,8 +188,17 @@ const TopInterestCountry = () => {
                 className="ml-auto flex items-center justify-end gap-2"
                 onClick={() => handleSort('totalEarning')}
               >
-                Total Earning
+                Total Ads Posted
                 {getSortIcon('totalEarning')}
+              </button>
+            </TableHead>
+            <TableHead className="py-3.5 text-right text-sm font-bold text-darkBlueText">
+              <button
+                className="ml-auto flex items-center justify-end gap-2"
+                onClick={() => handleSort('stateName')}
+              >
+                Total Earning
+                {getSortIcon('stateName')}
               </button>
             </TableHead>
           </TableRow>
@@ -217,6 +228,9 @@ const TopInterestCountry = () => {
                   </span>
                 </div>
               </TableCell>
+              <TableCell className="py-3 text-start text-sm font-medium text-darkBlueText">
+                {row.stateName}
+              </TableCell>
               <TableCell className="py-3">
                 <div className="flex items-center gap-2">
                   <div className="h-2 w-24 rounded-full bg-gray-200">
@@ -244,4 +258,4 @@ const TopInterestCountry = () => {
   );
 };
 
-export default TopInterestCountry;
+export default VisitorsLists;

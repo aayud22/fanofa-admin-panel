@@ -6,13 +6,9 @@ import TopInterestCountry from '../../components/topInterests/table/TopInterestC
 const TopInterests = () => {
   return (
     <div>
-      <h1 className="text-xl font-bold text-darkBlueText">
-        Top Interests
-      </h1>
-
+      <h1 className="text-xl font-bold text-darkBlueText">Top Interests</h1>
       <TopCategories />
       <InterestGenderAgeChart />
-
       <div>
         <TopInterestCountry />
       </div>

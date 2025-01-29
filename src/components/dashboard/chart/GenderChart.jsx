@@ -1,68 +1,66 @@
 import React from 'react';
+import { PieChart, Pie, Cell, Tooltip } from 'recharts';
 import { HelpCircle } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '../../ui/card';
 
 const GenderChart = ({ malePercentage, femalePercentage }) => {
+  const data = [
+    { name: 'Male', value: 55 },
+    { name: 'Female', value: 45 },
+  ];
+
+  const COLORS = ['#3EB1E0', '#A3AED0'];
+
   return (
     <div className="rounded-xl bg-white p-6 shadow-soft-xl">
       <Card className="border-none shadow-none">
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 p-0 pb-2">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 p-0 pb-4">
           <CardTitle className="text-lg font-bold text-darkBlueText">
             Gender
           </CardTitle>
           <HelpCircle className="h-6 w-6 fill-mutedBlue text-white" />
         </CardHeader>
-        <CardContent className="p-0">
-          <div className="relative pt-4">
-            <div className="relative flex h-[120px] items-center justify-center">
-              <svg className="h-full w-full" viewBox="0 0 200 100">
-                {/* Background arc */}
-                <path
-                  d="M20 100 A 80 80 0 0 1 180 100"
-                  fill="none"
-                  stroke="#A3AED0"
-                  strokeWidth="30"
-                  strokeLinecap="round"
-                />
-                {/* Male percentage (blue) */}
-                <path
-                  d="M20 100 A 80 80 0 0 1 180 100"
-                  fill="none"
-                  stroke="#3b82f6"
-                  strokeWidth="30"
-                  strokeLinecap="round"
-                  strokeDasharray={`${malePercentage * 2.51}, 251`}
-                />
-                {/* Slider circle */}
-                <circle
-                  cx={100 + Math.cos(Math.PI * (1 - malePercentage / 100)) * 80}
-                  cy={100 - Math.sin(Math.PI * (1 - malePercentage / 100)) * 80}
-                  r="8"
-                  fill="white"
-                  stroke="#e2e8f0"
-                  strokeWidth="2"
-                />
-              </svg>
+        <CardContent className="flex flex-col items-center p-0">
+          {/* Increase chart size and center it */}
+          <div
+            className="flex w-full items-center justify-center"
+            style={{ marginTop: '-10px' }}
+          >
+            <PieChart width={280} height={230}>
+              <Pie
+                cx="50%"
+                cy="60%" // Adjusted to center the larger chart
+                data={data}
+                endAngle={0}
+                fill="#8884d8"
+                dataKey="value"
+                startAngle={180}
+                innerRadius={90}
+                outerRadius={120} // Increased radius for a larger chart
+                paddingAngle={0}
+              >
+                {data.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={COLORS[index]} />
+                ))}
+              </Pie>
+              <Tooltip />
+            </PieChart>
+          </div>
+          {/* Add percentage information below the chart */}
+          <div className="-mt-14 flex w-full flex-row items-center justify-around">
+            <div className="flex items-center space-x-2">
+              <div
+                className="h-5 w-5 rounded-full"
+                style={{ backgroundColor: COLORS[0] }}
+              ></div>
+              <span className="font-medium text-darkBlueText">55% Male</span>
             </div>
-            <div className="mt-4 flex justify-between">
-              <div className="flex items-center gap-2">
-                <div className="h-5 w-5 rounded-full bg-primary-gradient" />
-                <div className="flex flex-col items-start">
-                  <span className="text-sm font-medium text-mutedBlue">
-                    {malePercentage}%
-                  </span>
-                  <span className="text-sm text-gray-600">Male</span>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="h-5 w-5 rounded-full bg-gray-300" />
-                <div className="flex flex-col items-start">
-                  <span className="text-sm text-mutedBlue">Female</span>
-                  <span className="text-sm font-semibold">
-                    {femalePercentage}%
-                  </span>
-                </div>
-              </div>
+            <div className="flex items-center space-x-2">
+              <div
+                className="h-5 w-5 rounded-full"
+                style={{ backgroundColor: COLORS[1] }}
+              ></div>
+              <span className="font-medium text-mutedBlue">45% Female</span>
             </div>
           </div>
         </CardContent>

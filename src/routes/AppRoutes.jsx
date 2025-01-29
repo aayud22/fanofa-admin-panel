@@ -41,15 +41,17 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
-import NotFound from '../components/Error/NotFound';
+import NotFound from '../components/error/NotFound';
 import Dashboard from '../pages/dashboard/Dashboard';
 import SubAdminLogin from '../pages/auth/SubAdminLogin';
 import { APP_ROUTES } from '../constants/routeConstants';
-import ServerError from '../components/Error/ServerError';
+import ServerError from '../components/error/ServerError';
 import SuperAdminLogin from '../pages/auth/SuperAdminLogin';
 import MaintenancePage from '../pages/error/MaintenancePage';
 import SelectUserType from '../components/auth/SelectUserType';
 import TopInterests from '../pages/topInterests/TopInterests';
+import Categories from '../pages/category/Categories';
+import CountryVisitors from '../pages/countryVisitors/CountryVisitors';
 
 const AppRoutes = () => {
   return (
@@ -80,6 +82,14 @@ const AppRoutes = () => {
               <Route
                 path={APP_ROUTES?.DASHBOARD?.TOP_INTERESTED}
                 element={<TopInterests />}
+              />
+              <Route
+                path={APP_ROUTES?.DASHBOARD?.CATEGORIES}
+                element={<Categories />}
+              />
+              <Route
+                path={APP_ROUTES?.DASHBOARD?.COUNTRY_VISITORS}
+                element={<CountryVisitors />}
               />
               {/* <Route path="/" element={<Dashboard />} />
               <Route path="analytics" element={<>ACTIVITY</>} />

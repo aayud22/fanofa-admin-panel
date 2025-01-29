@@ -13,5 +13,6 @@ export const ASSETS = {
   DASHBOARD: {
     YEARLY_TOTAL_SALES,
     YEARLY_SALES_EXPENSES,
+    IMG_PLACEHOLDER: require('../assets/images/dashboard/image-placeholder.png'),
   },
 };

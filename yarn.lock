@@ -1737,7 +1737,7 @@
   resolved "https://registry.yarnpkg.com/@radix-ui/react-context/-/react-context-1.1.1.tgz#82074aa83a472353bb22e86f11bcbd1c61c4c71a"
   integrity sha512-UASk9zi+crv9WteK/NU4PLvOoL3OuE6BWVKNF6hPRBtYBDXQ2u5iu3O59zUlJiTVvkyuycnqrztsHVJwcK9K+Q==
 
-"@radix-ui/react-dialog@1.1.5":
+"@radix-ui/react-dialog@1.1.5", "@radix-ui/react-dialog@^1.1.5":
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/@radix-ui/react-dialog/-/react-dialog-1.1.5.tgz#1bb2880e6b0ef9d9d0d9f440e1414c94bbacb55b"
   integrity sha512-LaO3e5h/NOEL4OfXjxD43k9Dx+vn+8n+PCFt6uhX/BADFflllyv3WJG6rgvvSVBxpTch938Qq/LGc2MMxipXPw==
@@ -1834,7 +1834,7 @@
   dependencies:
     "@radix-ui/react-use-layout-effect" "1.1.0"
 
-"@radix-ui/react-label@2.1.1":
+"@radix-ui/react-label@2.1.1", "@radix-ui/react-label@^2.1.1":
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/@radix-ui/react-label/-/react-label-2.1.1.tgz#f30bd577b26873c638006e4f65761d4c6b80566d"
   integrity sha512-UUw5E4e/2+4kFMH7+YxORXGWggtY6sM8WIwh5RZchhLuUg2H1hc98Py+pr8HMz6rdaYrK2t296ZEjYLOCO5uUw==
@@ -2000,7 +2000,7 @@
     "@radix-ui/react-use-callback-ref" "1.1.0"
     "@radix-ui/react-use-controllable-state" "1.1.0"
 
-"@radix-ui/react-scroll-area@1.2.2":
+"@radix-ui/react-scroll-area@1.2.2", "@radix-ui/react-scroll-area@^1.2.2":
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/@radix-ui/react-scroll-area/-/react-scroll-area-1.2.2.tgz#28e34fd4d83e9de5d987c5e8914a7bd8be9546a5"
   integrity sha512-EFI1N/S3YxZEW/lJ/H1jY3njlvTd8tBmgKEn4GHi51+aMm94i6NmAJstsm5cu3yJwYqYc93gpCPm21FeAbFk6g==
@@ -2225,6 +2225,33 @@
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@radix-ui/rect/-/rect-1.1.0.tgz#f817d1d3265ac5415dadc67edab30ae196696438"
   integrity sha512-A9+lCBZoaMJlVKcRBz2YByCG+Cp2t6nAnMnNba+XiWxnj6r4JUFqfsgwocMBZU9LPtdxC6wB56ySYpc7LQIoJg==
+
+"@react-jvectormap/core@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@react-jvectormap/core/-/core-1.0.4.tgz#459e396c305dbd3ccf9032bb509d6373ffde8071"
+  integrity sha512-PefUtLG2Uwu6YVMldTqZCaVu5G+4wS3iQDq5aAV/jY/h8+djIgdSKWb1hEsHk/vb0s2pwallS+VvU7N2xCMncA==
+  dependencies:
+    "@react-jvectormap/lib" "^1.0.3"
+    classnames "^2.3.1"
+
+"@react-jvectormap/jquery-mousewheel@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@react-jvectormap/jquery-mousewheel/-/jquery-mousewheel-1.0.2.tgz#59aa5ee60eff4bd79f627adbf5012bc51e56b456"
+  integrity sha512-AmRnBdJfBjDUHreEDDs9qaSo3Q/6oC74m321VuzxkDX6ideVks2n2ouGiMcXq41GdJQoCUzSjfF8KyocL6M+SA==
+  dependencies:
+    jquery "^3.6.0"
+
+"@react-jvectormap/lib@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@react-jvectormap/lib/-/lib-1.0.3.tgz#8af1d0c7407a9df2717c6debb9c83fe078dae44a"
+  integrity sha512-EdPYen5GGrny7Mxc8IYvXtSdjTr3EfWjGCXuy6+0Yz9wZDmCfLFfjmuEOZirhe00BJOzi2LpnYMSp0WaJ2BH7Q==
+  dependencies:
+    "@react-jvectormap/jquery-mousewheel" "^1.0.2"
+
+"@react-jvectormap/world@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@react-jvectormap/world/-/world-1.1.2.tgz#a4283e667472a664e012a8cf0bfec37dbcbea884"
+  integrity sha512-jDSy64DZz4mzEOrVni1zV5rak65+1WZhSGsvAvzHNIMHVx+tdD8R5OikyWUjYte8nxIkOUhQZtVJMK7VOIsmQA==
 
 "@reduxjs/toolkit@^2.5.0":
   version "2.5.0"
@@ -3883,6 +3910,11 @@ class-variance-authority@^0.7.1:
   integrity sha512-Ka+9Trutv7G8M6WT6SeiRWz792K5qEqIGEGzXKhAE6xOWAY6pPH8U+9IY3oCMv6kqTmLsv7Xh/2w2RigkePMsg==
   dependencies:
     clsx "^2.1.1"
+
+classnames@^2.3.1:
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.5.1.tgz#ba774c614be0f016da105c858e7159eae8e7687b"
+  integrity sha512-saHYOzhIQs6wy2sVxTM6bUDsQO4F50V9RQ22qBpEdCW+I+/Wmke2HOl6lS6dTpdxVhb88/I6+Hs+438c3lfUow==
 
 clean-css@^5.2.2:
   version "5.3.3"
@@ -6918,6 +6950,16 @@ jiti@^1.21.6:
   resolved "https://registry.yarnpkg.com/jiti/-/jiti-1.21.7.tgz#9dd81043424a3d28458b193d965f0d18a2300ba9"
   integrity sha512-/imKNG4EbWNrVjoNC/1H5/9GFy+tqjGBHCaSsN+P2RnPqjsLmv6UD3Ej+Kj8nBWaRAwyk7kK5ZUc+OEatnTR3A==
 
+jquery-mousewheel@^3.1.13:
+  version "3.1.13"
+  resolved "https://registry.yarnpkg.com/jquery-mousewheel/-/jquery-mousewheel-3.1.13.tgz#06f0335f16e353a695e7206bf50503cb523a6ee5"
+  integrity sha512-GXhSjfOPyDemM005YCEHvzrEALhKDIswtxSHSR2e4K/suHVJKJxxRCGz3skPjNxjJjQa9AVSGGlYjv1M3VLIPg==
+
+jquery@>=1.7, jquery@^3.4.0, jquery@^3.6.0:
+  version "3.7.1"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.7.1.tgz#083ef98927c9a6a74d05a6af02806566d16274de"
+  integrity sha512-m4avr8yL8kmFN8psrbFFFmB/If14iN5o9nw/NgnnM+kybDJpRsAynV2BsfpTYrTRysYUdADVD7CkUUizgkpLfg==
+
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
@@ -7055,6 +7097,13 @@ jsonpointer@^5.0.0:
     array.prototype.flat "^1.3.1"
     object.assign "^4.1.4"
     object.values "^1.1.6"
+
+jvectormap-next@^3.0.0:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/jvectormap-next/-/jvectormap-next-3.1.1.tgz#f88725f2f2e3cd03b8122960424520b7b32debb5"
+  integrity sha512-Eo9yJLMvfq5gtO736udb8pQnGKNCEB/LQpX8LElgEeEa4EZDABPCReaFqM0QPce9VNI9X+Um/yvhyzoPaASAyQ==
+  dependencies:
+    jquery ">=1.7"
 
 keyv@^4.5.3:
   version "4.5.4"
@@ -8517,7 +8566,7 @@ prompts@^2.0.1, prompts@^2.4.2:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@^15.6.2, prop-types@^15.8.1:
+prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -8753,6 +8802,16 @@ react-is@^18.0.0, react-is@^18.3.1:
   version "18.3.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.3.1.tgz#e83557dc12eae63a99e003a46388b1dcbb44db7e"
   integrity sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==
+
+react-jvectormap@^0.0.16:
+  version "0.0.16"
+  resolved "https://registry.yarnpkg.com/react-jvectormap/-/react-jvectormap-0.0.16.tgz#694223db7112e94b64dc334bd39d5f6e5b1560f5"
+  integrity sha512-DGmdeWucMfagdmQ/ie50Ef/JBP3Q4VpvjikvigNddnVtPlX0M6j9n4QFu42EZ/+S/UeWlEpsaxDzmC5ky4auLA==
+  dependencies:
+    jquery "^3.4.0"
+    jquery-mousewheel "^3.1.13"
+    jvectormap-next "^3.0.0"
+    prop-types "^15.6.0"
 
 react-redux@^9.2.0:
   version "9.2.0"

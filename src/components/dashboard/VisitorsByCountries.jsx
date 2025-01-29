@@ -7,6 +7,8 @@ import {
   TableHead,
   TableHeader,
 } from '../ui/table';
+import { APP_ROUTES } from '../../constants/routeConstants';
+import { useNavigate } from 'react-router-dom';
 
 const visitors = [
   {
@@ -57,15 +59,21 @@ const visitors = [
 ];
 
 const VisitorsByCountries = () => {
+  const navigate = useNavigate();
   return (
-    <div className="shadow-soft-xl rounded-xl bg-white p-6">
+    <div className="rounded-xl bg-white p-6 shadow-soft-xl">
       <div className="mb-6 flex items-center justify-between">
         <h2 className="text-lg font-extrabold text-darkBlueText">
           Visitors By Countries
         </h2>
-        <a href="#" className="text-sm text-blue-600 hover:underline">
+        <p
+          className="cursor-pointer text-sm text-blue-600 transition-all hover:underline"
+          onClick={() =>
+            navigate(`/dashboard${APP_ROUTES?.DASHBOARD?.COUNTRY_VISITORS}`)
+          }
+        >
           View All
-        </a>
+        </p>
       </div>
       <div className="overflow-x-auto">
         <Table>

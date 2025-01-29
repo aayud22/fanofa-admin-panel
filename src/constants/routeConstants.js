@@ -9,7 +9,9 @@ export const APP_ROUTES = {
   DASHBOARD: {
     HOME: '/',
     BASE: '/dashboard',
+    CATEGORIES: '/categories',
     TOP_INTERESTED: '/top-interests',
+    COUNTRY_VISITORS: '/country-visitors',
   },
   ERROR: {
     NOT_FOUND: '/404',
