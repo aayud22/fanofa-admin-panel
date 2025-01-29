@@ -94,6 +94,6 @@ module.exports = {
     require('@tailwindcss/forms'),
     require('tailwindcss-animate'),
     require('@tailwindcss/typography'),
-    require('@tailwindcss/line-clamp'),
+
   ],
 };
