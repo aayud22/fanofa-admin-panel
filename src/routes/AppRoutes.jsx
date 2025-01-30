@@ -41,11 +41,11 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
-import NotFound from '../components/error/NotFound';
+// import NotFound from '../components/error/NotFound';
 import Dashboard from '../pages/dashboard/Dashboard';
 import SubAdminLogin from '../pages/auth/SubAdminLogin';
 import { APP_ROUTES } from '../constants/routeConstants';
-import ServerError from '../components/error/ServerError';
+// import ServerError from '../components/error/ServerError';
 import SuperAdminLogin from '../pages/auth/SuperAdminLogin';
 import MaintenancePage from '../pages/error/MaintenancePage';
 import SelectUserType from '../components/auth/SelectUserType';
@@ -105,11 +105,11 @@ const AppRoutes = () => {
         path={APP_ROUTES.ERROR.MAINTENANCE}
         element={<MaintenancePage />}
       />
-      <Route path={APP_ROUTES.ERROR.NOT_FOUND} element={<NotFound />} />
-      <Route path={APP_ROUTES.ERROR.SERVER_ERROR} element={<ServerError />} />
+      {/* <Route path={APP_ROUTES.ERROR.NOT_FOUND} element={<NotFound />} /> */}
+      {/* <Route path={APP_ROUTES.ERROR.SERVER_ERROR} element={<ServerError />} /> */}
 
       {/* Catch-all route */}
-      <Route path="*" element={<NotFound />} />
+      {/* <Route path="*" element={<NotFound />} /> */}
     </Routes>
   );
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import ServerError from './error/ServerError';
+// import ServerError from './error/ServerError';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -19,7 +19,8 @@ class ErrorBoundary extends React.Component {
     if (this.state.hasError) {
       return (
         <div className="flex h-screen flex-col items-center justify-center bg-gray-100">
-          <ServerError />
+          Internal error
+          {/* <ServerError /> */}
         </div>
       );
     }
