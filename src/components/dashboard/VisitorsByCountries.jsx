@@ -67,10 +67,8 @@ const VisitorsByCountries = () => {
           Visitors By Countries
         </h2>
         <p
+          onClick={() => navigate(APP_ROUTES.COUNTRY_VISITORS)}
           className="cursor-pointer text-sm text-blue-600 transition-all hover:underline"
-          onClick={() =>
-            navigate(`/dashboard${APP_ROUTES?.DASHBOARD?.COUNTRY_VISITORS}`)
-          }
         >
           View All
         </p>
