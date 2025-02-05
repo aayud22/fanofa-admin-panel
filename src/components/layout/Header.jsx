@@ -26,22 +26,45 @@ const Header = () => {
     const pathSegments = location.pathname
       .split('/')
       .filter((segment) => segment); // Remove empty strings
-
+  
     // If the path is "/dashboard", return only "Home"
     if (pathSegments.length === 1 && pathSegments[0] === 'dashboard') {
       return null;
     }
-
-    // Map segments to breadcrumb links
+  
+    // Handle special case for user-list and user-details
     return pathSegments.map((segment, index) => {
+      // Special logic for "/user-details" path
+      if (segment === 'user-details' && pathSegments[index - 1] === 'user-list') {
+        return (
+          <>
+            <React.Fragment key="user-list">
+              <span className="text-sm font-normal text-deepBlue">{`//`}</span>
+              <Link
+                to={APP_ROUTES.USER.USER_LIST}
+                className="text-sm font-normal text-deepBlue hover:underline"
+              >
+                User List
+              </Link>
+            </React.Fragment>
+            <React.Fragment key="user-details">
+              <span className="text-sm font-normal text-deepBlue">{`//`}</span>
+              <span className="cursor-pointer bg-primary-gradient bg-clip-text text-sm font-normal text-transparent">
+                User Details
+              </span>
+            </React.Fragment>
+          </>
+        );
+      }
+  
       // Skip "dashboard" in the breadcrumb unless it's the last segment
       if (segment === 'dashboard' && index === 0) {
         return null;
       }
-
+  
       const path = `/${pathSegments.slice(0, index + 1).join('/')}`;
       const isLast = index === pathSegments.length - 1;
-
+  
       return (
         <React.Fragment key={path}>
           <span className="text-sm font-normal text-deepBlue">{`//`}</span>
@@ -61,6 +84,7 @@ const Header = () => {
       );
     });
   };
+  
 
   return (
     <header className="sticky top-0 w-full rounded-2xl border-b border-lightGray bg-white">

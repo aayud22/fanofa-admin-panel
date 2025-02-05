@@ -90,6 +90,7 @@ import MaintenancePage from '../pages/error/MaintenancePage';
 import TopInterests from '../pages/topInterests/TopInterests';
 import SelectUserType from '../components/auth/SelectUserType';
 import CountryVisitors from '../pages/countryVisitors/CountryVisitors';
+import UserDetails from '../pages/user/UserDetails';
 
 const AppRoutes = () => {
   return (
@@ -115,6 +116,7 @@ const AppRoutes = () => {
       {/* Routes WITH Layout */}
       <Route element={<Layout />}>
         <Route path={APP_ROUTES.USER.USER_LIST} element={<UserList />} />
+        <Route path={APP_ROUTES.USER.USER_DETAILS} element={<UserDetails />} />
         <Route path={APP_ROUTES.DASHBOARD.BASE} element={<Dashboard />} />
         <Route path={APP_ROUTES.CATEGORIES} element={<Categories />} />
         <Route path={APP_ROUTES.TOP_INTERESTED} element={<TopInterests />} />

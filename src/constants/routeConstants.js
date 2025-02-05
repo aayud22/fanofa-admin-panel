@@ -5,6 +5,7 @@ export const APP_ROUTES = {
   COUNTRY_VISITORS: '/country-visitors',
   USER: {
     USER_LIST: '/user-list',
+    USER_DETAILS: '/user-details',
   },
   LOGIN: {
     BASE: '/login',

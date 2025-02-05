@@ -1,39 +1,48 @@
 import React, { useState } from 'react';
-import { Button } from '../ui/button';
 import {
-  Download,
-  MessageSquare,
-  MoreHorizontal,
   Plus,
   ArrowUp,
+  Download,
   ArrowDown,
   ArrowUpDown,
+  MessageSquare,
+  MoreHorizontal,
+  UserPlus,
+  MessageSquareMore,
+  FileDown,
+  RotateCcw,
 } from 'lucide-react';
-import { Input } from '../ui/input';
+import { Button } from '../ui/button';
 import {
   Select,
-  SelectContent,
   SelectItem,
-  SelectTrigger,
   SelectValue,
+  SelectContent,
+  SelectTrigger,
 } from '../ui/select';
+import { Input } from '../ui/input';
 import {
   Table,
+  TableRow,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
-  TableRow,
 } from '../ui/table';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import {
   DropdownMenu,
-  DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuContent,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
-import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
+import PlanSelect from './PlanSelect';
 import { Calendar } from '../ui/calendar';
+import StatusSelect from './StatusSelect';
+import { useDispatch } from 'react-redux';
+import { setSelectedUser } from '../../redux/slices/userSlice';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
+import { APP_ROUTES } from '../../constants/routeConstants';
+import { useNavigate } from 'react-router-dom';
 
 const initialUsers = [
   {
@@ -87,6 +96,9 @@ const initialUsers = [
 ];
 
 const UsersListTable = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [toDate, setToDate] = useState('');
   const [fromDate, setFromDate] = useState('');
   const [selectedDate, setSelectedDate] = useState();
@@ -141,22 +153,41 @@ const UsersListTable = () => {
     }
   });
 
+  const handlePlanSelect = (plan) => {
+    console.log('Selected plan:', plan);
+  };
+
+  const handleStatusSelect = (status) => {
+    console.log('Selected status:', status);
+  };
+
   return (
     <div className="space-y-4 rounded-xl bg-white p-6 shadow-soft-xl">
       {/* Search & Filters */}
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-semibold">Users List</h2>
         <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm">
-            <Download className="mr-2 h-4 w-4" />
+          <Button
+            size="sm"
+            variant="outline"
+            className="text-sm !font-medium text-darkBlueText"
+          >
+            <FileDown className="!h-4 !w-4 text-darkBlueText" />
             Download
           </Button>
-          <Button variant="outline" size="sm">
-            <Plus className="mr-2 h-4 w-4" />
+          <Button
+            size="sm"
+            variant="outline"
+            className="text-sm !font-medium text-darkBlueText"
+          >
+            <UserPlus className="!h-[18px] !w-[18px] text-darkBlueText" />
             Add User
           </Button>
-          <Button size="sm">
-            <MessageSquare className="mr-2 h-4 w-4" />
+          <Button
+            size="sm"
+            className="!bg-primary-gradient text-sm !font-medium text-white"
+          >
+            <MessageSquareMore className="!h-4 !w-4 text-white" />
             Send Message
           </Button>
         </div>
@@ -234,79 +265,13 @@ const UsersListTable = () => {
             <SelectItem value="country">Country</SelectItem>
           </SelectContent>
         </Select>
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button variant="outline" className="w-[180px]">
-              Plan
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-[300px] p-4">
-            <div className="flex flex-col space-y-2">
-              <div className="grid grid-cols-2 gap-2">
-                <Button variant="outline" className="w-full">
-                  Personal
-                </Button>
-                <Button variant="outline" className="w-full">
-                  Personal Plus
-                </Button>
-                <Button variant="outline" className="w-full">
-                  Business
-                </Button>
-                <Button variant="outline" className="w-full">
-                  Individual
-                </Button>
-                <Button variant="outline" className="col-span-2 w-full">
-                  Business Plus
-                </Button>
-              </div>
-              <p className="text-sm text-gray-500">*You can choose plan</p>
-              <Button className="mt-2">Apply Now</Button>
-            </div>
-          </PopoverContent>
-        </Popover>
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button variant="outline" className="w-[180px]">
-              Status
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-[300px] p-4">
-            <div className="flex flex-col space-y-2">
-              <div className="flex items-center space-x-2">
-                <Button variant="outline" className="w-full">
-                  Active
-                </Button>
-                <Button variant="outline" className="w-full">
-                  InActive
-                </Button>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Button variant="outline" className="w-full">
-                  Blocked
-                </Button>
-                <Button variant="outline" className="w-full">
-                  Deleted
-                </Button>
-              </div>
-              <p className="text-sm text-gray-500">
-                *You can choose multiple statuses
-              </p>
-              <Button className="mt-2">Apply Now</Button>
-            </div>
-          </PopoverContent>
-        </Popover>
-        {/* <Select defaultValue="status">
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Status" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="status">Status</SelectItem>
-          </SelectContent>
-        </Select> */}
-        <Button>Search</Button>
-        <Button variant="outline" className="text-red-500">
+        <PlanSelect onPlanSelect={handlePlanSelect} />
+        <StatusSelect onStatusSelect={handleStatusSelect} />
+        <Button className="bg-primary-gradient text-white">Search</Button>
+        <div className="group flex cursor-pointer items-center gap-[3px] text-xs font-semibold text-red-500 transition-all hover:text-red-600 hover:underline">
+          <RotateCcw className="h-4 w-4 group-hover:text-red-600" />
           Reset Filter
-        </Button>
+        </div>
       </div>
 
       {/* Table */}
@@ -386,7 +351,13 @@ const UsersListTable = () => {
           </TableHeader>
           <TableBody>
             {sortedUsers.map((user) => (
-              <TableRow key={user.id}>
+              <TableRow
+                key={user.id}
+                onClick={() => {
+                  navigate(APP_ROUTES.USER.USER_DETAILS);
+                  dispatch(setSelectedUser(user));
+                }}
+              >
                 <TableCell>
                   <input
                     type="checkbox"
