@@ -2,33 +2,33 @@ import React from 'react';
 import { Card, CardContent, CardHeader } from '../ui/card';
 import {
   DropdownMenu,
-  DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuContent,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
 import { Button } from '../ui/button';
 import { Eye, Heart, MoreVertical, Star } from 'lucide-react';
 
+const interests = [
+  { label: 'Cars & Vehicles' },
+  { label: 'Buy & Sell' },
+  { label: 'Real Estate' },
+  { label: 'Jobs' },
+];
+
+const ads = Array(8).fill({
+  title: 'Iphone 14 Pro Max',
+  price: 'Rs 600,000',
+  color: 'Blue',
+  likes: 219,
+  views: 219,
+  rating: 4,
+  reviews: 32,
+});
+
 const AdsGeneralDetails = () => {
-  const interests = [
-    { label: 'Cars & Vehicles' },
-    { label: 'Buy & Sell' },
-    { label: 'Real Estate' },
-    { label: 'Jobs' },
-  ];
-
-  const ads = Array(8).fill({
-    title: 'Iphone 14 Pro Max',
-    price: 'Rs 600,000',
-    color: 'Blue',
-    likes: 219,
-    views: 219,
-    rating: 4,
-    reviews: 32,
-  });
-
   return (
-    <div className="mt-5 grid gap-6 p-4 lg:grid-cols-2">
+    <div className="mt-5 grid gap-6 !px-0 py-4 lg:grid-cols-2">
       {/* General Information */}
       <Card className="bg-frostBlue">
         <CardHeader>
@@ -125,7 +125,7 @@ const AdsGeneralDetails = () => {
       </Card>
 
       {/* Ads Posted */}
-      <Card className="bg-frostBlue flex h-[587px] flex-col">
+      <Card className="flex h-[587px] flex-col bg-frostBlue">
         <CardHeader className="flex flex-shrink-0 flex-row items-center justify-between">
           <h2 className="text-2xl font-semibold text-darkBlueText">
             Ads Posted <span className="text-lg">(08 Ads)</span>
@@ -182,8 +182,8 @@ const AdsGeneralDetails = () => {
                       <span className="text-sm">{ad.views}</span>
                     </div>
                     <div className="flex items-center gap-1">
-                      <div className="bg-goldenAmber/[10%] rounded-full p-1">
-                        <Star className="text-goldenAmber fill-goldenAmber h-4 w-4" />
+                      <div className="rounded-full bg-goldenAmber/[10%] p-1">
+                        <Star className="h-4 w-4 fill-goldenAmber text-goldenAmber" />
                       </div>
                       <span className="text-sm">{ad.rating}</span>
                       <span className="text-sm text-mutedBlue">
