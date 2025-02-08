@@ -7,6 +7,10 @@ export const APP_ROUTES = {
     USER_LIST: '/user-list',
     USER_DETAILS: '/user-details',
   },
+  SUBSCRIBERS: {
+    BASE: '/subscribers',
+    ALL: '/subscribers/all',
+  },
   LOGIN: {
     BASE: '/login',
     SUB_ADMIN: '/login/sub-admin',

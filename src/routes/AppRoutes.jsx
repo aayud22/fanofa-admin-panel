@@ -76,10 +76,11 @@
 
 // export default AppRoutes;
 
-import { Routes, Route } from 'react-router-dom';
 import UserList from '../pages/user/UserList';
+import { Routes, Route } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
 import NotFound from '../components/error/NotFound';
+import UserDetails from '../pages/user/UserDetails';
 import Dashboard from '../pages/dashboard/Dashboard';
 import Categories from '../pages/category/Categories';
 import SubAdminLogin from '../pages/auth/SubAdminLogin';
@@ -89,8 +90,8 @@ import SuperAdminLogin from '../pages/auth/SuperAdminLogin';
 import MaintenancePage from '../pages/error/MaintenancePage';
 import TopInterests from '../pages/topInterests/TopInterests';
 import SelectUserType from '../components/auth/SelectUserType';
+import SubscribersPage from '../pages/subscribers/SubscribersPage';
 import CountryVisitors from '../pages/countryVisitors/CountryVisitors';
-import UserDetails from '../pages/user/UserDetails';
 
 const AppRoutes = () => {
   return (
@@ -124,6 +125,8 @@ const AppRoutes = () => {
           path={APP_ROUTES.COUNTRY_VISITORS}
           element={<CountryVisitors />}
         />
+        <Route path={APP_ROUTES.SUBSCRIBERS.BASE} element={<SubscribersPage />} />
+        <Route path={APP_ROUTES.SUBSCRIBERS.ALL} element={<SubscribersPage />} />
       </Route>
 
       {/* Catch-all */}

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Table,
   TableRow,
@@ -17,46 +18,10 @@ import {
 } from 'lucide-react';
 import { Card } from '../ui/card';
 import { Button } from '../ui/button';
+import { APP_ROUTES } from '../../constants/routeConstants';
 
-
-const subscribers = [
-  {
-    srNo: '01',
-    name: 'Arrora gaur',
-    accountLink: 'http://www.zoomit.com',
-    email: 'tranthuy@gmail.com',
-    country: 'IN',
-    date: 'Oct 31, 2017',
-    rating: 4,
-    messageCount: 4,
-    isSubscribed: true,
-  },
-  {
-    srNo: '02',
-    name: 'James Mullican',
-    accountLink: 'http://www.codehow.com',
-    email: 'manhhaac@gmail.com',
-    country: 'BE',
-    date: 'Feb 28, 2018',
-    rating: 4,
-    messageCount: 6,
-    isSubscribed: true,
-  },
-  {
-    srNo: '03',
-    name: 'Robert Bacins',
-    accountLink: 'http://www.zencorporation.com',
-    email: 'rvt.nxte@gmail.com',
-    country: 'IE',
-    date: 'Mar 6, 2018',
-    rating: 4,
-    messageCount: 9,
-    isSubscribed: false,
-  },
-];
-
-const UserSubscribersTable = () => {
-  const [activeTab, setActiveTab] = useState('subscribers');
+const UserSubscribersTable = ({ subscribers, activeTab, onTabChange }) => {
+  const navigate = useNavigate();
   const [sortState, setSortState] = useState({
     column: null,
     direction: 'asc',
@@ -110,6 +75,7 @@ const UserSubscribersTable = () => {
           <Button
             variant="link"
             className="text-xs font-medium text-darkBlueText underline h-auto p-0"
+            onClick={() => navigate(APP_ROUTES.SUBSCRIBERS.ALL)}
           >
             View All
           </Button>
@@ -118,7 +84,7 @@ const UserSubscribersTable = () => {
         {/* Tabs */}
         <div className="flex gap-2 bg-white border w-max p-1 border-softPaleBlue rounded-md">
           <Button
-            onClick={() => setActiveTab('subscribers')}
+            onClick={() => onTabChange('subscribers')}
             variant="ghost"
             className={`rounded-md px-4 py-2 text-sm font-medium ${
               activeTab === 'subscribers'
@@ -129,7 +95,7 @@ const UserSubscribersTable = () => {
             My Subscribers ({subscribersCount})
           </Button>
           <Button
-            onClick={() => setActiveTab('accounts')}
+            onClick={() => onTabChange('accounts')}
             variant="ghost"
             className={`rounded-md px-4 py-2 text-sm font-medium ${
               activeTab === 'accounts'
