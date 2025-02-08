@@ -6,12 +6,14 @@ import {
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
 import { Button } from '../ui/button';
-import { Bell, ChevronDown, CircleUserRound, Search } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { APP_ROUTES } from '../../constants/routeConstants';
+import { Bell, ChevronDown, CircleUserRound, Search } from 'lucide-react';
+import { useSelector } from 'react-redux';
 
 const Header = () => {
   const location = useLocation();
+  const {user} = useSelector((state) => state);
 
   const [selectedCountry, setSelectedCountry] = useState({
     code: 'gb',
@@ -22,70 +24,92 @@ const Header = () => {
     setSelectedCountry({ code: countryCode, name: countryName });
   };
 
+  const getPageTitle = () => {
+    const path = location.pathname
+    switch (path) {
+      case '':
+      case APP_ROUTES.DASHBOARD.BASE:
+        return 'Dashboard';
+      case APP_ROUTES.USER.USER_LIST:
+        return 'Manage Users';
+      case APP_ROUTES.USER.USER_DETAILS:
+        return 'Manage Users';
+      default:
+        return path.split('-').map(word => 
+          word.charAt(0).toUpperCase() + word.slice(1)
+        ).join(' ');
+    }
+  };
+
+
   const generateBreadcrumbs = () => {
     const pathSegments = location.pathname
       .split('/')
-      .filter((segment) => segment); // Remove empty strings
+      .filter((segment) => segment);
 
-    // If the path is "/dashboard", return only "Home"
-    if (pathSegments.length === 1 && pathSegments[0] === 'dashboard') {
-      return null;
-    }
-
-    // Handle special case for user-list and user-details
-    return pathSegments.map((segment, index) => {
-      // Special logic for "/user-details" path
-      if (
-        segment === 'user-details' &&
-        pathSegments[index - 1] === 'user-list'
-      ) {
-        return (
-          <>
-            <React.Fragment key="user-list">
-              <span className="text-sm font-normal text-deepBlue">{`//`}</span>
-              <Link
-                to={APP_ROUTES.USER.USER_LIST}
-                className="text-sm font-normal text-deepBlue hover:underline"
-              >
-                User List
-              </Link>
-            </React.Fragment>
-            <React.Fragment key="user-details">
-              <span className="text-sm font-normal text-deepBlue">{`//`}</span>
-              <span className="cursor-pointer bg-primary-gradient bg-clip-text text-sm font-normal text-transparent">
-                User Details
-              </span>
-            </React.Fragment>
-          </>
-        );
-      }
-
-      // Skip "dashboard" in the breadcrumb unless it's the last segment
-      if (segment === 'dashboard' && index === 0) {
-        return null;
-      }
-
-      const path = `/${pathSegments.slice(0, index + 1).join('/')}`;
-      const isLast = index === pathSegments.length - 1;
-
+    // If no segments or only dashboard, return null
+    if (pathSegments.length === 0 || (pathSegments.length === 1 && pathSegments[0] === 'dashboard')) {
       return (
-        <React.Fragment key={path}>
-          <span className="text-sm font-normal text-deepBlue">{`//`}</span>
-          {isLast ? (
-            <span className="cursor-pointer bg-primary-gradient bg-clip-text text-sm font-normal text-transparent">
-              {segment.replace(/-/g, ' ')}
-            </span>
-          ) : (
-            <Link
-              to={path}
-              className="text-sm font-normal text-deepBlue hover:underline"
-            >
-              {segment.replace(/-/g, ' ')}
-            </Link>
-          )}
+        <React.Fragment key="home">
+          <span className="cursor-pointer bg-primary-gradient bg-clip-text text-sm font-normal text-transparent">
+            Home
+          </span>
         </React.Fragment>
       );
-    });
+    }
+
+    const breadcrumbElements = [];
+
+    // Always add Home as first element except for dashboard
+    breadcrumbElements.push(
+      <React.Fragment key="home">
+        <Link to={APP_ROUTES.DASHBOARD.BASE} className="text-sm font-normal text-deepBlue hover:underline">
+          Home
+        </Link>
+      </React.Fragment>
+    );
+
+    // Add separator after Home
+    breadcrumbElements.push(
+      <React.Fragment key="separator-1">
+        <span className="text-sm font-normal text-deepBlue">{`//`}</span>
+      </React.Fragment>
+    );
+
+    // Check if we're on user details page
+    if (pathSegments.includes(APP_ROUTES.USER.USER_DETAILS.replace('/', ''))) {
+      // Add User List
+      breadcrumbElements.push(
+        <React.Fragment key="user-list">
+          <Link
+            to={APP_ROUTES.USER.USER_LIST}
+            className="text-sm font-normal text-deepBlue hover:underline"
+          >
+            User List
+          </Link>
+        </React.Fragment>,
+        <React.Fragment key="separator-2">
+          <span className="text-sm font-normal text-deepBlue">{`//`}</span>
+        </React.Fragment>,
+        <React.Fragment key="user-details">
+          <span className="cursor-pointer bg-primary-gradient bg-clip-text text-sm font-normal text-transparent">
+            {user?.selectedUser?.name || 'User Details'}
+          </span>
+        </React.Fragment>
+      );
+    }
+    // Check if we're on user list page
+    else if (pathSegments.includes(APP_ROUTES.USER.USER_LIST.replace('/', ''))) {
+      breadcrumbElements.push(
+        <React.Fragment key="user-list">
+          <span className="cursor-pointer bg-primary-gradient bg-clip-text text-sm font-normal text-transparent">
+            User List
+          </span>
+        </React.Fragment>
+      );
+    }
+
+    return breadcrumbElements;
   };
 
   return (
@@ -93,14 +117,11 @@ const Header = () => {
       <div className="mx-auto flex h-[86px] w-full max-w-[1400px] flex-col justify-center px-4 lg:px-6">
         <div className="flex items-center justify-between">
           <div className="flex flex-col">
-            <h1 className="text-xl font-bold text-deepBlue">Dashboard</h1>
+            {/* Page Title */}
+            <h1 className="text-xl font-bold text-deepBlue">
+              {getPageTitle()}
+            </h1>
             <div className="flex items-center space-x-2 text-sm">
-              <Link
-                to={APP_ROUTES?.DASHBOARD?.BASE}
-                className="text-sm font-normal text-deepBlue"
-              >
-                Home
-              </Link>
               {generateBreadcrumbs()}
             </div>
           </div>

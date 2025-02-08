@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
 import {
-  Plus,
   ArrowUp,
-  Download,
-  ArrowDown,
-  ArrowUpDown,
-  MessageSquare,
-  MoreHorizontal,
   UserPlus,
-  MessageSquareMore,
   FileDown,
+  ArrowDown,
   RotateCcw,
+  ArrowUpDown,
+  MoreHorizontal,
+  MessageSquareMore,
 } from 'lucide-react';
 import { Button } from '../ui/button';
 import {
@@ -39,10 +36,11 @@ import PlanSelect from './PlanSelect';
 import { Calendar } from '../ui/calendar';
 import StatusSelect from './StatusSelect';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { APP_ROUTES } from '../../constants/routeConstants';
 import { setSelectedUser } from '../../redux/slices/userSlice';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
-import { APP_ROUTES } from '../../constants/routeConstants';
-import { useNavigate } from 'react-router-dom';
+import AddUserModal from './AddUserModal';
 
 const initialUsers = [
   {
@@ -112,6 +110,7 @@ const UsersListTable = () => {
     plan: '',
     status: '',
   });
+  const [isAddUserModalOpen, setIsAddUserModalOpen] = useState(false);
 
   // Sorting function
   const handleSort = (column) => {
@@ -179,6 +178,7 @@ const UsersListTable = () => {
             size="sm"
             variant="outline"
             className="text-sm !font-medium text-darkBlueText"
+            onClick={() => setIsAddUserModalOpen(true)}
           >
             <UserPlus className="!h-[18px] !w-[18px] text-darkBlueText" />
             Add User
@@ -419,6 +419,10 @@ const UsersListTable = () => {
           </TableBody>
         </Table>
       </div>
+      <AddUserModal
+        isOpen={isAddUserModalOpen}
+        onClose={() => setIsAddUserModalOpen(false)}
+      />
     </div>
   );
 };

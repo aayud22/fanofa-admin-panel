@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import {
   Dialog,
   DialogTitle,
   DialogHeader,
   DialogContent,
 } from '../../ui/dialog';
-import { X } from 'lucide-react';
 import ReactQuill from 'react-quill';
 import { Label } from '../../ui/label';
 import { Button } from '../../ui/button';
@@ -21,30 +20,28 @@ const modules = {
   ],
 };
 
-const formats = [
-  'bold',
-  'italic',
-  'underline',
-  'strike',
-  'code-block',
-  'blockquote',
-  'list',
-  'bullet',
-  'header',
-];
-
 const SendMessageModal = ({ isOpen, onClose }) => {
   const [messageType, setMessageType] = useState('message');
   const [message, setMessage] = useState('');
+
+  const quillRef = useRef(null);
 
   const handleSendMessage = () => {
     console.log({ messageType, message });
     onClose();
   };
 
+  useEffect(() => {
+    if (quillRef.current) {
+      const quill = quillRef.current.getEditor();
+      quill.container.style.height = "181px";
+      quill.focus();
+    }
+  }, [quillRef, isOpen]);
+
   return (
-    <Dialog open={isOpen} onOpenChange={onClose} className="!h-auto">
-      <DialogContent className="max-w-2xl p-4">
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="max-w-2xl p-4 sm:max-h-[80vh] flex flex-col !rounded-none">
         <DialogHeader>
           <div className="flex items-center justify-between">
             <DialogTitle className="text-xl font-bold text-darkBlueText">
@@ -54,44 +51,50 @@ const SendMessageModal = ({ isOpen, onClose }) => {
         </DialogHeader>
 
         {/* ReactQuill Editor */}
-        <div className="!h-48">
+        <div className="h-[181px] relative">
           <ReactQuill
             theme="snow"
+            ref={quillRef}
             value={message}
             modules={modules}
-            formats={formats}
-            className="h-full"
             onChange={setMessage}
-            placeholder="Start writing here..."
+            className="h-full"
+            style={{
+              height: "181px"
+            }}
           />
         </div>
 
-        <div className="space-y-6">
-          {/* Radio Group */}
+        {/* Message Type Selection */}
+        <div className="space-y-2 mt-9">
+          <Label className="block">Message Type</Label>
           <RadioGroup
-            defaultValue="message"
             value={messageType}
             onValueChange={setMessageType}
-            className="flex flex-wrap gap-4"
+            className="flex space-x-4"
           >
-            {['reminder', 'alert', 'birthday', 'message'].map((type) => (
-              <div key={type} className="flex items-center space-x-2">
-                <RadioGroupItem value={type} id={type} />
-                <Label htmlFor={type}>
-                  {type.charAt(0).toUpperCase() + type.slice(1)}
-                </Label>
-              </div>
-            ))}
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="message" id="message" />
+              <Label htmlFor="message" className="text-darkBlueText">Message</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="reminder" id="reminder" />
+              <Label htmlFor="reminder" className="text-darkBlueText">Reminder</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="alert" id="alert" />
+              <Label htmlFor="alert" className="text-darkBlueText">Alert</Label>
+            </div>
           </RadioGroup>
-
-          {/* Send Button */}
-          <Button
-            onClick={handleSendMessage}
-            className="w-full bg-primary-gradient sm:w-auto"
-          >
-            Send Message
-          </Button>
         </div>
+
+        {/* Send Button */}
+        <Button
+          onClick={handleSendMessage}
+          className="w-max bg-primary-gradient"
+        >
+          Send Message
+        </Button>
       </DialogContent>
     </Dialog>
   );

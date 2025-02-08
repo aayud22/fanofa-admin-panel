@@ -1,21 +1,23 @@
 import React, { useState } from 'react';
 import {
   Table,
+  TableRow,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
-  TableRow,
 } from '../ui/table';
-import { Card } from '../ui/card';
 import {
-  ArrowUpDown,
+  Star,
   ArrowUp,
   ArrowDown,
+  ArrowUpDown,
   MoreHorizontal,
-  Star,
   MessageSquareMore,
 } from 'lucide-react';
+import { Card } from '../ui/card';
+import { Button } from '../ui/button';
+
 
 const subscribers = [
   {
@@ -27,6 +29,7 @@ const subscribers = [
     date: 'Oct 31, 2017',
     rating: 4,
     messageCount: 4,
+    isSubscribed: true,
   },
   {
     srNo: '02',
@@ -37,6 +40,7 @@ const subscribers = [
     date: 'Feb 28, 2018',
     rating: 4,
     messageCount: 6,
+    isSubscribed: true,
   },
   {
     srNo: '03',
@@ -47,10 +51,12 @@ const subscribers = [
     date: 'Mar 6, 2018',
     rating: 4,
     messageCount: 9,
+    isSubscribed: false,
   },
 ];
 
 const UserSubscribersTable = () => {
+  const [activeTab, setActiveTab] = useState('subscribers');
   const [sortState, setSortState] = useState({
     column: null,
     direction: 'asc',
@@ -73,7 +79,11 @@ const UserSubscribersTable = () => {
     );
   };
 
-  const sortedSubscribers = [...subscribers].sort((a, b) => {
+  const filteredSubscribers = subscribers.filter((subscriber) =>
+    activeTab === 'subscribers' ? subscriber.isSubscribed : !subscriber.isSubscribed
+  );
+
+  const sortedSubscribers = [...filteredSubscribers].sort((a, b) => {
     if (!sortState.column) return 0;
     const { column, direction } = sortState;
     const isAscending = direction === 'asc';
@@ -89,59 +99,99 @@ const UserSubscribersTable = () => {
     return 0;
   });
 
+  const subscribersCount = subscribers.filter((sub) => sub.isSubscribed).length;
+  const subscribedAccountsCount = subscribers.filter((sub) => !sub.isSubscribed).length;
+
   return (
     <Card className="!p-6">
-      <div className="mb-6 flex items-center justify-between">
-        <h3 className="text-xl font-semibold text-darkBlueText">Subscribers</h3>
-        <button className="text-xs font-medium text-darkBlueText underline">
-          View All
-        </button>
+      <div className="mb-6 flex flex-col gap-6">
+        <div className="flex items-center justify-between">
+          <h3 className="text-xl font-semibold text-darkBlueText">Subscribers</h3>
+          <Button
+            variant="link"
+            className="text-xs font-medium text-darkBlueText underline h-auto p-0"
+          >
+            View All
+          </Button>
+        </div>
+
+        {/* Tabs */}
+        <div className="flex gap-2 bg-white border w-max p-1 border-softPaleBlue rounded-md">
+          <Button
+            onClick={() => setActiveTab('subscribers')}
+            variant="ghost"
+            className={`rounded-md px-4 py-2 text-sm font-medium ${
+              activeTab === 'subscribers'
+                ? '!bg-primary-gradient text-white hover:text-white'
+                : 'text-darkBlueText hover:text-darkBlueText'
+            }`}
+          >
+            My Subscribers ({subscribersCount})
+          </Button>
+          <Button
+            onClick={() => setActiveTab('accounts')}
+            variant="ghost"
+            className={`rounded-md px-4 py-2 text-sm font-medium ${
+              activeTab === 'accounts'
+                ? '!bg-primary-gradient text-white hover:text-white'
+                : 'text-darkBlueText hover:text-darkBlueText'
+            }`}
+          >
+            Subscribed Accounts ({subscribedAccountsCount})
+          </Button>
+        </div>
       </div>
+
       <Table>
         <TableHeader>
           <TableRow className="bg-gray-100">
             <TableHead className="px-4 py-2 text-left text-sm font-semibold text-darkBlueText">
-              <button
-                className="flex items-center gap-2"
+              <Button
+                variant="ghost"
+                className="flex items-center gap-2 p-0 h-auto font-semibold hover:bg-transparent"
                 onClick={() => handleSort('srNo')}
               >
                 Sr No. {getSortIcon('srNo')}
-              </button>
+              </Button>
             </TableHead>
             <TableHead className="px-4 py-2 text-left text-sm font-semibold text-darkBlueText">
-              <button
-                className="flex items-center gap-2"
+              <Button
+                variant="ghost"
+                className="flex items-center gap-2 p-0 h-auto font-semibold hover:bg-transparent"
                 onClick={() => handleSort('name')}
               >
                 Account Name {getSortIcon('name')}
-              </button>
+              </Button>
             </TableHead>
             <TableHead className="px-4 py-2 text-left text-sm font-semibold text-darkBlueText">
               Account Link
             </TableHead>
             <TableHead className="px-4 py-2 text-left text-sm font-semibold text-darkBlueText">
-              <button
-                className="flex items-center gap-2"
+              <Button
+                variant="ghost"
+                className="flex items-center gap-2 p-0 h-auto font-semibold hover:bg-transparent"
                 onClick={() => handleSort('email')}
               >
                 Email {getSortIcon('email')}
-              </button>
+              </Button>
             </TableHead>
             <TableHead className="px-4 py-2 text-left text-sm font-semibold text-darkBlueText">
-              <button
-                className="flex items-center gap-2"
+              <Button
+                variant="ghost"
+                className="flex items-center gap-2 p-0 h-auto font-semibold hover:bg-transparent"
                 onClick={() => handleSort('country')}
               >
                 Country {getSortIcon('country')}
-              </button>
+              </Button>
             </TableHead>
             <TableHead className="px-4 py-2 text-left text-sm font-semibold text-darkBlueText">
-              <button
-                className="flex items-center gap-2"
+              <Button
+                variant="ghost"
+                className="flex items-center gap-2 p-0 h-auto font-semibold hover:bg-transparent"
                 onClick={() => handleSort('date')}
               >
                 Subscribed Date {getSortIcon('date')}
-              </button>
+              </Button>
             </TableHead>
             <TableHead className="px-4 py-2 text-left text-sm font-semibold text-darkBlueText">
               Activity
@@ -219,9 +269,12 @@ const UserSubscribersTable = () => {
                 </div>
               </TableCell>
               <TableCell>
-                <button>
+                <Button
+                  variant="ghost"
+                  className="h-auto p-0 hover:bg-transparent"
+                >
                   <MoreHorizontal className="h-4 w-4" />
-                </button>
+                </Button>
               </TableCell>
             </TableRow>
           ))}

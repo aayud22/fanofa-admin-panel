@@ -1,10 +1,57 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: ['class'],
-  content: ['./src/**/*.{js,jsx,ts,tsx}', 'components/**/*.{ts,tsx}'],
+  darkMode: ["class"],
+  content: [
+    './pages/**/*.{js,jsx}',
+    './components/**/*.{js,jsx}',
+    './app/**/*.{js,jsx}',
+    './src/**/*.{js,jsx}',
+  ],
   theme: {
+    container: {
+      center: true,
+      padding: "2rem",
+      screens: {
+        "2xl": "1400px",
+      },
+    },
     extend: {
       colors: {
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+        // Custom colors from the project
+        error: "#EF4444",
         white: '#FFFFFF',
         skyBlue: '#3498db',
         coolSky: '#3EB1E0',
@@ -14,6 +61,8 @@ module.exports = {
         aquaBlue: '#31A1DB',
         paleBlue: '#F6F9FC',
         deepTeal: '#667085',
+        duskyBlue: "#334155",
+        grayText: "#64748B", 
         frostBlue: '#F4F7FE',
         mintGreen: '#EBF5ED',
         oceanBlue: '#2980b9',
@@ -34,46 +83,15 @@ module.exports = {
         emeraldGreen: '#3A974C',
         softLavender: '#E7E7F1',
         softPaleBlue: '#E9EDF7',
-        darkBlueText: '#2B3674',
         vibrantGreen: '#279F51',
         brightOrange: '#FFB743',
+        darkBlueText: "#1E293B", 
         lightGrayIcon: '#E3E5EB',
         vibrantOrange: '#FF8901',
         grayBackground: '#F6F7F9',
+        palePeriwinkle: "#E2E8F0", 
+        lightBackground: "#F8F9FD",
         transparentOlive: '#308E871A',
-        border: 'hsl(var(--border))',
-        input: 'hsl(var(--input))',
-        ring: 'hsl(var(--ring))',
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
-        primary: {
-          DEFAULT: 'hsl(var(--primary))',
-          foreground: 'hsl(var(--primary-foreground))',
-        },
-        secondary: {
-          DEFAULT: 'hsl(var(--secondary))',
-          foreground: 'hsl(var(--secondary-foreground))',
-        },
-        destructive: {
-          DEFAULT: 'hsl(var(--destructive))',
-          foreground: 'hsl(var(--destructive-foreground))',
-        },
-        muted: {
-          DEFAULT: 'hsl(var(--muted))',
-          foreground: 'hsl(var(--muted-foreground))',
-        },
-        accent: {
-          DEFAULT: 'hsl(var(--accent))',
-          foreground: 'hsl(var(--accent-foreground))',
-        },
-        popover: {
-          DEFAULT: 'hsl(var(--popover))',
-          foreground: 'hsl(var(--popover-foreground))',
-        },
-        card: {
-          DEFAULT: 'hsl(var(--card))',
-          foreground: 'hsl(var(--card-foreground))',
-        },
         sidebar: {
           DEFAULT: 'hsl(var(--sidebar-background))',
           foreground: 'hsl(var(--sidebar-foreground))',
@@ -85,19 +103,33 @@ module.exports = {
           ring: 'hsl(var(--sidebar-ring))',
         },
       },
-      borderRadius: {
-        lg: `var(--radius)`,
-        md: `calc(var(--radius) - 2px)`,
-        sm: 'calc(var(--radius) - 4px)',
-      },
       backgroundImage: {
+        'primary-gradient':
+          'linear-gradient(180deg, #6DE9F4 0%, #3EB1E0 0.01%, #0E77CC 100%)',
         'login-bg': "url('/src/assets/images/auth/login-bg.png')",
         'error-page-bg': "url('/src/assets/images/auth/404-bg.png')",
         'maintenance-page-bg':
           "url('src/assets/images/auth/under-maintenance-bg.png')",
         'internal-error-page-bg': "url('/src/assets/images/auth/500-bg.png)",
-        'primary-gradient':
-          'linear-gradient(180deg, #6DE9F4 0%, #3EB1E0 0.01%, #0E77CC 100%)',
+      },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
+      },
+      keyframes: {
+        "accordion-down": {
+          from: { height: 0 },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: 0 },
+        },
+      },
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
       },
       boxShadow: {
         'soft-xl': '6px 6px 54px 0px #0000000D',
