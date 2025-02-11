@@ -78,13 +78,13 @@ const MostVisitingAds = () => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="text-sm font-medium text-mutedBlue">
+              <TableHead className="text-sm font-medium text-mutedBlue whitespace-nowrap">
                 Ad
               </TableHead>
-              <TableHead className="text-sm font-medium text-mutedBlue">
+              <TableHead className="text-sm font-medium text-mutedBlue whitespace-nowrap">
                 Published on
               </TableHead>
-              <TableHead className="text-sm font-medium text-mutedBlue">
+              <TableHead className="text-sm font-medium text-mutedBlue whitespace-nowrap">
                 Performance
               </TableHead>
             </TableRow>

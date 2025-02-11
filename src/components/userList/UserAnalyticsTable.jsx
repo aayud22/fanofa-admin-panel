@@ -1,6 +1,15 @@
 import React from 'react';
 import { Card } from '../ui/card';
 import { Link2, MoreHorizontal } from 'lucide-react';
+import {
+  Table,
+  TableRow,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+} from '../ui/table';
+import { Button } from '../ui/button';
 
 const analytics = [
   {
@@ -55,70 +64,68 @@ const analytics = [
 
 const UserAnalyticsTable = () => {
   return (
-    <Card>
-      <div className="h-[600px] p-6">
-        <div className="mb-6 flex items-center justify-between">
-          <h3 className="text-xl font-semibold text-darkBlueText">
-            Most Visited Pages
-          </h3>
-          <button className="rounded p-1 hover:bg-gray-100">
-            <MoreHorizontal className="h-5 w-5 text-skyBlue" />
-          </button>
-        </div>
-        <div className="h-[calc(100%-4rem)] overflow-y-auto">
-          <table className="w-full">
-            <thead className="sticky top-0 bg-white">
-              <tr>
-                <th className="px-4 py-2 text-left text-sm font-normal text-mutedBlue">
-                  Page name
-                </th>
-                <th className="px-4 py-2 text-left text-sm font-normal text-mutedBlue">
-                  Visited
-                </th>
-                <th className="px-4 py-2 text-left text-sm font-normal text-mutedBlue">
-                  Ad View
-                </th>
-                <th className="px-4 py-2 text-left text-sm font-normal text-mutedBlue">
-                  Bounce rate
-                </th>
-                <th className="px-4 py-2 text-left text-sm font-normal text-mutedBlue">
-                  Graph
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {analytics.map((row, index) => (
-                <tr key={index}>
-                  <td className="px-4 py-2">
-                    <div className="flex items-center gap-2 text-sm text-darkBlueText">
-                      {row.page}
-                      <Link2 className="h-3.5 w-3.5 text-skyBlue" />
-                    </div>
-                  </td>
-                  <td className="px-4 py-2 text-sm text-darkBlueText">
-                    {row.visited}
-                  </td>
-                  <td className="px-4 py-2 text-sm text-darkBlueText">
-                    {row.adView}
-                  </td>
-                  <td className="px-4 py-2 text-sm text-darkBlueText">
-                    {row.bounceRate}
-                  </td>
-                  <td className="px-4 py-2">
-                    <svg className="h-8 w-24" viewBox="0 0 100 30">
-                      <polyline
-                        fill="none"
-                        strokeWidth="2"
-                        stroke="#3498db"
-                        points="0,15 20,10 40,20 60,5 80,25 100,15"
-                      />
-                    </svg>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+    <Card className="!p-6">
+      <div className="mb-6 flex items-center justify-between">
+        <h3 className="text-xl font-semibold text-darkBlueText">
+          Most Visited Pages
+        </h3>
+        <Button variant="ghost" className="h-8 w-8 p-0">
+          <MoreHorizontal className="h-5 w-5 text-skyBlue" />
+        </Button>
+      </div>
+      <div className="h-[calc(100%-4rem)] overflow-y-auto">
+        <Table>
+          <TableHeader className="bg-gray-100 sticky top-0">
+            <TableRow>
+              <TableHead className="text-sm font-medium text-darkBlueText whitespace-nowrap">
+                Page name
+              </TableHead>
+              <TableHead className="text-sm font-medium text-darkBlueText whitespace-nowrap">
+                Visited
+              </TableHead>
+              <TableHead className="text-sm font-medium text-darkBlueText whitespace-nowrap">
+                Ad View
+              </TableHead>
+              <TableHead className="text-sm font-medium text-darkBlueText whitespace-nowrap">
+                Bounce rate
+              </TableHead>
+              <TableHead className="text-sm font-medium text-darkBlueText whitespace-nowrap">
+                Graph
+              </TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {analytics.map((row, index) => (
+              <TableRow key={index} className="hover:bg-gray-50">
+                <TableCell>
+                  <div className="flex items-center gap-2 text-sm font-medium text-darkBlueText">
+                    {row.page}
+                    <Link2 className="h-3.5 w-3.5 text-skyBlue" />
+                  </div>
+                </TableCell>
+                <TableCell className="text-sm font-medium text-darkBlueText">
+                  {row.visited}
+                </TableCell>
+                <TableCell className="text-sm font-medium text-darkBlueText">
+                  {row.adView}
+                </TableCell>
+                <TableCell className="text-sm font-medium text-darkBlueText">
+                  {row.bounceRate}
+                </TableCell>
+                <TableCell>
+                  <div className="h-2 w-24 overflow-hidden rounded-full bg-gray-100">
+                    <div
+                      className="h-full bg-primary-gradient"
+                      style={{
+                        width: row.bounceRate,
+                      }}
+                    />
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       </div>
     </Card>
   );

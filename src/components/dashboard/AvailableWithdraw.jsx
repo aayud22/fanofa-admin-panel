@@ -1,8 +1,7 @@
 import React from 'react';
-import { cn } from '../../utils/classNames';
-import { Card, CardContent } from '../ui/card';
+import StatsCardGroup from '../common/StatsCardGroup';
 
-const stats = [
+const dashboardStats = [
   {
     title: 'Total User',
     value: '40,689',
@@ -38,44 +37,7 @@ const stats = [
 const AvailableWithdraw = () => {
   return (
     <div className="shadow-soft-xl rounded-xl bg-white px-6 py-7">
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
-        {stats?.map((stat, index) => (
-          <Card
-            key={index}
-            className="relative border-none bg-white shadow-none"
-          >
-            <CardContent className="p-2">
-              <div className="flex items-center justify-between">
-                <p className="text-base font-normal text-mutedBlue">
-                  {stat?.title}
-                </p>
-                <span
-                  className={cn(
-                    'rounded-md px-[5px] py-1 text-[12.64px] font-normal',
-                    stat?.trend.isPositive
-                      ? 'text-forestGreen bg-limeGreen'
-                      : 'text-crimsonRed bg-softPink'
-                  )}
-                >
-                  {stat?.trend.isPositive ? '▲' : '▼'}{' '}
-                  {Math.abs(stat?.trend.value)}%
-                </span>
-              </div>
-              <div className="mt-2">
-                <h3 className="text-2xl font-bold text-darkBlueText">
-                  {stat?.value}
-                </h3>
-                <p className="mt-1 text-sm font-normal text-mutedBlue">
-                  {stat?.subValue}
-                </p>
-              </div>
-            </CardContent>
-            {index < stats.length - 1 && (
-              <div className="absolute bottom-2 right-[-2px] top-2 hidden border-r border-dashed border-gray-200 md:block" />
-            )}
-          </Card>
-        ))}
-      </div>
+      <StatsCardGroup stats={dashboardStats} />
     </div>
   );
 };

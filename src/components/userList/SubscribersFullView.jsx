@@ -88,7 +88,7 @@ const SubscribersFullView = ({ subscribers, activeTab, onTabChange }) => {
       <div className="mb-6 space-y-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <h3 className="text-xl font-bold text-darkBlueText">
+            <h3 className="text-xl font-semibold text-darkBlueText">
               Subscribers
             </h3>
           </div>
@@ -163,7 +163,7 @@ const SubscribersFullView = ({ subscribers, activeTab, onTabChange }) => {
                   onChange={handleSelectAll}
                 />
               </TableHead>
-              <TableHead className="px-4 py-2 text-left text-xs font-normal text-darkBlueText">
+              <TableHead className="px-4 py-2 text-left text-xs font-normal text-darkBlueText whitespace-nowrap">
                 <Button
                   variant="ghost"
                   onClick={() => handleSort('srNo')}
@@ -172,7 +172,7 @@ const SubscribersFullView = ({ subscribers, activeTab, onTabChange }) => {
                   Sr No. {getSortIcon('srNo')}
                 </Button>
               </TableHead>
-              <TableHead className="px-4 py-2 text-left text-xs font-normal text-darkBlueText">
+              <TableHead className="px-4 py-2 text-left text-xs font-normal text-darkBlueText whitespace-nowrap">
                 <Button
                   variant="ghost"
                   onClick={() => handleSort('name')}
@@ -181,7 +181,7 @@ const SubscribersFullView = ({ subscribers, activeTab, onTabChange }) => {
                   Account Name {getSortIcon('name')}
                 </Button>
               </TableHead>
-              <TableHead className="px-4 py-2 text-left text-xs font-normal text-darkBlueText">
+              <TableHead className="px-4 py-2 text-left text-xs font-normal text-darkBlueText whitespace-nowrap">
                 <Button
                   variant="ghost"
                   onClick={() => handleSort('accountLink')}
@@ -190,7 +190,7 @@ const SubscribersFullView = ({ subscribers, activeTab, onTabChange }) => {
                   Account Link {getSortIcon('accountLink')}
                 </Button>
               </TableHead>
-              <TableHead className="px-4 py-2 text-left text-xs font-normal text-darkBlueText">
+              <TableHead className="px-4 py-2 text-left text-xs font-normal text-darkBlueText whitespace-nowrap">
                 <Button
                   variant="ghost"
                   onClick={() => handleSort('email')}
@@ -199,10 +199,10 @@ const SubscribersFullView = ({ subscribers, activeTab, onTabChange }) => {
                   Email {getSortIcon('email')}
                 </Button>
               </TableHead>
-              <TableHead className="px-4 py-2 text-left text-xs font-normal text-darkBlueText">
+              <TableHead className="px-4 py-2 text-left text-xs font-normal text-darkBlueText whitespace-nowrap">
                 Country
               </TableHead>
-              <TableHead className="px-4 py-2 text-left text-xs font-normal text-darkBlueText">
+              <TableHead className="px-4 py-2 text-left text-xs font-normal text-darkBlueText whitespace-normal">
                 <Button
                   variant="ghost"
                   onClick={() => handleSort('date')}
@@ -211,7 +211,7 @@ const SubscribersFullView = ({ subscribers, activeTab, onTabChange }) => {
                   Subscribed Date {getSortIcon('date')}
                 </Button>
               </TableHead>
-              <TableHead className="px-4 py-2 text-left text-xs font-normal text-darkBlueText">
+              <TableHead className="px-4 py-2 text-left text-xs font-normal text-darkBlueText whitespace-normal">
                 <Button
                   variant="ghost"
                   onClick={() => handleSort('rating')}
@@ -220,7 +220,7 @@ const SubscribersFullView = ({ subscribers, activeTab, onTabChange }) => {
                   Activity {getSortIcon('rating')}
                 </Button>
               </TableHead>
-              <TableHead className="px-4 py-2 text-center text-xs font-normal text-darkBlueText">
+              <TableHead className="px-4 py-2 text-center text-xs font-normal text-darkBlueText whitespace-normal">
                 Action
               </TableHead>
             </TableRow>

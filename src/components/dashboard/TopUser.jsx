@@ -97,22 +97,22 @@ const TopUser = () => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="text-sm font-medium text-mutedBlue">
+              <TableHead className="text-sm font-medium text-mutedBlue whitespace-nowrap">
                 Customer
               </TableHead>
-              <TableHead className="text-sm font-medium text-mutedBlue">
+              <TableHead className="text-sm font-medium text-mutedBlue whitespace-nowrap">
                 Start Date
               </TableHead>
-              <TableHead className="text-sm font-medium text-mutedBlue">
+              <TableHead className="text-sm font-medium text-mutedBlue whitespace-nowrap">
                 Product Cat
               </TableHead>
-              <TableHead className="text-sm font-medium text-mutedBlue">
+              <TableHead className="text-sm font-medium text-mutedBlue whitespace-nowrap">
                 Country
               </TableHead>
-              <TableHead className="text-sm font-medium text-mutedBlue">
+              <TableHead className="text-sm font-medium text-mutedBlue whitespace-nowrap">
                 No. of Ads
               </TableHead>
-              <TableHead className="text-sm font-medium text-mutedBlue">
+              <TableHead className="text-sm font-medium text-mutedBlue whitespace-nowrap">
                 Plan
               </TableHead>
             </TableRow>

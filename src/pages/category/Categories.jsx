@@ -206,7 +206,7 @@ const Categories = () => {
         <Table className="border-none">
           <TableHeader className="bg-softPaleBlue">
             <TableRow className="bg-muted/50">
-              <TableHead className="w-[300px] py-3.5 text-sm font-medium text-darkBlueText">
+              <TableHead className="w-[300px] py-3.5 text-sm font-medium text-darkBlueText whitespace-nowrap">
                 <button
                   className="flex items-center gap-2"
                   onClick={() => handleSort('name')}
@@ -215,7 +215,7 @@ const Categories = () => {
                   {getSortIcon('name')}
                 </button>
               </TableHead>
-              <TableHead className="py-3.5 text-sm font-medium text-darkBlueText">
+              <TableHead className="py-3.5 text-sm font-medium text-darkBlueText whitespace-nowrap">
                 <button
                   className="flex items-center gap-2"
                   onClick={() => handleSort('subcategory')}
@@ -224,7 +224,7 @@ const Categories = () => {
                   {getSortIcon('subcategory')}
                 </button>
               </TableHead>
-              <TableHead className="py-3.5 text-sm font-medium text-darkBlueText">
+              <TableHead className="py-3.5 text-sm font-medium text-darkBlueText whitespace-nowrap">
                 <button
                   className="flex items-center gap-2"
                   onClick={() => handleSort('no_of_subcategory')}
@@ -233,7 +233,7 @@ const Categories = () => {
                   {getSortIcon('no_of_subcategory')}
                 </button>
               </TableHead>
-              <TableHead className="py-3.5 text-sm font-medium text-darkBlueText">
+              <TableHead className="py-3.5 text-sm font-medium text-darkBlueText whitespace-nowrap">
                 <button
                   className="flex items-center gap-2"
                   onClick={() => handleSort('status')}
@@ -242,7 +242,7 @@ const Categories = () => {
                   {getSortIcon('status')}
                 </button>
               </TableHead>
-              <TableHead className="py-3.5 text-right text-sm font-medium text-darkBlueText">
+              <TableHead className="py-3.5 text-right text-sm font-medium text-darkBlueText whitespace-nowrap">
                 Actions
               </TableHead>
             </TableRow>

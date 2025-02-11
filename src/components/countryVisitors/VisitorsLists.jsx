@@ -147,7 +147,7 @@ const VisitorsLists = () => {
       <Table className="border-none">
         <TableHeader className="bg-softPaleBlue">
           <TableRow className="bg-muted/50">
-            <TableHead className="w-[200px] py-3.5 text-sm font-medium text-darkBlueText">
+            <TableHead className="w-[200px] py-3.5 text-sm font-medium text-darkBlueText whitespace-nowrap">
               <button
                 className="flex items-center gap-2"
                 onClick={() => handleSort('country')}
@@ -156,7 +156,7 @@ const VisitorsLists = () => {
                 {getSortIcon('country')}
               </button>
             </TableHead>
-            <TableHead className="py-3.5 text-sm font-medium text-darkBlueText">
+            <TableHead className="py-3.5 text-sm font-medium text-darkBlueText whitespace-nowrap">
               <button
                 className="flex items-center gap-2"
                 onClick={() => handleSort('male')}
@@ -165,7 +165,7 @@ const VisitorsLists = () => {
                 {getSortIcon('male')}
               </button>
             </TableHead>
-            <TableHead className="py-3.5 text-sm font-medium text-darkBlueText">
+            <TableHead className="py-3.5 text-sm font-medium text-darkBlueText whitespace-nowrap">
               <button
                 className="flex items-center gap-2"
                 onClick={() => handleSort('agePercentage')}
@@ -174,7 +174,7 @@ const VisitorsLists = () => {
                 {getSortIcon('agePercentage')}
               </button>
             </TableHead>
-            <TableHead className="py-3.5 text-right text-sm font-bold text-darkBlueText">
+            <TableHead className="py-3.5 text-right text-sm font-bold text-darkBlueText whitespace-nowrap">
               <button
                 className="ml-auto flex items-center justify-end gap-2"
                 onClick={() => handleSort('totalAds')}
@@ -183,7 +183,7 @@ const VisitorsLists = () => {
                 {getSortIcon('totalAds')}
               </button>
             </TableHead>
-            <TableHead className="py-3.5 text-right text-sm font-bold text-darkBlueText">
+            <TableHead className="py-3.5 text-right text-sm font-bold text-darkBlueText whitespace-nowrap">
               <button
                 className="ml-auto flex items-center justify-end gap-2"
                 onClick={() => handleSort('totalEarning')}
@@ -192,7 +192,7 @@ const VisitorsLists = () => {
                 {getSortIcon('totalEarning')}
               </button>
             </TableHead>
-            <TableHead className="py-3.5 text-right text-sm font-bold text-darkBlueText">
+            <TableHead className="py-3.5 text-right text-sm font-bold text-darkBlueText whitespace-nowrap">
               <button
                 className="ml-auto flex items-center justify-end gap-2"
                 onClick={() => handleSort('stateName')}

@@ -17,6 +17,7 @@ import {
   ChevronDown,
   ChevronsLeft,
   LayoutDashboard,
+  Tag,
 } from 'lucide-react';
 import { cn } from '../../utils/classNames';
 import { ASSETS } from '../../constants/assets';
@@ -106,10 +107,23 @@ const menuItems = [
     ],
   },
   {
-    href: '#',
     icon: Image,
     title: 'Manage Ads',
-    items: [{ title: 'Manage Promotions', icon: Star, href: '#' }],
+    href: APP_ROUTES.ADS.BASE,
+    items: [
+      { title: 'Post New Ads', icon: Star, href: '#' },
+      { title: 'Manage Ads Category', icon: Star, href: '#' },
+      { title: 'Ads Promotion Mgmt', icon: Star, href: '#' },
+    ],
+  },
+  {
+    icon: Tag,
+    title: 'Manage Deals',
+    href: APP_ROUTES.DEALS.BASE,
+    items: [
+      { title: 'Create New Deal', icon: Star, href: APP_ROUTES.DEALS.CREATE },
+      { title: 'Active Deals', icon: Star, href: APP_ROUTES.DEALS.LIST },
+    ],
   },
   {
     href: '#',

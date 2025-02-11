@@ -160,16 +160,16 @@ const TopCategories = () => {
             <Table className="text-sm">
               <TableHeader>
                 <TableRow>
-                  <TableHead className="text-xs font-medium text-mutedBlue">
+                  <TableHead className="text-xs font-medium text-mutedBlue whitespace-normal">
                     Category
                   </TableHead>
-                  <TableHead className="text-xs font-medium text-mutedBlue">
+                  <TableHead className="text-xs font-medium text-mutedBlue whitespace-normal">
                     %
                   </TableHead>
-                  <TableHead className="text-xs font-medium text-mutedBlue">
+                  <TableHead className="text-xs font-medium text-mutedBlue whitespace-normal">
                     No. of Users
                   </TableHead>
-                  <TableHead className="text-xs font-medium text-mutedBlue">
+                  <TableHead className="text-xs font-medium text-mutedBlue whitespace-normal">
                     Country
                   </TableHead>
                 </TableRow>

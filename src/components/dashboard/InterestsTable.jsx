@@ -83,53 +83,51 @@ const InterestsTable = () => {
       </div>
       <div className="overflow-x-auto">
         <Table>
-          <TableHeader>
+          <TableHeader className="bg-gray-100">
             <TableRow>
-              <TableHead className="text-sm font-medium text-mutedBlue">
+              <TableHead className="text-sm font-medium text-darkBlueText whitespace-nowrap">
                 Category
               </TableHead>
-              <TableHead className="text-sm font-medium text-mutedBlue">
+              <TableHead className="text-sm font-medium text-darkBlueText whitespace-nowrap">
                 No. of Users
               </TableHead>
-              <TableHead className="text-sm font-medium text-mutedBlue">
+              <TableHead className="text-sm font-medium text-darkBlueText whitespace-nowrap">
                 Gender
               </TableHead>
-              <TableHead className="text-sm font-medium text-mutedBlue">
+              <TableHead className="text-sm font-medium text-darkBlueText  whitespace-nowrap">
                 Rating
               </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {interests.map((interest) => (
-              <TableRow key={interest.id}>
+              <TableRow key={interest.id} className="hover:bg-gray-50">
                 <TableCell>
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2">
                     <img
-                      width={40}
-                      height={40}
-                      className="rounded-xl"
+                      src={interest.icon}
                       alt={interest.category}
-                      src={interest.icon || '/placeholder.svg'}
+                      className="h-10 w-10 rounded-lg object-cover"
                     />
-                    <span className="text-sm font-semibold text-deepBlue">
+                    <span className="text-sm font-medium text-darkBlueText">
                       {interest.category}
                     </span>
                   </div>
                 </TableCell>
-                <TableCell className="text-sm font-medium text-deepBlue">
+                <TableCell className="text-sm font-medium text-darkBlueText">
                   {interest.users}
                 </TableCell>
                 <TableCell>
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-2">
                     <div className="flex items-center gap-1">
-                      <span className="text-blue-500">♂</span>
-                      <span className="text-sm font-semibold text-deepBlue">
+                      <span className="text-sm font-medium text-darkBlueText">M</span>
+                      <span className="text-sm font-medium text-darkBlueText">
                         {interest.gender.male}
                       </span>
                     </div>
                     <div className="flex items-center gap-1">
-                      <span className="text-blue-500">♀</span>
-                      <span className="text-sm font-semibold text-deepBlue">
+                      <span className="text-sm font-medium text-darkBlueText">F</span>
+                      <span className="text-sm font-medium text-darkBlueText">
                         {interest.gender.female}
                       </span>
                     </div>
@@ -137,10 +135,12 @@ const InterestsTable = () => {
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center gap-1">
-                    <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                    <span className="text-sm font-semibold text-deepBlue">
-                      {interest.rating}
-                    </span>
+                    {[...Array(interest.rating)].map((_, i) => (
+                      <Star
+                        key={i}
+                        className="h-4 w-4 fill-yellow-400 text-yellow-400"
+                      />
+                    ))}
                   </div>
                 </TableCell>
               </TableRow>

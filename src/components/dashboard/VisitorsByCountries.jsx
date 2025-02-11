@@ -77,13 +77,13 @@ const VisitorsByCountries = () => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="text-sm font-medium text-mutedBlue">
+              <TableHead className="text-sm font-medium text-mutedBlue whitespace-normal">
                 Country Name
               </TableHead>
-              <TableHead className="text-sm font-medium text-mutedBlue">
+              <TableHead className="text-sm font-medium text-mutedBlue whitespace-normal">
                 States
               </TableHead>
-              <TableHead className="text-sm font-medium text-mutedBlue">
+              <TableHead className="text-sm font-medium text-mutedBlue whitespace-normal">
                 Users
               </TableHead>
             </TableRow>

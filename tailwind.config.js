@@ -61,8 +61,8 @@ module.exports = {
         aquaBlue: '#31A1DB',
         paleBlue: '#F6F9FC',
         deepTeal: '#667085',
+        grayText: "#64748B",
         duskyBlue: "#334155",
-        grayText: "#64748B", 
         frostBlue: '#F4F7FE',
         mintGreen: '#EBF5ED',
         oceanBlue: '#2980b9',
@@ -92,6 +92,18 @@ module.exports = {
         palePeriwinkle: "#E2E8F0", 
         lightBackground: "#F8F9FD",
         transparentOlive: '#308E871A',
+        success: {
+          bg: '#EBF5ED',
+          text: '#0E8432'
+        },
+        danger: {
+          bg: '#FEE4E2',
+          text: '#D92D20'
+        },
+        warning: {
+          bg: '#FEF0C7',
+          text: '#B54708'
+        },
         sidebar: {
           DEFAULT: 'hsl(var(--sidebar-background))',
           foreground: 'hsl(var(--sidebar-foreground))',

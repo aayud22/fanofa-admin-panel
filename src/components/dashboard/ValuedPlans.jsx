@@ -168,16 +168,16 @@ const ValuedPlans = () => {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="text-sm font-medium text-mutedBlue">
+                <TableHead className="text-sm font-medium text-mutedBlue whitespace-normal">
                   Plans
                 </TableHead>
-                <TableHead className="text-sm font-medium text-mutedBlue">
+                <TableHead className="text-sm font-medium text-mutedBlue whitespace-normal">
                   No. of Users
                 </TableHead>
-                <TableHead className="text-sm font-medium text-mutedBlue">
+                <TableHead className="text-sm font-medium text-mutedBlue whitespace-normal">
                   Earning
                 </TableHead>
-                <TableHead className="text-sm font-medium text-mutedBlue">
+                <TableHead className="text-sm font-medium text-mutedBlue whitespace-normal">
                   Countries
                 </TableHead>
               </TableRow>

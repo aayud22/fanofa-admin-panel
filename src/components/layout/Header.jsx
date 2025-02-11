@@ -34,6 +34,10 @@ const Header = () => {
         return 'Manage Users';
       case APP_ROUTES.USER.USER_DETAILS:
         return 'Manage Users';
+      case APP_ROUTES.SUBSCRIBERS.BASE:
+        return 'Manage Users';
+      case APP_ROUTES.SUBSCRIBERS.ALL:
+        return 'Manage Users';
       default:
         return path.split('-').map(word => 
           word.charAt(0).toUpperCase() + word.slice(1)
@@ -43,38 +47,85 @@ const Header = () => {
 
 
   const generateBreadcrumbs = () => {
-    const pathSegments = location.pathname
-      .split('/')
-      .filter((segment) => segment);
+    const pathname = location.pathname;
 
-    // If no segments or only dashboard, return null
-    if (pathSegments.length === 0 || (pathSegments.length === 1 && pathSegments[0] === 'dashboard')) {
-      return (
-        <React.Fragment key="home">
-          <span className="cursor-pointer bg-primary-gradient bg-clip-text text-sm font-normal text-transparent">
-            Home
-          </span>
-        </React.Fragment>
-      );
+    if (pathname === '/') {
+      return [];
     }
 
     const breadcrumbElements = [];
 
     // Always add Home as first element except for dashboard
-    breadcrumbElements.push(
-      <React.Fragment key="home">
-        <Link to={APP_ROUTES.DASHBOARD.BASE} className="text-sm font-normal text-deepBlue hover:underline">
-          Home
-        </Link>
-      </React.Fragment>
-    );
+    if (pathname !== '/dashboard') {
+      breadcrumbElements.push(
+        <React.Fragment key="home">
+          <Link
+            to={APP_ROUTES.DASHBOARD.BASE}
+            className="text-sm font-normal text-deepBlue hover:underline"
+          >
+            Home
+          </Link>
+        </React.Fragment>
+      );
 
-    // Add separator after Home
-    breadcrumbElements.push(
-      <React.Fragment key="separator-1">
-        <span className="text-sm font-normal text-deepBlue">{`//`}</span>
-      </React.Fragment>
-    );
+      breadcrumbElements.push(
+        <React.Fragment key="separator-1">
+          <span className="text-sm font-normal text-deepBlue">{`//`}</span>
+        </React.Fragment>
+      );
+    }
+
+    const pathSegments = pathname.split('/').filter(Boolean);
+
+    // Handle subscribers pages
+    if (pathSegments.includes('subscribers')) {
+      // Add User List
+      breadcrumbElements.push(
+        <React.Fragment key="user-list">
+          <Link
+            to={APP_ROUTES.USER.USER_LIST}
+            className="text-sm font-normal text-deepBlue hover:underline"
+          >
+            User List
+          </Link>
+        </React.Fragment>
+      );
+
+      breadcrumbElements.push(
+        <React.Fragment key="separator-2">
+          <span className="text-sm font-normal text-deepBlue">{`//`}</span>
+        </React.Fragment>
+      );
+
+      // Add User Name
+      breadcrumbElements.push(
+        <React.Fragment key="user-name">
+          <Link
+            to={APP_ROUTES.USER.USER_DETAILS}
+            className="text-sm font-normal text-deepBlue hover:underline"
+          >
+            Arrora Gaur
+          </Link>
+        </React.Fragment>
+      );
+
+      breadcrumbElements.push(
+        <React.Fragment key="separator-3">
+          <span className="text-sm font-normal text-deepBlue">{`//`}</span>
+        </React.Fragment>
+      );
+
+      // Add My Subscribers
+      breadcrumbElements.push(
+        <React.Fragment key="subscribers">
+          <span className="text-sm font-normal text-deepBlue">
+            My Subscribers
+          </span>
+        </React.Fragment>
+      );
+
+      return breadcrumbElements;
+    }
 
     // Check if we're on user details page
     if (pathSegments.includes(APP_ROUTES.USER.USER_DETAILS.replace('/', ''))) {
