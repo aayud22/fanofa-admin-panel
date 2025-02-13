@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Select,
   SelectItem,
@@ -16,8 +16,19 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
 
 const CategoryModal = ({ isOpen, onClose, mode, initialData, onSubmit }) => {
   const [newSubcategories, setNewSubcategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(initialData);
+  const [editingSubcategory, setEditingSubcategory] = useState(null);
   const [subcategoryInput, setSubcategoryInput] = useState('');
   const [imagePreview, setImagePreview] = useState(initialData?.icon || '');
+  const [status, setStatus] = useState(
+    initialData?.status ? 'active' : 'inactive'
+  );
+  const [selectedSubcategory, setSelectedSubcategory] = useState('');
+
+  useEffect(() => {
+    setSelectedCategory(initialData);
+    setStatus(initialData?.status ? 'active' : 'inactive');
+  }, [initialData]);
 
   const handleImageUpload = (event) => {
     const file = event.target.files?.[0];
@@ -44,12 +55,78 @@ const CategoryModal = ({ isOpen, onClose, mode, initialData, onSubmit }) => {
     setNewSubcategories(newSubcategories.filter((_, i) => i !== index));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e?.preventDefault();
     onSubmit({
-      // Add your form data here
+      ...selectedCategory,
+      status: status === 'active',
       subcategories: newSubcategories,
       image: imagePreview,
     });
+  };
+
+  const handleEditSubcategory = (subcategory) => {
+    setEditingSubcategory(subcategory);
+    setSelectedCategory({
+      ...selectedCategory,
+      name: subcategory.name,
+      isSubcategory: true,
+      parentCategory: initialData,
+    });
+  };
+
+  const handleDeleteSubcategory = (id) => {
+    const updatedSubcategories = initialData.subcategories.filter(
+      (sub) => sub.id !== id
+    );
+
+    setSelectedCategory({
+      ...selectedCategory,
+      subcategories: updatedSubcategories,
+    });
+
+    onSubmit({
+      ...selectedCategory,
+      subcategories: updatedSubcategories,
+    });
+  };
+
+  const handleToggleSubcategoryStatus = (id, checked) => {
+    const updatedSubcategories = selectedCategory.subcategories.map((sub) =>
+      sub.id === id ? { ...sub, status: checked } : sub
+    );
+
+    setSelectedCategory((prev) => ({
+      ...prev,
+      subcategories: updatedSubcategories,
+    }));
+  };
+
+  const handleStatusChange = (value) => {
+    setStatus(value);
+    setSelectedCategory((prev) => ({
+      ...prev,
+      status: value === 'active',
+    }));
+  };
+
+  const handleSubcategorySelect = (value) => {
+    if (value === 'add_new') {
+      // Handle adding new sub-sub category
+      setSubcategoryInput('');
+      // You can add additional logic here to show a form for adding sub-sub category
+    } else {
+      setSelectedSubcategory(value);
+      const selected = initialData?.subcategories?.find(
+        (sub) => sub.id.toString() === value
+      );
+      if (selected) {
+        setSelectedCategory((prev) => ({
+          ...prev,
+          selectedSubcategory: selected,
+        }));
+      }
+    }
   };
 
   return (
@@ -94,7 +171,7 @@ const CategoryModal = ({ isOpen, onClose, mode, initialData, onSubmit }) => {
                       <CloudUpload className="h-5 w-5 text-darkBlueText" />
                       <p className="text-sm font-medium text-darkBlueText">
                         Drop your File here or select click to{' '}
-                        <span className="from-lightAqua via-coolSky to-deepOcean bg-gradient-to-r bg-clip-text text-transparent">
+                        <span className="bg-gradient-to-r from-lightAqua via-coolSky to-deepOcean bg-clip-text text-transparent">
                           Browse File
                         </span>
                       </p>
@@ -111,22 +188,33 @@ const CategoryModal = ({ isOpen, onClose, mode, initialData, onSubmit }) => {
               </div>
             </div>
             {mode === 'edit' && !initialData?.isSubcategory && (
-              <div className="grid gap-2">
-                <Label>Existing Subcategory</Label>
-                <Select
-                  defaultValue={initialData?.subcategories?.[0]?.id.toString()}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select subcategory" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {initialData?.subcategories?.map((sub) => (
-                      <SelectItem key={sub.id} value={sub.id.toString()}>
-                        {sub.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+              <div className="space-y-4">
+                <div className="grid gap-4">
+                  <div>
+                    <Label>
+                      Existing Subcategory{' '}
+                      {initialData?.subcategories?.length > 0 &&
+                        `(${initialData?.subcategories?.length})`}
+                    </Label>
+                    <Select
+                      defaultValue={selectedSubcategory}
+                      onValueChange={handleSubcategorySelect}
+                    >
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select Subcategory" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {initialData?.subcategories?.map((sub) => (
+                          <SelectItem key={sub.id} value={sub.id.toString()}>
+                            {sub.name}
+                            {sub.products > 0 &&
+                              ` (${sub.products} Sub-Sub Category)`}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
               </div>
             )}
             {initialData?.isSubcategory && (
@@ -140,25 +228,17 @@ const CategoryModal = ({ isOpen, onClose, mode, initialData, onSubmit }) => {
             )}
             <div className="grid gap-2">
               <Label>Status</Label>
-              <Select defaultValue={initialData?.status || 'active'}>
+              <Select defaultValue={status} onValueChange={handleStatusChange}>
                 <SelectTrigger
-                  className={`${initialData?.status === 'active' && '!bg-mintGreen'} ${initialData?.status === 'inactive' && '!bg-red-50'}`}
+                  className={`${status === 'active' ? '!bg-mintGreen' : ''} ${
+                    status === 'inactive' ? '!bg-red-50' : ''
+                  }`}
                 >
-                  <SelectValue />
+                  <SelectValue placeholder="Select status" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem
-                    value="active"
-                    className="text-sm font-semibold text-emeraldGreen"
-                  >
-                    Active
-                  </SelectItem>
-                  <SelectItem
-                    value="inactive"
-                    className="text-sm font-semibold text-red-600"
-                  >
-                    Inactive
-                  </SelectItem>
+                  <SelectItem value="active">Active</SelectItem>
+                  <SelectItem value="inactive">Inactive</SelectItem>
                 </SelectContent>
               </Select>
             </div>

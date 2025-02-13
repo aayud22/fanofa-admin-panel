@@ -12,11 +12,13 @@ export const APP_ROUTES = {
     ALL: '/subscribers/all',
   },
   ADS: {
-    BASE: '/manage-ads',
-    AD_LIST: '/manage-ads/list',
-    NEW_AD: '/manage-ads/new',
-    EDIT_AD: '/manage-ads/edit',
-    AD_DETAILS: '/manage-ads/:id',
+    BASE: '/ads',
+    AD_LIST: '/ads/list',
+    NEW_AD: '/ads/new',
+    EDIT_AD: '/ads/edit',
+    AD_DETAILS: '/ads/:id',
+    CATEGORIES: '/ads/categories',
+    PROMOTIONS: '/ads/promotions',
   },
   DEALS: {
     BASE: '/deals',

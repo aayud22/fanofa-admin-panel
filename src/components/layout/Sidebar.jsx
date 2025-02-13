@@ -18,6 +18,8 @@ import {
   ChevronsLeft,
   LayoutDashboard,
   Tag,
+  ListChecks,
+  Megaphone,
 } from 'lucide-react';
 import { cn } from '../../utils/classNames';
 import { ASSETS } from '../../constants/assets';
@@ -111,9 +113,17 @@ const menuItems = [
     title: 'Manage Ads',
     href: APP_ROUTES.ADS.BASE,
     items: [
-      { title: 'Post New Ads', icon: Star, href: '#' },
-      { title: 'Manage Ads Category', icon: Star, href: '#' },
-      { title: 'Ads Promotion Mgmt', icon: Star, href: '#' },
+      { title: 'Post New Ads', icon: Star, href: APP_ROUTES.ADS.NEW_AD },
+      {
+        title: 'Manage Ads Category',
+        icon: Star,
+        href: APP_ROUTES.ADS.CATEGORIES,
+      },
+      {
+        title: 'Ads Promotion Mgmt',
+        icon: Megaphone,
+        href: APP_ROUTES.ADS.PROMOTIONS,
+      },
     ],
   },
   {

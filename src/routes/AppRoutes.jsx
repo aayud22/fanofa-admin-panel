@@ -1,12 +1,13 @@
 import AdsPage from '../pages/ads/AdsPage';
 import AdDetails from '../pages/ads/AdDetails';
+import AdsPromotions from '../pages/ads/AdsPromotions';
 import UserList from '../pages/user/UserList';
 import { Routes, Route } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
 import NotFound from '../components/error/NotFound';
 import UserDetails from '../pages/user/UserDetails';
 import Dashboard from '../pages/dashboard/Dashboard';
-import Categories from '../pages/category/Categories';
+import Categories from '../pages/categories/Categories';
 import SubAdminLogin from '../pages/auth/SubAdminLogin';
 import { APP_ROUTES } from '../constants/routeConstants';
 import ServerError from '../components/error/ServerError';
@@ -18,6 +19,7 @@ import SubscribersPage from '../pages/subscribers/SubscribersPage';
 import CountryVisitors from '../pages/countryVisitors/CountryVisitors';
 import CreateDeal from '../pages/deals/CreateDeal';
 import DealsPage from '../pages/deals/DealsPage';
+import AddNewAd from '../pages/ads/AddNewAd';
 
 const AppRoutes = () => {
   return (
@@ -46,6 +48,9 @@ const AppRoutes = () => {
         <Route path={APP_ROUTES.USER.USER_DETAILS} element={<UserDetails />} />
         <Route path={APP_ROUTES.DASHBOARD.BASE} element={<Dashboard />} />
         <Route path={APP_ROUTES.CATEGORIES} element={<Categories />} />
+        <Route path={APP_ROUTES.ADS.NEW_AD} element={<AddNewAd />} />
+        <Route path={APP_ROUTES.ADS.CATEGORIES} element={<Categories />} />
+        <Route path={APP_ROUTES.ADS.PROMOTIONS} element={<AdsPromotions />} />
         <Route path={APP_ROUTES.TOP_INTERESTED} element={<TopInterests />} />
         <Route
           path={APP_ROUTES.COUNTRY_VISITORS}
