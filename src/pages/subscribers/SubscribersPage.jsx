@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import SubscribersFullView from '../../components/userList/SubscribersFullView';
-import UserSubscribersTable from '../../components/userList/UserSubscribersTable';
+import SubscribersTable from '../../components/userList/SubscribersTable';
 
 const subscribers = [
   {
@@ -44,16 +43,11 @@ const SubscribersPage = () => {
   const location = useLocation();
   const isFullView = location.pathname === '/subscribers/all';
 
-  return isFullView ? (
-    <SubscribersFullView
-      subscribers={subscribers}
+  return (
+    <SubscribersTable
+      isFullView={isFullView}
       activeTab={activeTab}
-      onTabChange={setActiveTab}
-    />
-  ) : (
-    <UserSubscribersTable
       subscribers={subscribers}
-      activeTab={activeTab}
       onTabChange={setActiveTab}
     />
   );

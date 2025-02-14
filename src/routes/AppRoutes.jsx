@@ -20,6 +20,7 @@ import CountryVisitors from '../pages/countryVisitors/CountryVisitors';
 import CreateDeal from '../pages/deals/CreateDeal';
 import DealsPage from '../pages/deals/DealsPage';
 import AddNewAd from '../pages/ads/AddNewAd';
+import MySubscribers from '../pages/subscribers/MySubscribers';
 
 const AppRoutes = () => {
   return (
@@ -58,8 +59,18 @@ const AppRoutes = () => {
         />
         <Route path={APP_ROUTES.ADS.BASE} element={<AdsPage />} />
         <Route path={APP_ROUTES.ADS.AD_DETAILS} element={<AdDetails />} />
-        <Route path={APP_ROUTES.SUBSCRIBERS.BASE} element={<SubscribersPage />} />
-        <Route path={APP_ROUTES.SUBSCRIBERS.ALL} element={<SubscribersPage />} />
+        <Route
+          path={APP_ROUTES.SUBSCRIBERS.BASE}
+          element={<SubscribersPage />}
+        />
+        <Route
+          path={APP_ROUTES.SUBSCRIBERS.ALL}
+          element={<SubscribersPage />}
+        />
+        <Route
+          path={APP_ROUTES.SUBSCRIBERS.MY_SUBSCRIBERS}
+          element={<MySubscribers />}
+        />
         <Route path={APP_ROUTES.DEALS.BASE} element={<DealsPage />} />
         <Route path={APP_ROUTES.DEALS.CREATE} element={<CreateDeal />} />
       </Route>

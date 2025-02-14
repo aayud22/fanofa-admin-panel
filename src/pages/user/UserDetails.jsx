@@ -4,6 +4,7 @@ import AdsGeneralDetails from '../../components/userList/AdsGeneralDetails';
 import PermissionsSection from '../../components/userList/PermissionsSection';
 import UserAnalyticsTable from '../../components/userList/UserAnalyticsTable';
 import UserSubscribersTable from '../../components/userList/UserSubscribersTable';
+import SubscribersTable from '../../components/userList/SubscribersTable';
 
 const UserDetails = () => {
   const [activeTab, setActiveTab] = useState('subscribers');
@@ -21,6 +22,28 @@ const UserDetails = () => {
       messageCount: 4,
       isSubscribed: true,
     },
+    {
+      srNo: '02',
+      name: 'James Mullican',
+      accountLink: 'http://www.codehow.com',
+      email: 'manhhaac@gmail.com',
+      country: 'BE',
+      date: 'Feb 28, 2018',
+      rating: 4,
+      messageCount: 6,
+      isSubscribed: true,
+    },
+    {
+      srNo: '03',
+      name: 'Robert Bacins',
+      accountLink: 'http://www.zencorporation.com',
+      email: 'rvt.nxte@gmail.com',
+      country: 'IE',
+      date: 'Mar 6, 2018',
+      rating: 4,
+      messageCount: 9,
+      isSubscribed: false,
+    },
   ];
 
   return (
@@ -32,9 +55,10 @@ const UserDetails = () => {
           <PermissionsSection />
           <UserAnalyticsTable />
         </div>
-        <UserSubscribersTable 
-          subscribers={subscribers}
+        <SubscribersTable
+          isFullView={false}
           activeTab={activeTab}
+          subscribers={subscribers}
           onTabChange={setActiveTab}
         />
       </div>

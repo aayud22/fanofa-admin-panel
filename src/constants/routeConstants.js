@@ -10,6 +10,7 @@ export const APP_ROUTES = {
   SUBSCRIBERS: {
     BASE: '/subscribers',
     ALL: '/subscribers/all',
+    MY_SUBSCRIBERS: '/subscribers/my',
   },
   ADS: {
     BASE: '/ads',
