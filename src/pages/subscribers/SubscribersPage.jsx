@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
+import {
+  DropdownMenu,
+  DropdownMenuItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from '../../components/ui/dropdown-menu';
 import { useLocation } from 'react-router-dom';
+import { MessageSquareMore, MoreHorizontal, Star } from 'lucide-react';
 import SubscribersTable from '../../components/userList/SubscribersTable';
 
 const subscribers = [
@@ -38,15 +45,107 @@ const subscribers = [
   },
 ];
 
+const columns = [
+  {
+    key: 'srNo',
+    label: 'Sr No.',
+    sortable: true,
+  },
+  {
+    key: 'name',
+    label: 'Name',
+    sortable: true,
+  },
+  {
+    key: 'accountLink',
+    label: 'Account Link',
+    sortable: true,
+    render: (value, row) => (
+      <a
+        className="transition-colors duration-300 hover:text-blue-700 hover:underline"
+        href={row.accountLink}
+        target="_blank"
+        rel="noreferrer"
+      >
+        {row.accountLink}
+      </a>
+    ),
+  },
+  {
+    key: 'email',
+    label: 'Email',
+    sortable: true,
+  },
+  {
+    key: 'country',
+    label: 'Country',
+    sortable: true,
+    render: (value, row) => (
+      <div className="flex items-center">
+        {row.country && (
+          <span
+            className={`flag-icon flag-icon-${row.country.toLowerCase()}`}
+          />
+        )}
+      </div>
+    ),
+  },
+  {
+    key: 'date',
+    label: 'Subscribed Date',
+    sortable: true,
+  },
+  {
+    key: 'messageCount',
+    label: 'Activity',
+    sortable: true,
+    render: (_, row) =>
+      (row.rating || row.messageCount) && (
+        <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1">
+            <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+            <p className="text-sm font-medium text-darkBlueText">
+              {row.rating || 0}
+            </p>
+          </div>
+          <div className="flex items-center gap-1">
+            <MessageSquareMore className="h-4 w-4 text-blue-400" />
+            <p className="text-sm font-medium text-darkBlueText">
+              {row.messageCount || 0}
+            </p>
+          </div>
+        </div>
+      ),
+  },
+  {
+    key: 'actions',
+    label: 'Actions',
+    render: (_, row) => (
+      <DropdownMenu>
+        <DropdownMenuTrigger className="cursor-pointer">
+          <MoreHorizontal className="h-4 w-4" />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem>View Profile</DropdownMenuItem>
+          <DropdownMenuItem className="text-red-600">
+            Delete User
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    ),
+  },
+];
+
 const SubscribersPage = () => {
-  const [activeTab, setActiveTab] = useState('subscribers');
   const location = useLocation();
+  const [activeTab, setActiveTab] = useState('subscribers');
   const isFullView = location.pathname === '/subscribers/all';
 
   return (
     <SubscribersTable
-      isFullView={isFullView}
+      columns={columns}
       activeTab={activeTab}
+      isFullView={isFullView}
       subscribers={subscribers}
       onTabChange={setActiveTab}
     />

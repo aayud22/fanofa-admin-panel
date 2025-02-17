@@ -1,110 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
-  Table,
-  TableRow,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-} from '../ui/table';
-import {
-  Star,
-  ArrowUp,
   Search,
   Filter,
-  ArrowDown,
-  ArrowUpDown,
-  MoreHorizontal,
   MessageSquareMore,
   FileDown,
 } from 'lucide-react';
 import { Card } from '../ui/card';
 import { Button } from '../ui/button';
-import { Checkbox } from '../ui/checkbox';
 import { useNavigate } from 'react-router-dom';
+import EnhancedTable from '../ui/enhanced-table';
 import { APP_ROUTES } from '../../constants/routeConstants';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '../ui/dropdown-menu';
-import { Trash2, Eye } from 'lucide-react';
 
 const SubscribersTable = ({
+  columns = [],
   subscribers = [],
   activeTab,
   onTabChange,
   isFullView = false,
 }) => {
   const navigate = useNavigate();
-  const [sortState, setSortState] = useState({
-    column: null,
-    direction: 'asc',
-  });
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedRows, setSelectedRows] = useState([]);
 
-  const handleSort = (column) => {
-    setSortState((prev) => ({
-      column,
-      direction:
-        prev.column === column && prev.direction === 'asc' ? 'desc' : 'asc',
-    }));
-  };
+  const [selectedUserIds, setSelectedUserIds] = useState([]);
+  const [isLoadingSubscribers, setIsLoadingSubscribers] = useState(false);
 
-  const getSortIcon = (column) => {
-    if (sortState.column !== column) return <ArrowUpDown className="h-4 w-4" />;
-    return sortState.direction === 'asc' ? (
-      <ArrowUp className="h-4 w-4" />
-    ) : (
-      <ArrowDown className="h-4 w-4" />
-    );
-  };
-
-  const handleSelectAll = (checked) => {
-    if (checked) {
-      setSelectedRows(sortedSubscribers.map((sub) => sub.srNo));
-    } else {
-      setSelectedRows([]);
-    }
-  };
-
-  const handleSelectRow = (srNo) => {
-    setSelectedRows((prev) =>
-      prev.includes(srNo) ? prev.filter((id) => id !== srNo) : [...prev, srNo]
-    );
-  };
-
-  const filteredSubscribers = (subscribers ?? []).filter((subscriber) => {
-    const matchesTab =
-      activeTab === 'subscribers'
-        ? subscriber.isSubscribed
-        : !subscriber.isSubscribed;
-
-    const matchesSearch = searchQuery
-      ? subscriber.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        subscriber.email.toLowerCase().includes(searchQuery.toLowerCase())
-      : true;
-
-    return matchesTab && matchesSearch;
-  });
-
-  const sortedSubscribers = [...filteredSubscribers].sort((a, b) => {
-    if (!sortState.column) return 0;
-    const { column, direction } = sortState;
-    const isAscending = direction === 'asc';
-
-    if (typeof a[column] === 'string') {
-      return isAscending
-        ? a[column].localeCompare(b[column])
-        : b[column].localeCompare(a[column]);
-    }
-    if (typeof a[column] === 'number') {
-      return isAscending ? a[column] - b[column] : b[column] - a[column];
-    }
-    return 0;
-  });
+  useEffect(() => {
+    setIsLoadingSubscribers(true);
+    setTimeout(() => {
+      setIsLoadingSubscribers(false);
+    }, 1000);
+  }, []);
 
   const subscribersCount = subscribers?.filter(
     (sub) => sub.isSubscribed
@@ -113,9 +37,16 @@ const SubscribersTable = ({
     (sub) => !sub.isSubscribed
   ).length;
 
-  const handleDelete = (subscriberId) => {
-    // Add delete confirmation dialog and functionality here
-    console.log('Delete subscriber:', subscriberId);
+  const filteredData = subscribers.filter((sub) =>
+    activeTab === 'subscribers' ? sub.isSubscribed : !sub.isSubscribed
+  );
+
+  const handleRowClick = (user) => {
+    navigate(APP_ROUTES.USER.USER_DETAILS);
+  };
+
+  const handleSelectionChange = (selectedIds) => {
+    setSelectedUserIds(selectedIds);
   };
 
   return (
@@ -201,163 +132,15 @@ const SubscribersTable = ({
         </div>
       </div>
 
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader className="bg-gray-100">
-            <TableRow>
-              <TableHead className="w-[50px] px-4 py-2">
-                <Checkbox
-                  checked={selectedRows.length === sortedSubscribers.length}
-                  onCheckedChange={handleSelectAll}
-                />
-              </TableHead>
-              <TableHead>
-                <Button
-                  variant="ghost"
-                  onClick={() => handleSort('srNo')}
-                  className="flex h-auto items-center gap-2 p-0 text-sm font-medium text-darkBlueText hover:bg-transparent"
-                >
-                  Sr No. {getSortIcon('srNo')}
-                </Button>
-              </TableHead>
-              <TableHead>
-                <Button
-                  variant="ghost"
-                  onClick={() => handleSort('name')}
-                  className="flex h-auto items-center gap-2 p-0 text-sm font-medium text-darkBlueText hover:bg-transparent"
-                >
-                  Account Name {getSortIcon('name')}
-                </Button>
-              </TableHead>
-              <TableHead>
-                <Button
-                  variant="ghost"
-                  onClick={() => handleSort('accountLink')}
-                  className="flex h-auto items-center gap-2 p-0 text-sm font-medium text-darkBlueText hover:bg-transparent"
-                >
-                  Account Link {getSortIcon('accountLink')}
-                </Button>
-              </TableHead>
-              <TableHead>
-                <Button
-                  variant="ghost"
-                  onClick={() => handleSort('email')}
-                  className="flex h-auto items-center gap-2 p-0 text-sm font-medium text-darkBlueText hover:bg-transparent"
-                >
-                  Email {getSortIcon('email')}
-                </Button>
-              </TableHead>
-              <TableHead className="text-sm font-medium text-darkBlueText">
-                Country
-              </TableHead>
-              <TableHead>
-                <Button
-                  variant="ghost"
-                  onClick={() => handleSort('date')}
-                  className="flex h-auto items-center gap-2 p-0 text-sm font-medium text-darkBlueText hover:bg-transparent"
-                >
-                  Subscribed Date {getSortIcon('date')}
-                </Button>
-              </TableHead>
-              <TableHead>
-                <Button
-                  variant="ghost"
-                  onClick={() => handleSort('rating')}
-                  className="flex h-auto items-center gap-2 p-0 text-sm font-medium text-darkBlueText hover:bg-transparent"
-                >
-                  Activity {getSortIcon('rating')}
-                </Button>
-              </TableHead>
-              <TableHead className="text-center text-sm font-medium text-darkBlueText">
-                Action
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {sortedSubscribers.map((subscriber) => (
-              <TableRow key={subscriber.srNo} className="hover:bg-gray-50">
-                <TableCell className="px-4 py-2">
-                  <Checkbox
-                    checked={selectedRows.includes(subscriber.srNo)}
-                    onCheckedChange={() => handleSelectRow(subscriber.srNo)}
-                  />
-                </TableCell>
-                <TableCell className="text-sm font-medium text-darkBlueText">
-                  {subscriber.srNo}
-                </TableCell>
-                <TableCell className="text-sm font-medium text-darkBlueText">
-                  {subscriber.name}
-                </TableCell>
-                <TableCell>
-                  <a
-                    href={subscriber.accountLink}
-                    className="text-sm font-medium text-darkBlueText hover:text-primary"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {subscriber.accountLink}
-                  </a>
-                </TableCell>
-                <TableCell className="text-sm font-medium text-darkBlueText">
-                  {subscriber.email}
-                </TableCell>
-                <TableCell className="flex items-center gap-1">
-                  <span
-                    className={`flag-icon flag-icon-${subscriber.country.toLowerCase()}`}
-                    style={{
-                      fontSize: '1rem',
-                      padding: '0.25rem',
-                    }}
-                  ></span>
-                </TableCell>
-                <TableCell className="text-sm font-medium text-darkBlueText">
-                  {subscriber.date}
-                </TableCell>
-                <TableCell>
-                  <div className="flex items-center gap-1">
-                    <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                    <p className="text-sm font-medium text-darkBlueText">
-                      {subscriber.rating}
-                    </p>
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <div className="flex items-center justify-center gap-2">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button
-                          variant="ghost"
-                          className="h-8 w-8 p-0"
-                          title="More Options"
-                        >
-                          <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" className="w-[160px]">
-                        <DropdownMenuItem
-                          className="cursor-pointer"
-                          onClick={() =>
-                            navigate(APP_ROUTES.SUBSCRIBERS.MY_SUBSCRIBERS)
-                          }
-                        >
-                          <Eye className="mr-2 h-4 w-4" />
-                          View Details
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                          onClick={() => handleDelete(subscriber.srNo)}
-                          className="cursor-pointer text-destructive focus:text-destructive"
-                        >
-                          <Trash2 className="mr-2 h-4 w-4" />
-                          Delete
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+      <div className="w-full overflow-x-auto rounded-lg border">
+        <EnhancedTable
+          pagination
+          columns={columns}
+          data={filteredData}
+          onRowClick={handleRowClick}
+          isLoading={isLoadingSubscribers}
+          onSelectionChange={handleSelectionChange}
+        />
       </div>
     </Card>
   );

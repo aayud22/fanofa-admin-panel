@@ -70,7 +70,7 @@ const PermissionsSection = () => {
   };
   return (
     <Card>
-      <div className="h-[600px] p-6">
+      <div className="h-[465px] p-6">
         <div className="mb-6 flex items-center justify-between">
           <h3 className="text-xl font-semibold text-darkBlueText">
             Permissions

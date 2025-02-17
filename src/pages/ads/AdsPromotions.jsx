@@ -1,37 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setPageInfo, resetPageInfo } from '../../redux/slices/pageSlice';
 import {
-  Facebook,
-  Instagram,
-  Linkedin,
+  Edit,
   Twitter,
   Youtube,
-  MoreVertical,
-  Edit,
-  Link as LinkIcon,
-  ArrowUpDown,
-  ArrowDown,
-  ArrowUp,
+  Facebook,
+  Linkedin,
   UserPlus,
   FileDown,
+  Instagram,
+  MoreHorizontal,
+  Link as LinkIcon,
 } from 'lucide-react';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '../../components/ui/table';
-import { Switch } from '../../components/ui/switch';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '../../components/ui/dropdown-menu';
+import { Switch } from '../../components/ui/switch';
 import { Button } from '../../components/ui/button';
 import AddSourceModal from '../../components/ads/AddSourceModal';
 import UpdateLinkModal from '../../components/ads/UpdateLinkModal';
+import EnhancedTable from '../../components/ui/enhanced-table';
 
 const data = [
   {
@@ -90,8 +82,9 @@ const getSocialIcon = (platform) => {
 };
 
 const AdsPromotions = () => {
+  const dispatch = useDispatch();
   const [promotions, setPromotions] = useState(data);
-  const [sortState, setSortState] = useState({ column: '', direction: '' });
+  const [isLoadingAds, setIsLoadingAds] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [updateLinkModal, setUpdateLinkModal] = useState({
     isOpen: false,
@@ -99,26 +92,114 @@ const AdsPromotions = () => {
     existingLink: '',
   });
 
-  const handleStatusChange = (id, checked) => {
-    setPromotions((prev) =>
-      prev.map((promo) =>
-        promo.id === id ? { ...promo, status: checked } : promo
-      )
-    );
-  };
+  const columns = [
+    {
+      key: 'sectionName',
+      label: 'Section Name',
+      sortable: true,
+      render: (value, row) => (
+        <div className="flex items-center gap-2">
+          {getSocialIcon(row.sectionName)}
+          <span>{row.sectionName}</span>
+        </div>
+      ),
+    },
+    {
+      key: 'type',
+      label: 'Type',
+      sortable: true,
+    },
+    {
+      key: 'link',
+      label: 'Link',
+      sortable: true,
+      render: (value, row) => (
+        <a
+          href={row.link}
+          target="_blank"
+          rel="noreferrer"
+          className="transition-colors duration-300 hover:text-blue-700 hover:underline"
+        >
+          {row.link}
+        </a>
+      ),
+    },
+    {
+      key: 'status',
+      label: 'Status',
+      sortable: true,
+      render: (value, row) => (
+        <Switch
+          checked={row.status}
+          onCheckedChange={(checked) => {
+            setPromotions((prev) =>
+              prev.map((promo) =>
+                promo.id === row.id ? { ...promo, status: checked } : promo
+              )
+            );
+          }}
+          className="data-[state=checked]:bg-primary-gradient"
+        />
+      ),
+    },
+    {
+      key: 'actions',
+      label: 'Actions',
+      render: (_, row) => (
+        <DropdownMenu>
+          <DropdownMenuTrigger className="focus:outline-none">
+            <MoreHorizontal className="h-5 w-5" />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem
+              onClick={() => {
+                console.log('Edit promotion:', row.id);
+                // Add your edit logic here
+              }}
+              className="text-coolSky focus:bg-blue-50 focus:text-coolSky"
+            >
+              <Edit className="mr-2 h-4 w-4" />
+              <span>Edit</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                setUpdateLinkModal({
+                  isOpen: true,
+                  promotionId: row.id,
+                  existingLink: row.link,
+                });
+              }}
+              className="text-coolSky focus:bg-blue-50 focus:text-coolSky"
+            >
+              <LinkIcon className="mr-2 h-4 w-4" />
+              <span>Update Link</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      ),
+    },
+  ];
 
-  const handleEdit = (id) => {
-    // Implement edit functionality
-    console.log('Edit promotion:', id);
-  };
+  useEffect(() => {
+    dispatch(setPageInfo({
+      title: 'Ads & Promotions',
+      breadcrumbs: [
+        { label: 'Home', link: '/dashboard' },
+        { label: 'Ads & Promotions' }
+      ]
+    }));
 
-  const handleUpdateLink = (promotion) => {
-    setUpdateLinkModal({
-      isOpen: true,
-      promotionId: promotion.id,
-      existingLink: promotion.link,
-    });
-  };
+    return () => {
+      dispatch(resetPageInfo());
+    };
+  }, [dispatch]);
+
+  useEffect(() => {
+    setIsLoadingAds(true);
+    setTimeout(() => {
+      setIsLoadingAds(false);
+    }, 1000);
+  }, []);
 
   const handleLinkUpdate = (newLink) => {
     setPromotions((prev) =>
@@ -140,45 +221,6 @@ const AdsPromotions = () => {
     };
     setPromotions((prev) => [...prev, newSource]);
   };
-
-  // Sorting function
-  const handleSort = (column) => {
-    setSortState((prev) => {
-      const isAsc = prev.column === column && prev.direction === 'asc';
-      return { column, direction: isAsc ? 'desc' : 'asc' };
-    });
-  };
-
-  // Get sorting icon
-  const getSortIcon = (column) => {
-    if (sortState.column !== column) return <ArrowUpDown className="h-4 w-4" />;
-    return sortState.direction === 'asc' ? (
-      <ArrowUp className="h-4 w-4" />
-    ) : (
-      <ArrowDown className="h-4 w-4" />
-    );
-  };
-
-  const sortedAds = [...promotions].sort((a, b) => {
-    if (!sortState.column) return 0;
-    const { column, direction } = sortState;
-
-    let valueA = a[column];
-    let valueB = b[column];
-
-    // Convert numeric values
-    if (!isNaN(valueA) && !isNaN(valueB)) {
-      valueA = Number(valueA);
-      valueB = Number(valueB);
-    }
-
-    // Sorting logic
-    if (direction === 'asc') {
-      return valueA > valueB ? 1 : -1;
-    } else {
-      return valueA < valueB ? 1 : -1;
-    }
-  });
 
   return (
     <div className="mx-auto max-w-[1400px] space-y-4 p-4">
@@ -205,120 +247,39 @@ const AdsPromotions = () => {
         </div>
       </div>
 
-      <div className="rounded-lg border">
-        <Table>
-          <TableHeader className="bg-softPaleBlue">
-            <TableRow>
-              <TableHead className="w-[250px]">
-                <button
-                  onClick={() => handleSort('sectionName')}
-                  className="flex items-center gap-2"
-                >
-                  Section Name
-                  {getSortIcon('sectionName')}
-                </button>
-              </TableHead>
-              <TableHead>
-                <button
-                  onClick={() => handleSort('type')}
-                  className="flex items-center gap-2"
-                >
-                  Type {getSortIcon('type')}
-                </button>
-              </TableHead>
-              <TableHead>
-                <button
-                  onClick={() => handleSort('link')}
-                  className="flex items-center gap-2"
-                >
-                  Link {getSortIcon('link')}
-                </button>
-              </TableHead>
-              <TableHead>
-                <button
-                  onClick={() => handleSort('status')}
-                  className="flex items-center gap-2"
-                >
-                  Status {getSortIcon('status')}
-                </button>
-              </TableHead>
-              <TableHead className="text-right">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {sortedAds.map((promotion) => (
-              <TableRow key={promotion.id}>
-                <TableCell>
-                  <div className="flex items-center gap-2">
-                    {getSocialIcon(promotion.sectionName)}
-                    <span>{promotion.sectionName}</span>
-                  </div>
-                </TableCell>
-                <TableCell>{promotion.type}</TableCell>
-                <TableCell>
-                  <a
-                    href={promotion.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-coolSky hover:underline"
-                  >
-                    {promotion.link}
-                  </a>
-                </TableCell>
-                <TableCell>
-                  <Switch
-                    checked={promotion.status}
-                    onCheckedChange={(checked) =>
-                      handleStatusChange(promotion.id, checked)
-                    }
-                    className="data-[state=checked]:bg-primary-gradient"
-                  />
-                </TableCell>
-                <TableCell className="text-right">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger className="focus:outline-none">
-                      <MoreVertical className="h-5 w-5" />
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem
-                        onClick={() => handleEdit(promotion.id)}
-                        className="text-coolSky focus:bg-blue-50 focus:text-coolSky"
-                      >
-                        <Edit className="mr-2 h-4 w-4" />
-                        <span>Edit</span>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        onClick={() => handleUpdateLink(promotion)}
-                        className="text-coolSky focus:bg-blue-50 focus:text-coolSky"
-                      >
-                        <LinkIcon className="mr-2 h-4 w-4" />
-                        <span>Update Link</span>
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+      <div className="w-full overflow-x-auto rounded-lg border">
+        <EnhancedTable
+          pagination
+          data={promotions}
+          columns={columns}
+          isLoading={isLoadingAds}
+          // onRowClick={handleRowClick}
+          // onSelectionChange={handleSelectionChange}
+        />
       </div>
-      <AddSourceModal
-        isOpen={isAddModalOpen}
-        onClose={() => setIsAddModalOpen(false)}
-        onAdd={handleAddSource}
-      />
-      <UpdateLinkModal
-        isOpen={updateLinkModal.isOpen}
-        onClose={() =>
-          setUpdateLinkModal({
-            isOpen: false,
-            promotionId: null,
-            existingLink: '',
-          })
-        }
-        existingLink={updateLinkModal.existingLink}
-        onUpdate={handleLinkUpdate}
-      />
+
+      {isAddModalOpen && (
+        <AddSourceModal
+          isOpen={isAddModalOpen}
+          onAdd={handleAddSource}
+          onClose={() => setIsAddModalOpen(false)}
+        />
+      )}
+
+      {updateLinkModal.isOpen && (
+        <UpdateLinkModal
+          isOpen={updateLinkModal.isOpen}
+          onClose={() =>
+            setUpdateLinkModal({
+              isOpen: false,
+              promotionId: null,
+              existingLink: '',
+            })
+          }
+          existingLink={updateLinkModal.existingLink}
+          onUpdate={handleLinkUpdate}
+        />
+      )}
     </div>
   );
 };

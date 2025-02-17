@@ -1,26 +1,28 @@
 import AdsPage from '../pages/ads/AdsPage';
-import AdDetails from '../pages/ads/AdDetails';
-import AdsPromotions from '../pages/ads/AdsPromotions';
+import AddNewAd from '../pages/ads/AddNewAd';
 import UserList from '../pages/user/UserList';
+import ChatPage from '../pages/chat/ChatPage';
+import AdDetails from '../pages/ads/AdDetails';
 import { Routes, Route } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
+import DealsPage from '../pages/deals/DealsPage';
+import CreateDeal from '../pages/deals/CreateDeal';
 import NotFound from '../components/error/NotFound';
 import UserDetails from '../pages/user/UserDetails';
 import Dashboard from '../pages/dashboard/Dashboard';
+import AdsPromotions from '../pages/ads/AdsPromotions';
 import Categories from '../pages/categories/Categories';
 import SubAdminLogin from '../pages/auth/SubAdminLogin';
 import { APP_ROUTES } from '../constants/routeConstants';
+import ChatDetails from '../components/chat/ChatDetails';
 import ServerError from '../components/error/ServerError';
 import SuperAdminLogin from '../pages/auth/SuperAdminLogin';
 import MaintenancePage from '../pages/error/MaintenancePage';
 import TopInterests from '../pages/topInterests/TopInterests';
 import SelectUserType from '../components/auth/SelectUserType';
+import MySubscribers from '../pages/subscribers/MySubscribers';
 import SubscribersPage from '../pages/subscribers/SubscribersPage';
 import CountryVisitors from '../pages/countryVisitors/CountryVisitors';
-import CreateDeal from '../pages/deals/CreateDeal';
-import DealsPage from '../pages/deals/DealsPage';
-import AddNewAd from '../pages/ads/AddNewAd';
-import MySubscribers from '../pages/subscribers/MySubscribers';
 
 const AppRoutes = () => {
   return (
@@ -73,6 +75,8 @@ const AppRoutes = () => {
         />
         <Route path={APP_ROUTES.DEALS.BASE} element={<DealsPage />} />
         <Route path={APP_ROUTES.DEALS.CREATE} element={<CreateDeal />} />
+        <Route path={APP_ROUTES.CHAT.BASE} element={<ChatPage />} />
+        <Route path={APP_ROUTES.CHAT.CHAT_DETAILS} element={<ChatDetails />} />
       </Route>
 
       {/* Catch-all */}

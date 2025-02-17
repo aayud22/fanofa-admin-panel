@@ -64,32 +64,32 @@ const analytics = [
 
 const UserAnalyticsTable = () => {
   return (
-    <Card className="!p-6">
+    <Card className="h-[465px] !p-6">
       <div className="mb-6 flex items-center justify-between">
         <h3 className="text-xl font-semibold text-darkBlueText">
           Most Visited Pages
         </h3>
-        <Button variant="ghost" className="h-8 w-8 p-0">
+        <button className="rounded p-1 hover:bg-gray-100">
           <MoreHorizontal className="h-5 w-5 text-skyBlue" />
-        </Button>
+        </button>
       </div>
       <div className="h-[calc(100%-4rem)] overflow-y-auto">
         <Table>
-          <TableHeader className="bg-gray-100 sticky top-0">
+          <TableHeader className="sticky top-0 bg-gray-100">
             <TableRow>
-              <TableHead className="text-sm font-medium text-darkBlueText whitespace-nowrap">
+              <TableHead className="whitespace-nowrap text-sm font-medium text-darkBlueText">
                 Page name
               </TableHead>
-              <TableHead className="text-sm font-medium text-darkBlueText whitespace-nowrap">
+              <TableHead className="whitespace-nowrap text-sm font-medium text-darkBlueText">
                 Visited
               </TableHead>
-              <TableHead className="text-sm font-medium text-darkBlueText whitespace-nowrap">
+              <TableHead className="whitespace-nowrap text-sm font-medium text-darkBlueText">
                 Ad View
               </TableHead>
-              <TableHead className="text-sm font-medium text-darkBlueText whitespace-nowrap">
+              <TableHead className="whitespace-nowrap text-sm font-medium text-darkBlueText">
                 Bounce rate
               </TableHead>
-              <TableHead className="text-sm font-medium text-darkBlueText whitespace-nowrap">
+              <TableHead className="whitespace-nowrap text-sm font-medium text-darkBlueText">
                 Graph
               </TableHead>
             </TableRow>

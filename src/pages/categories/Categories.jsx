@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   X,
   Edit,
@@ -41,6 +41,8 @@ import { Button } from '../../components/ui/button';
 import CategoryModal from '../../components/category/CategoryModal';
 import { useLocation } from 'react-router-dom';
 import { APP_ROUTES } from '../../constants/routeConstants';
+import { useDispatch } from 'react-redux';
+import { resetPageInfo, setPageInfo } from '../../redux/slices/pageSlice';
 
 const categories = [
   {
@@ -68,6 +70,7 @@ const categories = [
 
 const Categories = () => {
   const location = useLocation();
+  const dispatch = useDispatch();
 
   const [modalMode, setModalMode] = useState('add');
   const [searchQuery, setSearchQuery] = useState('');
@@ -75,6 +78,22 @@ const Categories = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [expandedCategories, setExpandedCategories] = useState([]);
   const [sortState, setSortState] = useState({ column: null, direction: null });
+
+  useEffect(() => {
+    dispatch(
+      setPageInfo({
+        title: 'Manage Promotions',
+        breadcrumbs: [
+          { label: 'Home', link: '/dashboard' },
+          { label: 'Categories' },
+        ],
+      })
+    );
+
+    return () => {
+      dispatch(resetPageInfo());
+    };
+  }, [dispatch]);
 
   const toggleCategory = (categoryId) => {
     setExpandedCategories((prev) =>
@@ -306,11 +325,13 @@ const Categories = () => {
                     {category.products || '--'}
                   </TableCell>
                   <TableCell>
-                    <Select defaultValue={category.status ? 'active' : 'inactive'}>
+                    <Select
+                      defaultValue={category.status ? 'active' : 'inactive'}
+                    >
                       <SelectTrigger
                         className={`${category.status === 'active' ? '!bg-mintGreen' : ''} ${
                           category.status === 'inactive' ? '!bg-red-50' : ''
-                        }  w-[100px]`}
+                        } w-[100px]`}
                       >
                         <SelectValue />
                       </SelectTrigger>

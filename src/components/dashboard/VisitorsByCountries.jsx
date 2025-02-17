@@ -2,13 +2,13 @@ import React from 'react';
 import {
   Table,
   TableRow,
-  TableBody,
   TableCell,
+  TableBody,
   TableHead,
   TableHeader,
 } from '../ui/table';
-import { APP_ROUTES } from '../../constants/routeConstants';
 import { useNavigate } from 'react-router-dom';
+import { APP_ROUTES } from '../../constants/routeConstants';
 
 const visitors = [
   {
@@ -77,13 +77,13 @@ const VisitorsByCountries = () => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="text-sm font-medium text-mutedBlue whitespace-normal">
+              <TableHead className="whitespace-normal text-sm font-medium text-mutedBlue">
                 Country Name
               </TableHead>
-              <TableHead className="text-sm font-medium text-mutedBlue whitespace-normal">
+              <TableHead className="whitespace-normal text-sm font-medium text-mutedBlue">
                 States
               </TableHead>
-              <TableHead className="text-sm font-medium text-mutedBlue whitespace-normal">
+              <TableHead className="whitespace-normal text-sm font-medium text-mutedBlue">
                 Users
               </TableHead>
             </TableRow>

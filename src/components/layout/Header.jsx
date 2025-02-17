@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import {
   DropdownMenu,
   DropdownMenuItem,
@@ -6,14 +8,14 @@ import {
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
 import { Button } from '../ui/button';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { APP_ROUTES } from '../../constants/routeConstants';
 import { Bell, ChevronDown, CircleUserRound, Search } from 'lucide-react';
-import { useSelector } from 'react-redux';
 
 const Header = () => {
   const location = useLocation();
-  const {user} = useSelector((state) => state);
+  const { user } = useSelector((state) => state);
+  const { pageTitle, breadcrumbs } = useSelector((state) => state.page);
 
   const [selectedCountry, setSelectedCountry] = useState({
     code: 'gb',
@@ -24,157 +26,44 @@ const Header = () => {
     setSelectedCountry({ code: countryCode, name: countryName });
   };
 
-  const getPageTitle = () => {
-    const path = location.pathname
-    switch (path) {
-      case '':
-      case APP_ROUTES.DASHBOARD.BASE:
-        return 'Dashboard';
-      case APP_ROUTES.USER.USER_LIST:
-        return 'Manage Users';
-      case APP_ROUTES.USER.USER_DETAILS:
-        return 'Manage Users';
-      case APP_ROUTES.SUBSCRIBERS.BASE:
-        return 'Manage Users';
-      case APP_ROUTES.SUBSCRIBERS.ALL:
-        return 'Manage Users';
-      default:
-        return path.split('-').map(word => 
-          word.charAt(0).toUpperCase() + word.slice(1)
-        ).join(' ');
-    }
-  };
-
-
-  const generateBreadcrumbs = () => {
-    const pathname = location.pathname;
-
-    if (pathname === '/') {
-      return [];
-    }
-
-    const breadcrumbElements = [];
-
-    // Always add Home as first element except for dashboard
-    if (pathname !== '/dashboard') {
-      breadcrumbElements.push(
-        <React.Fragment key="home">
-          <Link
-            to={APP_ROUTES.DASHBOARD.BASE}
-            className="text-sm font-normal text-deepBlue hover:underline"
-          >
-            Home
-          </Link>
-        </React.Fragment>
-      );
-
-      breadcrumbElements.push(
-        <React.Fragment key="separator-1">
-          <span className="text-sm font-normal text-deepBlue">{`//`}</span>
-        </React.Fragment>
-      );
-    }
-
-    const pathSegments = pathname.split('/').filter(Boolean);
-
-    // Handle subscribers pages
-    if (pathSegments.includes('subscribers')) {
-      // Add User List
-      breadcrumbElements.push(
-        <React.Fragment key="user-list">
-          <Link
-            to={APP_ROUTES.USER.USER_LIST}
-            className="text-sm font-normal text-deepBlue hover:underline"
-          >
-            User List
-          </Link>
-        </React.Fragment>
-      );
-
-      breadcrumbElements.push(
-        <React.Fragment key="separator-2">
-          <span className="text-sm font-normal text-deepBlue">{`//`}</span>
-        </React.Fragment>
-      );
-
-      // Add User Name
-      breadcrumbElements.push(
-        <React.Fragment key="user-name">
-          <Link
-            to={APP_ROUTES.USER.USER_DETAILS}
-            className="text-sm font-normal text-deepBlue hover:underline"
-          >
-            Arrora Gaur
-          </Link>
-        </React.Fragment>
-      );
-
-      breadcrumbElements.push(
-        <React.Fragment key="separator-3">
-          <span className="text-sm font-normal text-deepBlue">{`//`}</span>
-        </React.Fragment>
-      );
-
-      // Add My Subscribers
-      breadcrumbElements.push(
-        <React.Fragment key="subscribers">
-          <span className="text-sm font-normal text-deepBlue">
-            My Subscribers
-          </span>
-        </React.Fragment>
-      );
-
-      return breadcrumbElements;
-    }
-
-    // Check if we're on user details page
-    if (pathSegments.includes(APP_ROUTES.USER.USER_DETAILS.replace('/', ''))) {
-      // Add User List
-      breadcrumbElements.push(
-        <React.Fragment key="user-list">
-          <Link
-            to={APP_ROUTES.USER.USER_LIST}
-            className="text-sm font-normal text-deepBlue hover:underline"
-          >
-            User List
-          </Link>
-        </React.Fragment>,
-        <React.Fragment key="separator-2">
-          <span className="text-sm font-normal text-deepBlue">{`//`}</span>
-        </React.Fragment>,
-        <React.Fragment key="user-details">
-          <span className="cursor-pointer bg-primary-gradient bg-clip-text text-sm font-normal text-transparent">
-            {user?.selectedUser?.name || 'User Details'}
-          </span>
-        </React.Fragment>
-      );
-    }
-    // Check if we're on user list page
-    else if (pathSegments.includes(APP_ROUTES.USER.USER_LIST.replace('/', ''))) {
-      breadcrumbElements.push(
-        <React.Fragment key="user-list">
-          <span className="cursor-pointer bg-primary-gradient bg-clip-text text-sm font-normal text-transparent">
-            User List
-          </span>
-        </React.Fragment>
-      );
-    }
-
-    return breadcrumbElements;
-  };
-
   return (
     <header className="sticky top-0 w-full rounded-2xl border-b border-lightGray bg-white">
       <div className="mx-auto flex h-[86px] w-full max-w-[1400px] flex-col justify-center px-4 lg:px-6">
         <div className="flex items-center justify-between">
           <div className="flex flex-col">
             {/* Page Title */}
-            <h1 className="text-xl font-bold text-deepBlue">
-              {getPageTitle()}
-            </h1>
-            <div className="flex items-center space-x-2 text-sm">
-              {generateBreadcrumbs()}
-            </div>
+            <h1 className="text-xl font-bold text-deepBlue">{pageTitle}</h1>
+            {breadcrumbs && breadcrumbs?.length > 0 && (
+              <nav className="flex" aria-label="Breadcrumb">
+                <ol className="flex items-center space-x-1">
+                  {breadcrumbs?.map((item, index) => (
+                    <li key={index} className="flex items-center">
+                      {index > 0 && (
+                        <span className="mr-1 text-darkBlueText">{`//`}</span>
+                      )}
+                      {index < breadcrumbs.length - 1 ? (
+                        item.link ? (
+                          <Link
+                            to={item.link}
+                            className="text-sm font-normal text-darkBlueText hover:underline"
+                          >
+                            {item.label}
+                          </Link>
+                        ) : (
+                          <span className="text-sm font-normal text-darkBlueText">
+                            {item.label}
+                          </span>
+                        )
+                      ) : (
+                        <span className="cursor-pointer bg-primary-gradient bg-clip-text text-sm font-normal text-transparent">
+                          {item.label}
+                        </span>
+                      )}
+                    </li>
+                  ))}
+                </ol>
+              </nav>
+            )}
           </div>
 
           <div className="flex items-center space-x-2">

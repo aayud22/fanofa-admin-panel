@@ -35,7 +35,7 @@ const sources = [
 
 const VisitorSources = () => {
   return (
-    <div className="my-3 w-full rounded-xl bg-white p-6 shadow-soft-xl">
+    <div className="mb-3 w-full rounded-xl bg-white p-6 shadow-soft-xl">
       <Card className="border-none shadow-none">
         <CardHeader className="p-0 pb-2">
           <CardTitle className="text-lg font-semibold text-darkBlueText">

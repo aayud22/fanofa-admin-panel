@@ -4,7 +4,7 @@ import UsersListTable from '../../components/userList/UsersListTable';
 
 const UserList = () => {
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       <AvailableWithdraw />
       <UsersListTable />
     </div>

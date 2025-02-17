@@ -3,6 +3,10 @@ export const APP_ROUTES = {
   CATEGORIES: '/categories',
   TOP_INTERESTED: '/top-interests',
   COUNTRY_VISITORS: '/country-visitors',
+  CHAT: {
+    BASE: '/chat',
+    CHAT_DETAILS: '/chat-details',
+  },
   USER: {
     USER_LIST: '/user-list',
     USER_DETAILS: '/user-details',

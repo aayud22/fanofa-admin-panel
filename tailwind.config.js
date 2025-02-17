@@ -55,6 +55,7 @@ module.exports = {
         white: '#FFFFFF',
         skyBlue: '#3498db',
         coolSky: '#3EB1E0',
+        skyMist: '#ECF5FF',
         softPink: '#FFEFEF',
         deepBlue: '#2F3349',
         tealBlue: '#4C909C',

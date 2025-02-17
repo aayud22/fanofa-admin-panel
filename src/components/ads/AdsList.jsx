@@ -1,12 +1,4 @@
-import React, { useState } from 'react';
-import {
-  Table,
-  TableRow,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-} from '../ui/table';
+import React, { useState, useEffect } from 'react';
 import {
   Select,
   SelectItem,
@@ -20,11 +12,7 @@ import {
   Search,
   Pencil,
   Trash2,
-  ArrowUp,
   RotateCcw,
-  ArrowDown,
-  BadgeCheck,
-  ArrowUpDown,
   MoreVertical,
 } from 'lucide-react';
 import {
@@ -35,10 +23,10 @@ import {
 } from '../ui/dropdown-menu';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import ActionModal from '../common/ActionModal';
 import { useNavigate } from 'react-router-dom';
+import ActionModal from '../common/ActionModal';
+import EnhancedTable from '../ui/enhanced-table';
 import { APP_ROUTES } from '../../constants/routeConstants';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 
 const mockAds = [
   {
@@ -48,7 +36,8 @@ const mockAds = [
       'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     category: 'Vehicles',
     datePublished: 'Oct 31, 2017',
-    country: 'AQ',
+    country: 'Iceland',
+    flag: 'AQ',
     adPromotions: ['M', 'P'],
     rating: 4,
     viewedAd: '3435 User',
@@ -62,7 +51,8 @@ const mockAds = [
       'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     category: 'Mobile',
     datePublished: 'Feb 28, 2018',
-    country: 'IS',
+    country: 'Åland Islands',
+    flag: 'IS',
     adPromotions: ['M', 'P'],
     rating: 6,
     viewedAd: '2245 User',
@@ -76,7 +66,8 @@ const mockAds = [
       'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     category: 'Buy & Sell',
     datePublished: 'Mar 6, 2018',
-    country: 'RS',
+    country: 'Réunion',
+    flag: 'RS',
     adPromotions: ['M', 'P'],
     rating: 2,
     viewedAd: '5343 User',
@@ -87,14 +78,8 @@ const mockAds = [
 
 const AdsList = () => {
   const navigate = useNavigate();
-  const [selectedAds, setSelectedAds] = useState([]);
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
-  const [adminStatuses, setAdminStatuses] = useState(
-    mockAds.reduce(
-      (acc, ad) => ({ ...acc, [ad.id]: ad.adminStatus.toLowerCase() }),
-      {}
-    )
-  );
+
+  const [isLoadingAds, setIsLoadingAds] = useState(false);
   const [modalConfig, setModalConfig] = useState({
     isOpen: false,
     entityType: 'Ad',
@@ -111,78 +96,178 @@ const AdsList = () => {
     { value: 'other', label: 'Other' },
   ];
 
-  const getStatusColor = (status) => {
-    switch (status.toLowerCase()) {
-      case 'active':
-        return 'bg-success-bg text-success-text';
-      case 'deleted':
-        return 'bg-danger-bg text-danger-text';
-      case 'closed':
-        return 'bg-warning-bg text-warning-text';
-      default:
-        return 'bg-gray-100 text-gray-700';
-    }
-  };
+  useEffect(() => {
+    setIsLoadingAds(true);
+    setTimeout(() => {
+      setIsLoadingAds(false);
+    }, 1000);
+  }, []);
 
-  const getAdminStatusColor = (status) => {
-    switch (status.toLowerCase()) {
-      case 'approved':
-        return 'bg-success-bg text-success-text';
-      case 'pending':
-        return 'bg-warning-bg text-warning-text';
-      default:
-        return 'bg-gray-100 text-gray-700';
-    }
-  };
+  const columns = [
+    {
+      key: 'id',
+      label: 'Ad Id',
+      sortable: true,
+    },
+    {
+      key: 'accountName',
+      label: 'Account Name',
+      sortable: true,
+    },
+    {
+      key: 'category',
+      label: 'Category',
+      sortable: true,
+    },
+    {
+      key: 'datePublished',
+      label: 'Date Published',
+      sortable: true,
+    },
+    {
+      key: 'country',
+      label: 'Country',
+      sortable: true,
+      render: (value, row) => (
+        <div className="flex items-center">
+          {row.flag && (
+            <span className={`flag-icon flag-icon-${row.flag.toLowerCase()}`} />
+          )}
+          <span className={row.flag ? 'ml-2' : ''}>{row.country}</span>
+        </div>
+      ),
+    },
+    {
+      key: 'adPromotions',
+      label: 'Ad Promotions',
+      sortable: true,
+      render: (value, row) => (
+        <div className="flex items-center">
+          {row.adPromotions.map((promotion, index) => (
+            <span
+              key={index}
+              className="flex h-5 w-5 items-center justify-center gap-1 rounded-full bg-blue-100 text-xs font-medium text-blue-600"
+            >
+              {promotion}
+            </span>
+          ))}
+        </div>
+      ),
+    },
+    {
+      key: 'rating',
+      label: 'Rating',
+      sortable: true,
+      render: (value, row) => (
+        <div className="flex items-center gap-1">
+          <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+          <p className="text-sm font-medium text-darkBlueText">
+            {row.rating || 0}
+          </p>
+        </div>
+      ),
+    },
+    {
+      key: 'viewedAd',
+      label: 'Viewed Ad',
+      sortable: true,
+    },
+    {
+      key: 'adStatus',
+      label: 'Ad Status',
+      sortable: true,
+      render: (value) => {
+        const statusStyles = {
+          Active: 'bg-success-bg text-success-text',
+          Deleted: 'bg-danger-bg text-danger-text',
+          Closed: 'bg-yellow-50 text-yellow-700',
+          Unread: 'bg-blue-50 text-blue-700',
+        };
 
-  const handleSort = (key) => {
-    let direction = 'asc';
-    if (sortConfig.key === key && sortConfig.direction === 'asc') {
-      direction = 'desc';
-    }
-    setSortConfig({ key, direction });
-  };
+        return (
+          <span
+            className={`inline-flex items-center rounded px-2.5 py-0.5 text-xs font-medium ${statusStyles[value] || 'bg-gray-50 text-gray-700'}`}
+          >
+            {value}
+          </span>
+        );
+      },
+    },
+    {
+      key: 'adminStatus',
+      label: 'Admin Status',
+      sortable: true,
+      render: (value) => {
+        const statusStyles = {
+          Approved: 'bg-success-bg text-success-text',
+          Closed: 'bg-danger-bg text-danger-text',
+          Pending: 'bg-yellow-50 text-yellow-700',
+        };
 
-  const getSortedData = () => {
-    if (!sortConfig.key) return mockAds;
-
-    return [...mockAds].sort((a, b) => {
-      if (a[sortConfig.key] < b[sortConfig.key]) {
-        return sortConfig.direction === 'asc' ? -1 : 1;
-      }
-      if (a[sortConfig.key] > b[sortConfig.key]) {
-        return sortConfig.direction === 'asc' ? 1 : -1;
-      }
-      return 0;
-    });
-  };
-
-  const handleAdminStatusChange = (adId, newStatus) => {
-    setAdminStatuses((prev) => ({ ...prev, [adId]: newStatus }));
-    console.log('Status changed for ad', adId, 'to', newStatus);
-  };
-
-  const getSortIcon = (column) => {
-    console.log('column', column);
-    console.log('sortConfig', sortConfig);
-
-    if (sortConfig.key !== column) return <ArrowUpDown className="h-4 w-4" />;
-    return sortConfig.direction === 'asc' ? (
-      <ArrowUp className="h-4 w-4" />
-    ) : (
-      <ArrowDown className="h-4 w-4" />
-    );
-  };
-
-  const SortableHeader = ({ column, label }) => (
-    <div
-      className="flex cursor-pointer items-center gap-1"
-      onClick={() => handleSort(column)}
-    >
-      {label}
-      {getSortIcon(column)}
-    </div>
-  );
+        return (
+          <span
+            className={`inline-flex items-center rounded px-2.5 py-0.5 text-xs font-medium ${statusStyles[value] || 'bg-gray-50 text-gray-700'}`}
+          >
+            {value}
+          </span>
+        );
+      },
+    },
+    {
+      key: 'actions',
+      label: 'Actions',
+      render: (_, row) => (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon" className="h-8 w-8">
+              <MoreVertical className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-[160px]">
+            <DropdownMenuItem
+              onClick={(e) => {
+                e.stopPropagation();
+                handleRowClick(row);
+              }}
+              className="flex items-center gap-2 text-skyBlue"
+            >
+              <Eye className="h-4 w-4" />
+              View Ad
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+              className="flex items-center gap-2 text-skyBlue"
+            >
+              <Pencil className="h-4 w-4" />
+              Edit Ad
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={(e) => {
+                e.stopPropagation();
+                openDeleteModal(row.id);
+              }}
+              className="flex items-center gap-2 text-red-600"
+            >
+              <Trash2 className="h-4 w-4" />
+              Delete Ad
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={(e) => {
+                e.stopPropagation();
+                openDeactivateModal(row.id);
+              }}
+              className="flex items-center gap-2 text-orange-600"
+            >
+              <RotateCcw className="h-4 w-4" />
+              Deactivate Ad
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      ),
+    },
+  ];
 
   const handleRowClick = (ad) => {
     const cleanId = ad.id.replace('#', '');
@@ -314,217 +399,19 @@ const AdsList = () => {
       </div>
 
       {/* Table */}
-      <div className="rounded-lg border">
-        <Table>
-          <TableHeader className="bg-gray-100">
-            <TableRow>
-              <TableHead className="w-[50px]">
-                <input
-                  type="checkbox"
-                  className="rounded border-gray-300"
-                  checked={selectedAds.length === mockAds.length}
-                  onChange={(e) =>
-                    setSelectedAds(
-                      e.target.checked ? mockAds.map((ad) => ad.id) : []
-                    )
-                  }
-                />
-              </TableHead>
-              <TableHead className="whitespace-nowrap text-sm font-medium text-darkBlueText">
-                <SortableHeader column="id" label="Ad Id" />
-              </TableHead>
-              <TableHead className="whitespace-nowrap text-sm font-medium text-darkBlueText">
-                <SortableHeader column="accountName" label="Account Name" />
-              </TableHead>
-              <TableHead className="whitespace-nowrap text-sm font-medium text-darkBlueText">
-                <SortableHeader column="category" label="Category" />
-              </TableHead>
-              <TableHead className="whitespace-nowrap text-sm font-medium text-darkBlueText">
-                <SortableHeader column="datePublished" label="Date Published" />
-              </TableHead>
-              <TableHead className="whitespace-nowrap text-sm font-medium text-darkBlueText">
-                <SortableHeader column="country" label="Country" />
-              </TableHead>
-              <TableHead className="whitespace-nowrap text-sm font-medium text-darkBlueText">
-                Ad Promotions
-              </TableHead>
-              <TableHead className="whitespace-nowrap text-sm font-medium text-darkBlueText">
-                <SortableHeader column="rating" label="Rating" />
-              </TableHead>
-              <TableHead className="whitespace-nowrap text-sm font-medium text-darkBlueText">
-                <SortableHeader column="viewedAd" label="Viewed Ad" />
-              </TableHead>
-              <TableHead className="whitespace-nowrap text-sm font-medium text-darkBlueText">
-                <SortableHeader column="adStatus" label="Ad Status" />
-              </TableHead>
-              <TableHead className="whitespace-nowrap text-sm font-medium text-darkBlueText">
-                <SortableHeader column="adminStatus" label="Admin Status" />
-              </TableHead>
-              <TableHead className="whitespace-nowrap text-sm font-medium text-darkBlueText">
-                Actions
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {getSortedData().map((ad) => (
-              <TableRow
-                key={ad.id}
-                className="cursor-pointer hover:bg-gray-50"
-                onClick={(e) => {
-                  // Prevent row click if checkbox was clicked
-                  if (e.target.type !== 'checkbox') {
-                    handleRowClick(ad);
-                  }
-                }}
-              >
-                <TableCell>
-                  <input
-                    type="checkbox"
-                    className="rounded border-gray-300"
-                    checked={selectedAds.includes(ad.id)}
-                    onChange={(e) =>
-                      setSelectedAds(
-                        e.target.checked
-                          ? [...selectedAds, ad.id]
-                          : selectedAds.filter((id) => id !== ad.id)
-                      )
-                    }
-                  />
-                </TableCell>
-                <TableCell className="text-sm font-medium text-darkBlueText">
-                  {ad.id}
-                </TableCell>
-                <TableCell>
-                  <div className="flex items-center gap-2">
-                    <Avatar className="h-8 w-8">
-                      <AvatarImage src={ad.accountImage} />
-                      <AvatarFallback>{ad.accountName[0]}</AvatarFallback>
-                    </Avatar>
-                    <div className="flex items-center gap-1">
-                      <span className="text-sm font-medium text-darkBlueText">
-                        {ad.accountName}
-                      </span>
-                      {adminStatuses[ad.id] === 'approved' && (
-                        <BadgeCheck className="h-4 w-4 text-success-text" />
-                      )}
-                    </div>
-                  </div>
-                </TableCell>
-                <TableCell className="text-sm font-medium text-darkBlueText">
-                  {ad.category}
-                </TableCell>
-                <TableCell className="text-sm font-medium text-darkBlueText">
-                  {ad.datePublished}
-                </TableCell>
-                <TableCell>
-                  <span
-                    className={`flag-icon flag-icon-${ad.country.toLowerCase()}`}
-                    style={{ fontSize: '1rem', padding: '0.25rem' }}
-                  />
-                </TableCell>
-                <TableCell>
-                  <div className="flex items-center gap-1">
-                    {ad.adPromotions.map((promotion, index) => (
-                      <span
-                        key={index}
-                        className="flex h-5 w-5 items-center justify-center rounded-full bg-blue-100 text-xs font-medium text-blue-600"
-                      >
-                        {promotion}
-                      </span>
-                    ))}
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <div className="flex items-center gap-1">
-                    <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                    {ad.rating}
-                  </div>
-                </TableCell>
-                <TableCell className="text-sm font-medium text-darkBlueText">
-                  {ad.viewedAd}
-                </TableCell>
-                <TableCell>
-                  <span
-                    className={`rounded-full px-2 py-1 text-xs font-medium ${getStatusColor(
-                      ad.adStatus
-                    )}`}
-                  >
-                    {ad.adStatus}
-                  </span>
-                </TableCell>
-                <TableCell>
-                  <Select
-                    value={adminStatuses[ad.id]}
-                    onValueChange={(value) =>
-                      handleAdminStatusChange(ad.id, value)
-                    }
-                  >
-                    <SelectTrigger
-                      className={`h-8 w-[100px] ${getAdminStatusColor(adminStatuses[ad.id])}`}
-                    >
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="approved">Approved</SelectItem>
-                      <SelectItem value="pending">Pending</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </TableCell>
-                <TableCell>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon" className="h-8 w-8">
-                        <MoreVertical className="h-4 w-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-[160px]">
-                      <DropdownMenuItem 
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleRowClick(ad);
-                        }}
-                        className="flex items-center gap-2 text-skyBlue"
-                      >
-                        <Eye className="h-4 w-4" />
-                        View Ad
-                      </DropdownMenuItem>
-                      <DropdownMenuItem 
-                        onClick={(e) => {
-                          e.stopPropagation();
-                        }}
-                        className="flex items-center gap-2 text-skyBlue"
-                      >
-                        <Pencil className="h-4 w-4" />
-                        Edit Ad
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          openDeleteModal(ad.id);
-                        }}
-                        className="flex items-center gap-2 text-red-600"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                        Delete Ad
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          openDeactivateModal(ad.id);
-                        }}
-                        className="flex items-center gap-2 text-orange-600"
-                      >
-                        <RotateCcw className="h-4 w-4" />
-                        Deactivate Ad
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+
+      <div className="w-full overflow-x-auto rounded-lg border">
+        <EnhancedTable
+          pagination
+          columns={columns}
+          data={mockAds}
+          // searchQuery={searchQuery}
+          isLoading={isLoadingAds}
+          // onRowClick={handleRowClick}
+          // onSelectionChange={handleSelectionChange}
+        />
       </div>
+
       {modalConfig.isOpen && (
         <ActionModal
           onClose={handleModalClose}

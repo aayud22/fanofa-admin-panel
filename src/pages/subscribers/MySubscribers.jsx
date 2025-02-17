@@ -13,8 +13,11 @@ import {
   Search,
   Filter,
   Trash2,
+  ArrowUp,
   FileDown,
+  ArrowDown,
   PencilLine,
+  ArrowUpDown,
   MoreVertical,
   ChevronRight,
   MoreHorizontal,
@@ -26,15 +29,17 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from '../../components/ui/dropdown-menu';
-import { useSelector } from 'react-redux';
-import { Card } from '../../components/ui/card';
-import { Button } from '../../components/ui/button';
-import { Checkbox } from '../../components/ui/checkbox';
 import {
   Avatar,
-  AvatarFallback,
   AvatarImage,
+  AvatarFallback,
 } from '../../components/ui/avatar';
+import { useNavigate } from 'react-router-dom';
+import { Card } from '../../components/ui/card';
+import { Button } from '../../components/ui/button';
+import { useSelector, useDispatch } from 'react-redux';
+import { Checkbox } from '../../components/ui/checkbox';
+import { APP_ROUTES } from '../../constants/routeConstants';
 
 // Mock data for subscribers
 const subscribers = [
@@ -51,11 +56,11 @@ const subscribers = [
     email: 'manhhac@gmail.com',
   },
   {
-    id: '62876',
+    id: '62860',
     adsId: '#62875',
     category: 'Buy & Sell',
     datePublished: 'March 26 2020, 12:42am',
-    timeSpend: '16min: 22 sec',
+    timeSpend: '12min: 67 sec',
     activity: 4,
     messageCount: 4,
     rating: 4,
@@ -67,7 +72,7 @@ const subscribers = [
     adsId: '#8575',
     category: 'Buy & Sell',
     datePublished: 'March 26 2020, 12:42am',
-    timeSpend: '16min: 22 sec',
+    timeSpend: '14min: 12 sec',
     activity: 4,
     messageCount: 4,
     rating: 4,
@@ -180,23 +185,35 @@ const reviews = [
 
 const MySubscribers = () => {
   const { user } = useSelector((state) => state);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const cardsPerSlide = 4; // Show 3 cards per slide
   const totalSlides = Math.ceil(reviews.length / cardsPerSlide);
   const sliderRef = React.useRef(null);
 
   const [selectedRows, setSelectedRows] = useState([]);
-  const [sortColumn, setSortColumn] = useState(null);
-  const [sortDirection, setSortDirection] = useState('asc');
   const [activeSlide, setActiveSlide] = React.useState(0);
+  const [sortColumn, setSortColumn] = useState({
+    column: null,
+    direction: null,
+  });
 
   const handleSort = (column) => {
-    if (sortColumn === column) {
-      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
-    } else {
-      setSortColumn(column);
-      setSortDirection('asc');
-    }
+    setSortColumn({
+      column,
+      direction: sortColumn.direction === 'asc' ? 'desc' : 'asc',
+    });
+  };
+
+  const getSortIcon = (column) => {
+    if (sortColumn.column !== column)
+      return <ArrowUpDown className="h-4 w-4" />;
+    return sortColumn.direction === 'asc' ? (
+      <ArrowUp className="h-4 w-4" />
+    ) : (
+      <ArrowDown className="h-4 w-4" />
+    );
   };
 
   const handleSelectAll = (checked) => {
@@ -224,6 +241,25 @@ const MySubscribers = () => {
       });
     }
   };
+
+  const sortedData = [...subscribers].sort((a, b) => {
+    if (!sortColumn.column) return 0;
+
+    const { column, direction } = sortColumn;
+    const isAscending = direction === 'asc';
+
+    if (typeof a[column] === 'string') {
+      return isAscending
+        ? a[column].localeCompare(b[column])
+        : b[column].localeCompare(a[column]);
+    }
+
+    if (typeof a[column] === 'number') {
+      return isAscending ? a[column] - b[column] : b[column] - a[column];
+    }
+
+    return 0;
+  });
 
   return (
     <div className="container mx-auto px-6 py-3">
@@ -269,17 +305,65 @@ const MySubscribers = () => {
                   onCheckedChange={handleSelectAll}
                 />
               </TableHead>
-              <TableHead className="w-[100px]">Ads ID</TableHead>
-              <TableHead className="w-[120px]">Category</TableHead>
-              <TableHead className="w-[180px]">Date Published</TableHead>
-              <TableHead className="w-[120px]">Time Spend</TableHead>
-              <TableHead className="w-[100px]">Activity</TableHead>
-              <TableHead className="w-[120px]">Product Status</TableHead>
+              <TableHead className="w-[100px]">
+                <button
+                  className="flex items-center gap-2"
+                  onClick={() => handleSort('adsId')}
+                >
+                  Ads ID
+                  {getSortIcon('adsId')}
+                </button>
+              </TableHead>
+              <TableHead className="w-[120px]">
+                <button
+                  className="flex items-center gap-2"
+                  onClick={() => handleSort('category')}
+                >
+                  Category
+                  {getSortIcon('category')}
+                </button>
+              </TableHead>
+              <TableHead className="w-[180px]">
+                <button
+                  className="flex items-center gap-2"
+                  onClick={() => handleSort('datePublished')}
+                >
+                  Date Published
+                  {getSortIcon('datePublished')}
+                </button>
+              </TableHead>
+              <TableHead className="w-[120px]">
+                <button
+                  className="flex items-center gap-2"
+                  onClick={() => handleSort('timeSpend')}
+                >
+                  Time Spend
+                  {getSortIcon('timeSpend')}
+                </button>
+              </TableHead>
+              <TableHead className="w-[100px]">
+                <button
+                  className="flex items-center gap-2"
+                  onClick={() => handleSort('activity')}
+                >
+                  Activity
+                  {getSortIcon('activity')}
+                </button>
+              </TableHead>
+              <TableHead className="w-[120px]">
+                <button
+                  className="flex items-center gap-2"
+                  onClick={() => handleSort('status')}
+                >
+                  Product Status
+                  {getSortIcon('status')}
+                </button>
+              </TableHead>
               <TableHead className="w-[200px] text-center">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {subscribers.map((subscriber) => (
+            {sortedData?.map((subscriber) => (
               <TableRow key={subscriber.id} className="hover:bg-gray-50">
                 <TableCell className="w-[40px]">
                   <Checkbox
@@ -339,7 +423,10 @@ const MySubscribers = () => {
                           <PencilLine className="!h-4 !w-4 text-blue-500" />
                           Product purchased
                         </DropdownMenuItem>
-                        <DropdownMenuItem className="cursor-pointer">
+                        <DropdownMenuItem
+                          className="cursor-pointer"
+                          onClick={() => navigate(APP_ROUTES.CHAT.BASE)}
+                        >
                           <MessageSquareMore className="!h-4 !w-4 text-blue-500" />
                           Chat
                         </DropdownMenuItem>
@@ -448,8 +535,10 @@ const MySubscribers = () => {
                 key={index}
                 onClick={() => handleSlideChange(index)}
                 aria-label={`Go to slide ${index + 1}`}
-                className={`h-2 w-2 rounded-full transition-colors ${
-                  index === activeSlide ? 'bg-primary-gradient' : 'bg-gray-200'
+                className={`h-2 w-2 rounded-full transition-colors duration-300 ease-in-out ${
+                  index === activeSlide
+                    ? 'bg-primary-gradient'
+                    : 'bg-gray-500 hover:bg-gray-600'
                 }`}
               />
             ))}
