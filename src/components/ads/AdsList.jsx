@@ -23,10 +23,12 @@ import {
 } from '../ui/dropdown-menu';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import ActionModal from '../common/ActionModal';
 import EnhancedTable from '../ui/enhanced-table';
 import { APP_ROUTES } from '../../constants/routeConstants';
+import { resetPageInfo, setPageInfo } from '../../redux/slices/pageSlice';
 
 const mockAds = [
   {
@@ -78,6 +80,7 @@ const mockAds = [
 
 const AdsList = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [isLoadingAds, setIsLoadingAds] = useState(false);
   const [modalConfig, setModalConfig] = useState({
@@ -95,6 +98,26 @@ const AdsList = () => {
     { value: 'expired', label: 'Product No Longer Available' },
     { value: 'other', label: 'Other' },
   ];
+
+  useEffect(() => {
+    const breadcrumbs = [
+      { label: 'Home', link: APP_ROUTES.DASHBOARD.BASE },
+      { label: 'Manage Ad', link: APP_ROUTES.ADS.BASE },
+      { label: 'Ad List ' },
+    ].filter(Boolean);
+
+    dispatch(
+      setPageInfo({
+        title: 'Manage Ads',
+        breadcrumbs,
+      })
+    );
+
+    return () => {
+      dispatch(resetPageInfo());
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch]);
 
   useEffect(() => {
     setIsLoadingAds(true);

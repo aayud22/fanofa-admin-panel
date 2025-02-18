@@ -32,6 +32,7 @@ import EnhancedTable from '../ui/enhanced-table';
 import { APP_ROUTES } from '../../constants/routeConstants';
 import { setSelectedUser } from '../../redux/slices/userSlice';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
+import { resetPageInfo, setPageInfo } from '../../redux/slices/pageSlice';
 
 const initialUsers = [
   {
@@ -217,6 +218,23 @@ const UsersListTable = () => {
       setIsLoadingUsers(false);
     }, 1000);
   }, []);
+
+  useEffect(() => {
+    dispatch(
+      setPageInfo({
+        title: 'Manage Users',
+        breadcrumbs: [
+          { label: 'Home', link: APP_ROUTES.DASHBOARD.BASE },
+          { label: 'User', link: APP_ROUTES.USER.USER_LIST },
+          { label: 'Users List ' },
+        ],
+      })
+    );
+
+    return () => {
+      dispatch(resetPageInfo());
+    };
+  }, [dispatch]);
 
   const handlePlanSelect = (plan) => {
     console.log('Selected plan:', plan);

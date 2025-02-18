@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Select,
   SelectItem,
@@ -16,17 +16,41 @@ import { cn } from '../../utils/classNames';
 import { Input } from '../../components/ui/input';
 import { Button } from '../../components/ui/button';
 import { useForm, Controller } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
 import { Calendar } from '../../components/ui/calendar';
+import { APP_ROUTES } from '../../constants/routeConstants';
 import { CalendarIcon, Upload, Plus, X, FileDown } from 'lucide-react';
-import { useSelector } from 'react-redux';
+import { resetPageInfo, setPageInfo } from '../../redux/slices/pageSlice';
 
 const CreateDeal = () => {
+  const dispatch = useDispatch();
   const { common } = useSelector((state) => state);
+
   const [rules, setRules] = useState([
     { type: 'if', condition: '', operator: '=', value: '100' },
     { type: 'and', condition: '', operator: '$', value: '100' },
     { type: 'than', condition: '', operator: '=', value: '100' },
   ]);
+
+  useEffect(() => {
+    const breadcrumbs = [
+      { label: 'Home', link: APP_ROUTES.DASHBOARD.BASE },
+      { label: 'Manage Ad', link: APP_ROUTES.ADS.BASE },
+      { label: 'Create New Deal' },
+    ].filter(Boolean);
+
+    dispatch(
+      setPageInfo({
+        title: 'Manage Ads',
+        breadcrumbs,
+      })
+    );
+
+    return () => {
+      dispatch(resetPageInfo());
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch]);
 
   const {
     control,

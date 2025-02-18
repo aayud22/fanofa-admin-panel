@@ -2,13 +2,17 @@ import React, { useState } from 'react';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
 import { Crown, Pencil } from 'lucide-react';
+import { useSelector } from 'react-redux';
 import SendMessageModal from './modals/SendMessageModal';
+
 import DeleteAccountModal from './modals/DeleteAccountModal';
 import DeactivateAccountModal from './modals/DeactivateAccountModal';
 
 const UserProfile = () => {
-  const [showSendMsgModal, setSendSendMsgModal] = useState(false);
+  const { user } = useSelector((state) => state);
+
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showSendMsgModal, setSendSendMsgModal] = useState(false);
   const [showDeactivateModal, setShowDeactivateModal] = useState(false);
 
   const handleDeleteAccount = () => {
@@ -37,15 +41,17 @@ const UserProfile = () => {
           <div>
             <div className="flex items-center gap-2">
               <h2 className="text-xl font-semibold text-darkBlueText">
-                Arrora gaur
+                {user?.selectedUser?.name}
               </h2>
-              <Badge
-                variant="secondary"
-                className="gap-1 !rounded-2xl !bg-brightOrange/[10%] text-base font-medium !text-warmAmber"
-              >
-                <Crown className="!h-5 !w-5 !text-brightOrange" />
-                Business Plus
-              </Badge>
+              {user?.selectedUser?.plan && (
+                <Badge
+                  variant="secondary"
+                  className="gap-1 !rounded-2xl !bg-brightOrange/[10%] text-base font-medium !text-warmAmber"
+                >
+                  <Crown className="!h-5 !w-5 !text-brightOrange" />
+                  {user?.selectedUser?.plan}
+                </Badge>
+              )}
             </div>
             <p className="mt-1 text-base font-normal text-darkBlueText">
               Id: 2736426948754845

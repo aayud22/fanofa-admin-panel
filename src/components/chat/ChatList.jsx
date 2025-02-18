@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Filter, Search, FileDown, MessageSquare } from 'lucide-react';
 import { Button } from '../ui/button';
 import { useNavigate } from 'react-router-dom';
+import EnhancedTable from '../ui/enhanced-table';
 import { useSelector, useDispatch } from 'react-redux';
 import { APP_ROUTES } from '../../constants/routeConstants';
 import { setSelectedChatUser } from '../../redux/slices/chatSlice';
-import EnhancedTable from '../ui/enhanced-table';
+import { Filter, Search, FileDown, MessageSquare } from 'lucide-react';
+import { resetPageInfo, setPageInfo } from '../../redux/slices/pageSlice';
 
 const users = [
   {
@@ -46,11 +47,6 @@ const ChatList = () => {
   const { user } = useSelector((state) => state);
 
   const [isLoadingUsers, setIsLoadingUsers] = useState(false);
-  const [selectedRows, setSelectedRows] = useState([]);
-  const [sortColumn, setSortColumn] = useState({
-    column: null,
-    direction: null,
-  });
 
   useEffect(() => {
     setIsLoadingUsers(true);
@@ -131,11 +127,36 @@ const ChatList = () => {
           }}
         >
           <MessageSquare className="h-6 w-6 text-mutedBlue" />
-          <div className="absolute -top-1 right-3 h-3 w-3 rounded-full border-2 border-white bg-green-500"></div>
+          <div className="absolute -top-1 right-5 h-3 w-3 rounded-full border-2 border-white bg-green-500"></div>
         </div>
       ),
     },
   ];
+
+  useEffect(() => {
+    const breadcrumbs = [
+      { label: 'Home', link: APP_ROUTES.DASHBOARD.BASE },
+      { label: 'User', link: APP_ROUTES.USER.USER_LIST },
+      { label: 'Users List', link: APP_ROUTES.USER.USER_LIST },
+      user?.selectedUser?.name && {
+        label: user?.selectedUser?.name,
+        link: APP_ROUTES.USER.USER_DETAILS,
+      },
+      { label: 'Chat' },
+    ].filter(Boolean);
+
+    dispatch(
+      setPageInfo({
+        title: 'Manage Users',
+        breadcrumbs,
+      })
+    );
+
+    return () => {
+      dispatch(resetPageInfo());
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch]);
 
   return (
     <div className="flex flex-col">

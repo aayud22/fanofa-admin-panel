@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { Badge } from '../../components/ui/badge';
 import { Button } from '../../components/ui/button';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { APP_ROUTES } from '../../constants/routeConstants';
 import { Card, CardContent } from '../../components/ui/card';
 import ActionModal from '../../components/common/ActionModal';
 import { Download, AlertCircle, Trash2, Heart } from 'lucide-react';
+import { resetPageInfo, setPageInfo } from '../../redux/slices/pageSlice';
 
 const DetailRow = ({ label, value }) => {
   return (
@@ -17,7 +20,7 @@ const DetailRow = ({ label, value }) => {
 
 const AdDetails = () => {
   const location = useLocation();
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const ad = location.state?.ad;
 
   const [modalConfig, setModalConfig] = useState({
@@ -35,6 +38,27 @@ const AdDetails = () => {
     { value: 'expired', label: 'Product No Longer Available' },
     { value: 'other', label: 'Other' },
   ];
+
+  useEffect(() => {
+    const breadcrumbs = [
+      { label: 'Home', link: APP_ROUTES.DASHBOARD.BASE },
+      { label: 'Manage Ad', link: APP_ROUTES.ADS.BASE },
+      { label: 'Ad List' , link: APP_ROUTES.ADS.BASE},
+      { label: 'View Ad'},
+    ].filter(Boolean);
+
+    dispatch(
+      setPageInfo({
+        title: 'Manage Ads',
+        breadcrumbs,
+      })
+    );
+
+    return () => {
+      dispatch(resetPageInfo());
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch]);
 
   const handleModalClose = () => {
     setModalConfig({

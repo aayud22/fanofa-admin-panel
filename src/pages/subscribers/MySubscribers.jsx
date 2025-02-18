@@ -1,23 +1,12 @@
-import React, { useState } from 'react';
-import {
-  Table,
-  TableRow,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-} from '../../components/ui/table';
+import React, { useState, useEffect } from 'react';
 import {
   Eye,
   Star,
   Search,
   Filter,
   Trash2,
-  ArrowUp,
   FileDown,
-  ArrowDown,
   PencilLine,
-  ArrowUpDown,
   MoreVertical,
   ChevronRight,
   MoreHorizontal,
@@ -34,12 +23,12 @@ import {
   AvatarImage,
   AvatarFallback,
 } from '../../components/ui/avatar';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Card } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
-import { useSelector, useDispatch } from 'react-redux';
-import { Checkbox } from '../../components/ui/checkbox';
 import { APP_ROUTES } from '../../constants/routeConstants';
+import EnhancedTable from '../../components/ui/enhanced-table';
 
 // Mock data for subscribers
 const subscribers = [
@@ -185,50 +174,130 @@ const reviews = [
 
 const MySubscribers = () => {
   const { user } = useSelector((state) => state);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const columns = [
+    {
+      key: 'adsId',
+      label: 'Ads ID',
+      sortable: true,
+    },
+    {
+      key: 'category',
+      label: 'Category ',
+      sortable: true,
+    },
+    {
+      key: 'datePublished',
+      label: 'Date Published',
+      sortable: true,
+    },
+    {
+      key: 'timeSpend',
+      label: 'Time Spend',
+      sortable: true,
+    },
+    {
+      key: 'date',
+      label: 'Subscribed Date',
+      sortable: true,
+    },
+    {
+      key: 'status',
+      label: 'Product Status',
+      sortable: true,
+      render: (value) => {
+        const statusStyles = {
+          Active: 'bg-success-bg text-success-text',
+          Inactive: 'bg-danger-bg text-danger-text',
+          Pending: 'bg-yellow-50 text-yellow-700',
+          Suspended: 'bg-orange-50 text-orange-700',
+        };
+
+        return (
+          <span
+            className={`inline-flex items-center rounded px-2.5 py-0.5 text-xs font-medium ${statusStyles[value] || 'bg-gray-50 text-gray-700'}`}
+          >
+            {value}
+          </span>
+        );
+      },
+    },
+    {
+      key: 'messageCount',
+      label: 'Activity',
+      sortable: true,
+      render: (_, row) =>
+        (row.rating || row.messageCount) && (
+          <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1">
+              <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+              <p className="text-sm font-medium text-darkBlueText">
+                {row.rating || 0}
+              </p>
+            </div>
+            <div className="flex items-center gap-1">
+              <MessageSquareMore className="h-4 w-4 text-blue-400" />
+              <p className="text-sm font-medium text-darkBlueText">
+                {row.messageCount || 0}
+              </p>
+            </div>
+          </div>
+        ),
+    },
+    {
+      key: 'actions',
+      label: 'Actions',
+      render: (_, row) => (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+              <MoreHorizontal className="h-4 w-4 text-blue-500" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem className="cursor-pointer">
+              <Eye className="!h-4 !w-4 text-blue-500" />
+              Reviews
+            </DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer">
+              <PencilLine className="!h-4 !w-4 text-blue-500" />
+              Product purchased
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              className="cursor-pointer"
+              onClick={() => navigate(APP_ROUTES.CHAT.BASE)}
+            >
+              <MessageSquareMore className="!h-4 !w-4 text-blue-500" />
+              Chat
+            </DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer">
+              <Trash2 className="!h-4 !w-4 text-destructive" />
+              Deactivate
+            </DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer">
+              <Trash2 className="!h-4 !w-4 text-destructive" />
+              Report
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      ),
+    },
+  ];
 
   const cardsPerSlide = 4; // Show 3 cards per slide
   const totalSlides = Math.ceil(reviews.length / cardsPerSlide);
   const sliderRef = React.useRef(null);
 
-  const [selectedRows, setSelectedRows] = useState([]);
   const [activeSlide, setActiveSlide] = React.useState(0);
-  const [sortColumn, setSortColumn] = useState({
-    column: null,
-    direction: null,
-  });
+  const [isLoadingSubscribers, setIsLoadingSubscribers] = useState(false);
 
-  const handleSort = (column) => {
-    setSortColumn({
-      column,
-      direction: sortColumn.direction === 'asc' ? 'desc' : 'asc',
-    });
-  };
-
-  const getSortIcon = (column) => {
-    if (sortColumn.column !== column)
-      return <ArrowUpDown className="h-4 w-4" />;
-    return sortColumn.direction === 'asc' ? (
-      <ArrowUp className="h-4 w-4" />
-    ) : (
-      <ArrowDown className="h-4 w-4" />
-    );
-  };
-
-  const handleSelectAll = (checked) => {
-    if (checked) {
-      setSelectedRows(subscribers.map((sub) => sub.id));
-    } else {
-      setSelectedRows([]);
-    }
-  };
-
-  const handleSelectRow = (id) => {
-    setSelectedRows((prev) =>
-      prev.includes(id) ? prev.filter((rowId) => rowId !== id) : [...prev, id]
-    );
-  };
+  useEffect(() => {
+    setIsLoadingSubscribers(true);
+    setTimeout(() => {
+      setIsLoadingSubscribers(false);
+    }, 1000);
+  }, []);
 
   const handleSlideChange = (index) => {
     setActiveSlide(index);
@@ -241,25 +310,6 @@ const MySubscribers = () => {
       });
     }
   };
-
-  const sortedData = [...subscribers].sort((a, b) => {
-    if (!sortColumn.column) return 0;
-
-    const { column, direction } = sortColumn;
-    const isAscending = direction === 'asc';
-
-    if (typeof a[column] === 'string') {
-      return isAscending
-        ? a[column].localeCompare(b[column])
-        : b[column].localeCompare(a[column]);
-    }
-
-    if (typeof a[column] === 'number') {
-      return isAscending ? a[column] - b[column] : b[column] - a[column];
-    }
-
-    return 0;
-  });
 
   return (
     <div className="container mx-auto px-6 py-3">
@@ -295,157 +345,15 @@ const MySubscribers = () => {
         </div>
       </div>
 
-      <div className="mb-6 rounded border">
-        <Table>
-          <TableHeader className="bg-gray-50">
-            <TableRow>
-              <TableHead className="w-[40px]">
-                <Checkbox
-                  checked={selectedRows.length === subscribers.length}
-                  onCheckedChange={handleSelectAll}
-                />
-              </TableHead>
-              <TableHead className="w-[100px]">
-                <button
-                  className="flex items-center gap-2"
-                  onClick={() => handleSort('adsId')}
-                >
-                  Ads ID
-                  {getSortIcon('adsId')}
-                </button>
-              </TableHead>
-              <TableHead className="w-[120px]">
-                <button
-                  className="flex items-center gap-2"
-                  onClick={() => handleSort('category')}
-                >
-                  Category
-                  {getSortIcon('category')}
-                </button>
-              </TableHead>
-              <TableHead className="w-[180px]">
-                <button
-                  className="flex items-center gap-2"
-                  onClick={() => handleSort('datePublished')}
-                >
-                  Date Published
-                  {getSortIcon('datePublished')}
-                </button>
-              </TableHead>
-              <TableHead className="w-[120px]">
-                <button
-                  className="flex items-center gap-2"
-                  onClick={() => handleSort('timeSpend')}
-                >
-                  Time Spend
-                  {getSortIcon('timeSpend')}
-                </button>
-              </TableHead>
-              <TableHead className="w-[100px]">
-                <button
-                  className="flex items-center gap-2"
-                  onClick={() => handleSort('activity')}
-                >
-                  Activity
-                  {getSortIcon('activity')}
-                </button>
-              </TableHead>
-              <TableHead className="w-[120px]">
-                <button
-                  className="flex items-center gap-2"
-                  onClick={() => handleSort('status')}
-                >
-                  Product Status
-                  {getSortIcon('status')}
-                </button>
-              </TableHead>
-              <TableHead className="w-[200px] text-center">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {sortedData?.map((subscriber) => (
-              <TableRow key={subscriber.id} className="hover:bg-gray-50">
-                <TableCell className="w-[40px]">
-                  <Checkbox
-                    checked={selectedRows.includes(subscriber.id)}
-                    onCheckedChange={() => handleSelectRow(subscriber.id)}
-                  />
-                </TableCell>
-                <TableCell className="w-[100px] font-medium">
-                  {subscriber.adsId}
-                </TableCell>
-                <TableCell className="w-[120px]">
-                  {subscriber.category}
-                </TableCell>
-                <TableCell className="w-[180px]">
-                  {subscriber.datePublished}
-                </TableCell>
-                <TableCell className="w-[120px]">
-                  {subscriber.timeSpend}
-                </TableCell>
-                <TableCell className="w-[100px]">
-                  <div className="flex items-center gap-1">
-                    <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                    <span>{subscriber.rating}</span>
-                    <MessageSquareMore className="h-4 w-4 text-blue-500" />
-                    <span>{subscriber.messageCount}</span>
-                  </div>
-                </TableCell>
-                <TableCell className="w-[120px]">
-                  <span
-                    className={`inline-flex rounded px-2 py-1 text-xs font-medium ${
-                      subscriber.status === 'Active'
-                        ? 'bg-success-bg text-success-text'
-                        : 'bg-danger-bg text-danger-text'
-                    }`}
-                  >
-                    {subscriber.status}
-                  </span>
-                </TableCell>
-                <TableCell className="w-[200px]">
-                  <div className="flex items-center justify-center gap-2">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="h-8 w-8 p-0"
-                        >
-                          <MoreHorizontal className="h-4 w-4 text-blue-500" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem className="cursor-pointer">
-                          <Eye className="!h-4 !w-4 text-blue-500" />
-                          Reviews
-                        </DropdownMenuItem>
-                        <DropdownMenuItem className="cursor-pointer">
-                          <PencilLine className="!h-4 !w-4 text-blue-500" />
-                          Product purchased
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                          className="cursor-pointer"
-                          onClick={() => navigate(APP_ROUTES.CHAT.BASE)}
-                        >
-                          <MessageSquareMore className="!h-4 !w-4 text-blue-500" />
-                          Chat
-                        </DropdownMenuItem>
-                        <DropdownMenuItem className="cursor-pointer">
-                          <Trash2 className="!h-4 !w-4 text-destructive" />
-                          Deactivate
-                        </DropdownMenuItem>
-                        <DropdownMenuItem className="cursor-pointer">
-                          <Trash2 className="!h-4 !w-4 text-destructive" />
-                          Report
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+      <div className="w-full overflow-x-auto rounded-lg border">
+        <EnhancedTable
+          pagination
+          columns={columns}
+          data={subscribers}
+          isLoading={isLoadingSubscribers}
+          // onRowClick={handleRowClick}
+          // onSelectionChange={handleSelectionChange}
+        />
       </div>
 
       <div className="mx-auto w-full max-w-7xl">

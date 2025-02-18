@@ -24,6 +24,7 @@ import { Button } from '../../components/ui/button';
 import AddSourceModal from '../../components/ads/AddSourceModal';
 import UpdateLinkModal from '../../components/ads/UpdateLinkModal';
 import EnhancedTable from '../../components/ui/enhanced-table';
+import { APP_ROUTES } from '../../constants/routeConstants';
 
 const data = [
   {
@@ -181,13 +182,16 @@ const AdsPromotions = () => {
   ];
 
   useEffect(() => {
-    dispatch(setPageInfo({
-      title: 'Ads & Promotions',
-      breadcrumbs: [
-        { label: 'Home', link: '/dashboard' },
-        { label: 'Ads & Promotions' }
-      ]
-    }));
+    dispatch(
+      setPageInfo({
+        title: 'Ads & Promotions',
+        breadcrumbs: [
+          { label: 'Home', link: APP_ROUTES.DASHBOARD.BASE },
+          { label: 'Manage Ad', link: APP_ROUTES.ADS.BASE },
+          { label: 'Ads Promotion Mgmt ' },
+        ],
+      })
+    );
 
     return () => {
       dispatch(resetPageInfo());

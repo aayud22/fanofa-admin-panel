@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   DropdownMenu,
   DropdownMenuItem,
@@ -7,116 +7,151 @@ import {
 } from '../ui/dropdown-menu';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import { useSelector } from 'react-redux';
-import { Send, MoreVertical, BadgeCheck } from 'lucide-react';
+import { useDispatch, useSelector } from 'react-redux';
+import { APP_ROUTES } from '../../constants/routeConstants';
+import {
+  Send,
+  MoreVertical,
+  BadgeCheck,
+  OctagonAlert,
+  TriangleAlert,
+} from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { resetPageInfo, setPageInfo } from '../../redux/slices/pageSlice';
 
 const messages = [
   {
     id: 1,
-    date: "August 21",
+    date: 'August 21',
     messages: [
       {
-        id: "msg1",
+        id: 'msg1',
         text: "Hi there! I just wanted to check in and see how you're doing. Let me know if you need any help with the project.",
-        time: "10:15 pm",
+        time: '10:15 pm',
         isUser: false,
-        name: "Alex",
+        name: 'Alex',
         avatar:
-          "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       },
       {
-        id: "msg2",
+        id: 'msg2',
         text: "Hey Alex! Thanks for checking in. I'm doing well, just finishing up some tasks. How about you?",
-        time: "12:15 pm",
-        messageId: "A.Id :267347676",
+        time: '12:15 pm',
+        messageId: 'A.Id :267347676',
         isUser: true,
-        name: "Arrora gaur",
+        name: 'Arrora gaur',
         avatar:
-          "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       },
       {
-        id: "msg3",
+        id: 'msg3',
         text: "I'm good too! Let me know if you need any assistance with your tasks.",
-        time: "12:15 pm",
+        time: '12:15 pm',
         isUser: false,
-        name: "Alex",
+        name: 'Alex',
         avatar:
-          "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       },
     ],
   },
   {
     id: 2,
-    date: "August 22",
+    date: 'August 22',
     messages: [
       {
-        id: "msg4",
-        text: "Hey, how are you doing today?",
-        time: "09:00 am",
+        id: 'msg4',
+        text: 'Hey, how are you doing today?',
+        time: '09:00 am',
         isUser: true,
-        name: "Arrora gaur",
+        name: 'Arrora gaur',
         avatar:
-          "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       },
       {
-        id: "msg5",
+        id: 'msg5',
         text: "I'm doing great, thanks for asking! How about you?",
-        time: "09:05 am",
+        time: '09:05 am',
         isUser: false,
-        name: "Alex",
+        name: 'Alex',
         avatar:
-          "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       },
       {
-        id: "msg6",
+        id: 'msg6',
         text: "I'm good too. Just working on some projects.",
-        time: "09:10 am",
+        time: '09:10 am',
         isUser: true,
-        name: "Arrora gaur",
+        name: 'Arrora gaur',
         avatar:
-          "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       },
     ],
   },
   {
     id: 3,
-    date: "August 23",
+    date: 'August 23',
     messages: [
       {
-        id: "msg7",
-        text: "Did you finish the report?",
-        time: "03:00 pm",
+        id: 'msg7',
+        text: 'Did you finish the report?',
+        time: '03:00 pm',
         isUser: false,
-        name: "Alex",
+        name: 'Alex',
         avatar:
-          "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       },
       {
-        id: "msg8",
-        text: "Yes, I just sent it to you.",
-        time: "03:05 pm",
+        id: 'msg8',
+        text: 'Yes, I just sent it to you.',
+        time: '03:05 pm',
         isUser: true,
-        name: "Arrora gaur",
+        name: 'Arrora gaur',
         avatar:
-          "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       },
       {
-        id: "msg9",
+        id: 'msg9',
         text: "Great, I'll review it right away.",
-        time: "03:10 pm",
+        time: '03:10 pm',
         isUser: false,
-        name: "Alex",
+        name: 'Alex',
         avatar:
-          "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       },
     ],
   },
 ];
 
 const ChatDetails = () => {
-  const { chat } = useSelector((state) => state);
+  const dispatch = useDispatch();
+  const { chat, user } = useSelector((state) => state);
+
   const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    const breadcrumbs = [
+      { label: 'Home', link: APP_ROUTES.DASHBOARD.BASE },
+      { label: 'User', link: APP_ROUTES.USER.USER_LIST },
+      { label: 'Users List', link: APP_ROUTES.USER.USER_LIST },
+      user?.selectedUser?.name && {
+        label: user?.selectedUser?.name,
+        link: APP_ROUTES.USER.USER_DETAILS,
+      },
+      { label: 'Chat' },
+    ].filter(Boolean);
+
+    dispatch(
+      setPageInfo({
+        title: 'Manage Users',
+        breadcrumbs,
+      })
+    );
+
+    return () => {
+      dispatch(resetPageInfo());
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch]);
 
   if (!chat?.selectedChatUser) {
     return (
@@ -141,23 +176,25 @@ const ChatDetails = () => {
   };
 
   return (
-    <div className="flex h-screen flex-col">
-      {/* Sticky Header */}
-      <div className="sticky top-0 z-10 border-b bg-white p-4">
+    <div className="flex h-full flex-col -m-6">
+      {/* Fixed Header */}
+      <div className="flex-none border-b bg-white p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Avatar className="h-10 w-10">
+            <Avatar className="h-12 w-12">
               <AvatarImage src={chat?.selectedChatUser?.avatar} />
               <AvatarFallback>{chat?.selectedChatUser?.name[0]}</AvatarFallback>
             </Avatar>
             <div>
               <div className="flex items-center gap-1">
-                <h2 className="text-base font-semibold text-gray-900">
+                <h2 className="text-lg font-semibold text-darkBlueText">
                   {chat?.selectedChatUser?.name}
                 </h2>
-                <BadgeCheck className="h-4 w-4 text-blue-500" />
+                <BadgeCheck className="fill-neonGreen h-5 w-5 text-white" />
               </div>
-              <p className="text-sm text-gray-500">Active Now</p>
+              <p className="text-sm font-medium text-darkBlueText">
+                {chat?.selectedChatUser?.email}
+              </p>
             </div>
           </div>
           <DropdownMenu>
@@ -167,8 +204,14 @@ const ChatDetails = () => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem>Deactivate User</DropdownMenuItem>
-              <DropdownMenuItem>Report User</DropdownMenuItem>
+              <DropdownMenuItem>
+                <OctagonAlert className="h-4 w-4 text-danger-text" />
+                Deactivate User
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <TriangleAlert className="h-4 w-4 text-danger-text" />
+                Report User
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
@@ -195,9 +238,7 @@ const ChatDetails = () => {
                     {!message.isUser && (
                       <Avatar className="mr-2 h-8 w-8">
                         <AvatarImage src={message?.avatar} />
-                        <AvatarFallback>
-                          {message?.name}
-                        </AvatarFallback>
+                        <AvatarFallback>{message?.name}</AvatarFallback>
                       </Avatar>
                     )}
                     <div className="flex max-w-[70%] flex-col">
@@ -243,8 +284,8 @@ const ChatDetails = () => {
         </div>
       </div>
 
-      {/* Sticky Input */}
-      <div className="sticky bottom-0 border-t bg-white p-4">
+      {/* Fixed Input */}
+      <div className="flex-none border-t bg-white p-4">
         <div className="flex items-center justify-between gap-2">
           <Input
             value={message}

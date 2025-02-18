@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { APP_ROUTES } from '../../constants/routeConstants';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { resetPageInfo, setPageInfo } from '../../redux/slices/pageSlice';
 
 const categories = [
   {
@@ -56,6 +58,24 @@ const categories = [
 
 const CategoryList = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(
+      setPageInfo({
+        title: 'Manage Promotions',
+        breadcrumbs: [
+          { label: 'Home', link: '/dashboard' },
+          { label: 'Categories' },
+        ],
+      })
+    );
+
+    return () => {
+      dispatch(resetPageInfo());
+    };
+  }, [dispatch]);
+
   return (
     <div className="my-3 w-full rounded-xl bg-white p-6 shadow-soft-xl">
       <Card className="border-none shadow-none">

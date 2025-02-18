@@ -24,7 +24,7 @@ const Header = () => {
 
   const handleCountryChange = (countryCode, countryName) => {
     setSelectedCountry({ code: countryCode, name: countryName });
-  };
+  };  
 
   return (
     <header className="sticky top-0 w-full rounded-2xl border-b border-lightGray bg-white">

@@ -82,11 +82,23 @@ const Categories = () => {
   useEffect(() => {
     dispatch(
       setPageInfo({
-        title: 'Manage Promotions',
+        title:
+          location?.pathname === APP_ROUTES.ADS.CATEGORIES
+            ? 'Manage Ads'
+            : 'Manage Promotions',
         breadcrumbs: [
           { label: 'Home', link: '/dashboard' },
-          { label: 'Categories' },
-        ],
+          location?.pathname === APP_ROUTES.ADS.CATEGORIES && {
+            label: 'Manage Ad',
+            link: APP_ROUTES.ADS.BASE,
+          },
+          {
+            label:
+              location?.pathname === APP_ROUTES.ADS.CATEGORIES
+                ? 'Manage Ads Category'
+                : 'Categories',
+          },
+        ].filter(Boolean),
       })
     );
 

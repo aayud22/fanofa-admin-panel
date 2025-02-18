@@ -113,13 +113,7 @@ const UserDetails = () => {
               <p className="text-sm font-medium text-darkBlueText">
                 {row.rating || 0}
               </p>
-            </div>
-            <div className="flex items-center gap-1">
-              <MessageSquareMore className="h-4 w-4 text-blue-400" />
-              <p className="text-sm font-medium text-darkBlueText">
-                {row.messageCount || 0}
-              </p>
-            </div>
+            </div>           
           </div>
         ),
     },

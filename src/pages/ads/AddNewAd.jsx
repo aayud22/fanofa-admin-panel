@@ -1,28 +1,47 @@
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '../../components/ui/card';
-import { Button } from '../../components/ui/button';
-import { Label } from '../../components/ui/label';
+import React, { useState, useEffect } from 'react';
 import {
   Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
   SelectItem,
+  SelectValue,
+  SelectTrigger,
+  SelectContent,
 } from '../../components/ui/select';
-import { Input } from '../../components/ui/input';
+import ReactQuill from 'react-quill';
 import { FileDown } from 'lucide-react';
+import 'react-quill/dist/quill.snow.css';
+import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
+import { Label } from '../../components/ui/label';
+import { Input } from '../../components/ui/input';
+import { Button } from '../../components/ui/button';
+import { APP_ROUTES } from '../../constants/routeConstants';
+import { Card, CardFooter, CardContent } from '../../components/ui/card';
+import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
+import { resetPageInfo, setPageInfo } from '../../redux/slices/pageSlice';
 
 const AddNewAd = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const breadcrumbs = [
+      { label: 'Home', link: APP_ROUTES.DASHBOARD.BASE },
+      { label: 'Manage Ad', link: APP_ROUTES.ADS.BASE },
+      { label: 'Create New Deal' },
+    ].filter(Boolean);
+
+    dispatch(
+      setPageInfo({
+        title: 'Manage Ads',
+        breadcrumbs,
+      })
+    );
+
+    return () => {
+      dispatch(resetPageInfo());
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch]);
+
   const {
     register,
     handleSubmit,

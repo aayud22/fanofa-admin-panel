@@ -73,6 +73,7 @@ module.exports = {
         slateGray: '#8E95A9',
         lightAqua: '#6DE9F4',
         deepOcean: '#0E77CC',
+        neonGreen: '#00D566',
         warmAmber: '#E1961F',
         vividGreen: '#34C759',
         mediumBlue: '#127CCE',

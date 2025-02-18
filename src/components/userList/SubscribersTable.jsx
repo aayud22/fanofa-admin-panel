@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Search,
-  Filter,
-  MessageSquareMore,
-  FileDown,
-} from 'lucide-react';
 import { Card } from '../ui/card';
 import { Button } from '../ui/button';
 import { useNavigate } from 'react-router-dom';
 import EnhancedTable from '../ui/enhanced-table';
+import { useDispatch, useSelector } from 'react-redux';
 import { APP_ROUTES } from '../../constants/routeConstants';
+import { resetPageInfo, setPageInfo } from '../../redux/slices/pageSlice';
+import { Search, Filter, MessageSquareMore, FileDown } from 'lucide-react';
 
 const SubscribersTable = ({
   columns = [],
@@ -19,6 +16,8 @@ const SubscribersTable = ({
   isFullView = false,
 }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state);
 
   const [selectedUserIds, setSelectedUserIds] = useState([]);
   const [isLoadingSubscribers, setIsLoadingSubscribers] = useState(false);
@@ -29,6 +28,31 @@ const SubscribersTable = ({
       setIsLoadingSubscribers(false);
     }, 1000);
   }, []);
+
+  useEffect(() => {
+    const breadcrumbs = [
+      { label: 'Home', link: APP_ROUTES.DASHBOARD.BASE },
+      { label: 'User', link: APP_ROUTES.USER.USER_LIST },
+      { label: 'Users List', link: APP_ROUTES.USER.USER_LIST },
+      user?.selectedUser?.name && {
+        label: user?.selectedUser?.name,
+        link: APP_ROUTES.USER.USER_DETAILS,
+      },
+      isFullView && { label: 'My Subscribers' },
+    ].filter(Boolean);
+
+    dispatch(
+      setPageInfo({
+        title: 'Manage Users',
+        breadcrumbs,
+      })
+    );
+
+    return () => {
+      dispatch(resetPageInfo());
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch]);
 
   const subscribersCount = subscribers?.filter(
     (sub) => sub.isSubscribed
@@ -42,7 +66,7 @@ const SubscribersTable = ({
   );
 
   const handleRowClick = (user) => {
-    navigate(APP_ROUTES.USER.USER_DETAILS);
+    navigate(APP_ROUTES.SUBSCRIBERS.MY_SUBSCRIBERS);
   };
 
   const handleSelectionChange = (selectedIds) => {
