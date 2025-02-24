@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '../ui/button';
 import { ChevronDown } from 'lucide-react';
 import { cn } from '../../utils/classNames';
 import { Separator } from '../ui/separator';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 
-const StatusSelect = ({ onStatusSelect, className }) => {
+const StatusSelect = ({ onStatusSelect, value, className }) => {
   const [open, setOpen] = useState(false);
-  const [selectedStatus, setSelectedStatus] = useState('');
+  const [selectedStatus, setSelectedStatus] = useState(value || '');
+
+  useEffect(() => {
+    setSelectedStatus(value || '');
+  }, [value]);
 
   const status = ['Active', 'InActive', 'Blocked', 'Deleted'];
 

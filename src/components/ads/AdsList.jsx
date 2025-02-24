@@ -99,6 +99,13 @@ const AdsList = () => {
     { value: 'other', label: 'Other' },
   ];
 
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedDate, setSelectedDate] = useState('date');
+  const [selectedCountry, setSelectedCountry] = useState('country');
+  const [selectedAdStatus, setSelectedAdStatus] = useState('status');
+  const [selectedCategory, setSelectedCategory] = useState('category');
+  const [selectedAdminStatus, setSelectedAdminStatus] = useState('admin');
+
   useEffect(() => {
     const breadcrumbs = [
       { label: 'Home', link: APP_ROUTES.DASHBOARD.BASE },
@@ -346,6 +353,29 @@ const AdsList = () => {
     });
   };
 
+  const handleSearch = () => {
+    // Implement search with all filters
+    const filters = {
+      searchQuery,
+      category: selectedCategory,
+      datePublished: selectedDate,
+      country: selectedCountry,
+      adminStatus: selectedAdminStatus,
+      adStatus: selectedAdStatus
+    };
+    console.log('Applying filters:', filters);
+    // Add your search logic here
+  };
+
+  const resetFilters = () => {
+    setSearchQuery('');
+    setSelectedCategory('category');
+    setSelectedDate('date');
+    setSelectedCountry('country');
+    setSelectedAdminStatus('admin');
+    setSelectedAdStatus('status');
+  };
+
   return (
     <div className="space-y-4">
       {/* Filters */}
@@ -353,10 +383,18 @@ const AdsList = () => {
         <div className="min-w-[200px] flex-1">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-            <Input placeholder="Ad id / Category Name" className="pl-10" />
+            <Input 
+              placeholder="Ad id / Category Name" 
+              className="pl-10"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </div>
         </div>
-        <Select defaultValue="category">
+        <Select 
+          value={selectedCategory}
+          onValueChange={setSelectedCategory}
+        >
           <SelectTrigger className="w-[150px]">
             <SelectValue placeholder="Category" />
           </SelectTrigger>
@@ -367,7 +405,10 @@ const AdsList = () => {
             <SelectItem value="furniture">Furniture</SelectItem>
           </SelectContent>
         </Select>
-        <Select defaultValue="date">
+        <Select 
+          value={selectedDate}
+          onValueChange={setSelectedDate}
+        >
           <SelectTrigger className="w-[150px]">
             <SelectValue placeholder="Date Published" />
           </SelectTrigger>
@@ -377,7 +418,10 @@ const AdsList = () => {
             <SelectItem value="oldest">Oldest First</SelectItem>
           </SelectContent>
         </Select>
-        <Select defaultValue="country">
+        <Select 
+          value={selectedCountry}
+          onValueChange={setSelectedCountry}
+        >
           <SelectTrigger className="w-[150px]">
             <SelectValue placeholder="Country" />
           </SelectTrigger>
@@ -388,7 +432,10 @@ const AdsList = () => {
             <SelectItem value="ca">Canada</SelectItem>
           </SelectContent>
         </Select>
-        <Select defaultValue="admin">
+        <Select 
+          value={selectedAdminStatus}
+          onValueChange={setSelectedAdminStatus}
+        >
           <SelectTrigger className="w-[150px]">
             <SelectValue placeholder="Admin Status" />
           </SelectTrigger>
@@ -399,7 +446,10 @@ const AdsList = () => {
             <SelectItem value="rejected">Rejected</SelectItem>
           </SelectContent>
         </Select>
-        <Select defaultValue="status">
+        <Select 
+          value={selectedAdStatus}
+          onValueChange={setSelectedAdStatus}
+        >
           <SelectTrigger className="w-[150px]">
             <SelectValue placeholder="Ad Status" />
           </SelectTrigger>
@@ -411,10 +461,16 @@ const AdsList = () => {
           </SelectContent>
         </Select>
         <div className="flex items-center gap-2">
-          <Button className="h-10 bg-primary-gradient px-6 text-white">
+          <Button 
+            className="h-10 bg-primary-gradient px-6 text-white"
+            onClick={handleSearch}
+          >
             Search
           </Button>
-          <div className="group flex cursor-pointer items-center gap-[3px] text-xs font-semibold text-red-500 transition-all hover:text-red-600 hover:underline">
+          <div 
+            className="group flex cursor-pointer items-center gap-[3px] text-xs font-semibold text-red-500 transition-all hover:text-red-600 hover:underline"
+            onClick={resetFilters}
+          >
             <RotateCcw className="h-4 w-4 group-hover:text-red-600" />
             Reset Filter
           </div>
@@ -428,7 +484,7 @@ const AdsList = () => {
           pagination
           columns={columns}
           data={mockAds}
-          // searchQuery={searchQuery}
+          searchQuery={searchQuery}
           isLoading={isLoadingAds}
           // onRowClick={handleRowClick}
           // onSelectionChange={handleSelectionChange}

@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '../ui/button';
 import { ChevronDown } from 'lucide-react';
 import { cn } from '../../utils/classNames';
 import { Separator } from '../ui/separator';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 
-const PlanSelect = ({ onPlanSelect, className }) => {
+const PlanSelect = ({ onPlanSelect, value, className }) => {
   const [open, setOpen] = useState(false);
-  const [selectedPlan, setSelectedPlan] = useState('');
+  const [selectedPlan, setSelectedPlan] = useState(value || '');
+
+  useEffect(() => {
+    setSelectedPlan(value || '');
+  }, [value]);
 
   const plans = [
     'Personal',
@@ -37,7 +41,7 @@ const PlanSelect = ({ onPlanSelect, className }) => {
       </PopoverTrigger>
       <PopoverContent className="!mr-8 w-[400px] p-6" align="start">
         <div className="space-y-4">
-          <h2 className="text-xl font-semibold">Select Plan</h2>
+        <h2 className="text-xl font-semibold">Select Status</h2>
           <div className="grid grid-cols-3 gap-3">
             {plans.map((plan) => (
               <Button
@@ -56,7 +60,7 @@ const PlanSelect = ({ onPlanSelect, className }) => {
           </div>
           <Separator />
           <p className="text-sm text-muted-foreground">*You can choose plan</p>
-          <div className="w-full text-center">
+          <div className="flex justify-end gap-2">
             <Button
               className="w-max bg-primary-gradient !px-9"
               onClick={handleApply}
