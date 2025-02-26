@@ -128,12 +128,8 @@ const menuItems = [
   },
   {
     icon: Tag,
-    title: 'Manage Deals',
-    href: APP_ROUTES.DEALS.BASE,
-    items: [
-      { title: 'Create New Deal', icon: Star, href: APP_ROUTES.DEALS.CREATE },
-      { title: 'Active Deals', icon: Star, href: APP_ROUTES.DEALS.LIST },
-    ],
+    title: 'Manage Promotions',
+    href: APP_ROUTES.PROMOTIONS.PROMOTION,
   },
   {
     href: '#',

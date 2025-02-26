@@ -25,6 +25,10 @@ export const APP_ROUTES = {
     CATEGORIES: '/ads/categories',
     PROMOTIONS: '/ads/promotions',
   },
+  PROMOTIONS: {
+    PROMOTION: '/promotions',
+    PROMOTION_BILLING_HISTORY: '/promotions/billing-history',
+  },
   DEALS: {
     BASE: '/deals',
     LIST: '/deals/list',
