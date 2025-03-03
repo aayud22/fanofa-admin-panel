@@ -13,6 +13,7 @@ import Dashboard from '../pages/dashboard/Dashboard';
 import AdsPromotions from '../pages/ads/AdsPromotions';
 import Categories from '../pages/categories/Categories';
 import SubAdminLogin from '../pages/auth/SubAdminLogin';
+import Promotions from '../pages/promotions/Promotions';
 import { APP_ROUTES } from '../constants/routeConstants';
 import ChatDetails from '../components/chat/ChatDetails';
 import ServerError from '../components/error/ServerError';
@@ -21,9 +22,9 @@ import MaintenancePage from '../pages/error/MaintenancePage';
 import TopInterests from '../pages/topInterests/TopInterests';
 import SelectUserType from '../components/auth/SelectUserType';
 import MySubscribers from '../pages/subscribers/MySubscribers';
+import BillingHistory from '../pages/promotions/BillingHistory';
 import SubscribersPage from '../pages/subscribers/SubscribersPage';
 import CountryVisitors from '../pages/countryVisitors/CountryVisitors';
-import Promotions from '../pages/promotions/Promotions';
 
 const AppRoutes = () => {
   return (
@@ -79,6 +80,7 @@ const AppRoutes = () => {
         <Route path={APP_ROUTES.CHAT.BASE} element={<ChatPage />} />
         <Route path={APP_ROUTES.CHAT.CHAT_DETAILS} element={<ChatDetails />} />
         <Route path={APP_ROUTES.PROMOTIONS.PROMOTION} element={<Promotions />} />
+        <Route path={APP_ROUTES.PROMOTIONS.BILLING_HISTORY} element={<BillingHistory />} />
       </Route>
 
       {/* Catch-all */}

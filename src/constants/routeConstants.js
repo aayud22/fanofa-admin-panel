@@ -27,7 +27,7 @@ export const APP_ROUTES = {
   },
   PROMOTIONS: {
     PROMOTION: '/promotions',
-    PROMOTION_BILLING_HISTORY: '/promotions/billing-history',
+    BILLING_HISTORY: '/promotions/billing-history',
   },
   DEALS: {
     BASE: '/deals',

@@ -3,6 +3,8 @@ import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { ASSETS } from '../../constants/assets';
 import { yupResolver } from '@hookform/resolvers/yup';
+import toast from 'react-hot-toast';
+import { loginUser } from '../../services/api/auth/authService';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -22,9 +24,38 @@ const SuperAdminLogin = () => {
     resolver: yupResolver(validationSchema),
   });
 
-  const onSubmit = (data) => {
-    console.log('Form Data:', data);
-    // Handle login logic here
+  const onSubmit = async (data) => {
+    try {
+      console.log('Form Data:', data);
+
+      const response = await loginUser({
+        full_name: '',
+        phone_number: '',
+        password: data.password,
+        email: data.email,
+        gender: '',
+        age: '',
+        country: '',
+        city: '',
+        state: '',
+        language: '',
+        admin: true,
+      });
+
+      console.log('Login Successful:', response);
+
+      // dispatch(setRole(response.admin ? "admin" : "user"));
+      // localStorage.setItem("userRole", response.admin ? "admin" : "user");
+
+      toast.success("Login successful! Redirecting..."); // Success message
+
+      // setTimeout(() => {
+      //   navigate("/user/dashboard");
+      // }, 2000); // Delay navigation for better UX
+    } catch (error) {
+      console.error('Login Failed:', error);
+      toast.error('Login failed. Please check your credentials.'); // Error message
+    }
   };
 
   return (

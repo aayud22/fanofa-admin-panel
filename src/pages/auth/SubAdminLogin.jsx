@@ -3,6 +3,8 @@ import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { ASSETS } from '../../constants/assets';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { loginAdmin } from '../../services/api/auth/authService';
+import toast from 'react-hot-toast';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -23,9 +25,34 @@ const SubAdminLogin = () => {
     resolver: yupResolver(validationSchema),
   });
 
-  const onSubmit = (data) => {
-    console.log('Form Data:', data);
-    // Handle login logic here
+  const onSubmit = async (data) => {
+    try {
+      console.log('Form Data:', data); // Debugging purpose
+
+      const response = await loginAdmin({
+        full_name: '',
+        email: data.email,
+        password: data.password,
+        role: 'Super-Admin',
+        country: '',
+        city: '',
+        state: '',
+        image: '',
+      });
+
+      console.log('Login Successful:', response);
+      toast.success('Login successful! Redirecting...');
+
+      // Store role in Redux and Local Storage
+      // dispatch(setRole(response.role));
+      // localStorage.setItem("userRole", response.role);
+
+      // // Redirect to admin dashboard
+      // navigate("/admin/dashboard");
+    } catch (error) {
+      console.log('Login Failed:', error);
+      toast.error('Login failed. Please check your credentials.');
+    }
   };
 
   return (

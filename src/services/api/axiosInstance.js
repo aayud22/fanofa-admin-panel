@@ -1,38 +1,67 @@
-import axios from "axios";
-
-const API_BASE_URL = "https://your-api-base-url.com";
+import axios from 'axios';
+import API_CONSTANTS from '../../constants/apiEndpoints';
 
 const axiosInstance = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: API_CONSTANTS.BASE_URL,
   headers: {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+    'Access-Control-Allow-Origin': '*', // Allow cross-origin requests
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
   },
 });
 
-// axiosInstance.interceptors.request.use(
-//   (config) => {
-//     // Add token or other headers if needed
-//     const token = localStorage.getItem("authToken");
-//     if (token) {
-//       config.headers.Authorization = `Bearer ${token}`;
-//     }
-//     return config;
+// const axiosInstance = axios.create({
+//   baseURL: API_CONSTANTS.BASE_URL,
+//   headers: {
+//     "Content-Type": "application/json",
 //   },
-//   (error) => Promise.reject(error)
-// );
+// });
 
-// axiosInstance.interceptors.response.use(
-//   (response) => response,
-//   (error) => {
-//     // Handle errors globally
-//     return Promise.reject(error);
-//   }
-// );
+// Request Interceptor: Attach Token to Requests
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 
-export const get = (url, params) =>
-  axiosInstance.get(url, { params }).then((response) => response.data);
+// Response Interceptor: Handle Errors Globally
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response) {
+      if (error.response.status === 401) {
+        localStorage.removeItem('authToken');
+        window.location.href = '/login'; // Change as per your routing
+      }
+    }
+    return Promise.reject(error.response?.data || error.message);
+  }
+);
 
-export const post = (url, data) =>
-  axiosInstance.post(url, data).then((response) => response.data);
+// Reusable API Functions
+export const get = async (url, params) => {
+  try {
+    const response = await axiosInstance.get(url, { params });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const post = async (url, data) => {
+  try {
+    const response = await axiosInstance.post(url, data);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 
 export default axiosInstance;
