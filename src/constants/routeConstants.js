@@ -29,6 +29,15 @@ export const APP_ROUTES = {
     PROMOTION: '/promotions',
     BILLING_HISTORY: '/promotions/billing-history',
   },
+  NOTIFICATION: {
+    NOTIFICATION_LIST: '/notification',
+    NOTIFICATION_DETAILS: '/notification/details',
+  },
+  ADVERTISES: {
+    ADVERTISE_LIST: '/advertise',
+    ADVERTISE_BANNER_LIST: '/advertise/banner',
+    ADVERTISE_PAYMENT_AND_TIMING: '/advertise/payment-timing',
+  },
   DEALS: {
     BASE: '/deals',
     LIST: '/deals/list',

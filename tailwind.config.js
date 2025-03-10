@@ -77,6 +77,7 @@ module.exports = {
         deepSlate: '#222F36',
         warmAmber: '#E1961F',
         steelBlue: '#7C8DB5',
+        deepIndigo: '#2B3674',
         cloudWhite: '#F0F3F9',
         vividGreen: '#34C759',
         mediumBlue: '#127CCE',

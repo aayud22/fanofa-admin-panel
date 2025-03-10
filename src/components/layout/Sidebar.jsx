@@ -132,21 +132,28 @@ const menuItems = [
     href: APP_ROUTES.PROMOTIONS.PROMOTION,
   },
   {
-    href: '#',
     icon: Bell,
     title: 'Manage Notification',
+    href: APP_ROUTES.NOTIFICATION.NOTIFICATION_LIST,
     items: [
-      { title: 'Send Notification', icon: Send, href: '#' },
-      { title: 'Notification History', icon: History, href: '#' },
+      {
+        title: 'Send Notification',
+        icon: Send,
+        href: '#',
+      },
+      { title: 'Notification Placement', icon: History, href: '#' },
+      { title: 'Request More Quoets', icon: History, href: '#' },
+      { title: 'Reviews & Comments', icon: History, href: '#' },
     ],
   },
   {
-    href: '#',
+    href: APP_ROUTES.ADVERTISES.ADVERTISE_LIST,
     icon: Settings2,
-    title: 'Manage Reviews & Stars',
+    title: 'Advertising in Banner',
     items: [
-      { title: 'System Settings', icon: Sliders, href: '#' },
-      { title: 'Maintenance', icon: Wrench, href: '#' },
+      { title: 'Banner in Website', icon: Sliders, href: '#' },
+      { title: 'Payment & Timing', icon: Wrench, href: '#' },
+      { title: 'Individual Offer & Deals', icon: Wrench, href: '#' },
     ],
   },
   {

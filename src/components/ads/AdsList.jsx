@@ -361,7 +361,7 @@ const AdsList = () => {
       datePublished: selectedDate,
       country: selectedCountry,
       adminStatus: selectedAdminStatus,
-      adStatus: selectedAdStatus
+      adStatus: selectedAdStatus,
     };
     console.log('Applying filters:', filters);
     // Add your search logic here
@@ -383,18 +383,15 @@ const AdsList = () => {
         <div className="min-w-[200px] flex-1">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-            <Input 
-              placeholder="Ad id / Category Name" 
+            <Input
+              placeholder="Ad id / Category Name"
               className="pl-10"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
         </div>
-        <Select 
-          value={selectedCategory}
-          onValueChange={setSelectedCategory}
-        >
+        <Select value={selectedCategory} onValueChange={setSelectedCategory}>
           <SelectTrigger className="w-[150px]">
             <SelectValue placeholder="Category" />
           </SelectTrigger>
@@ -405,10 +402,7 @@ const AdsList = () => {
             <SelectItem value="furniture">Furniture</SelectItem>
           </SelectContent>
         </Select>
-        <Select 
-          value={selectedDate}
-          onValueChange={setSelectedDate}
-        >
+        <Select value={selectedDate} onValueChange={setSelectedDate}>
           <SelectTrigger className="w-[150px]">
             <SelectValue placeholder="Date Published" />
           </SelectTrigger>
@@ -418,10 +412,7 @@ const AdsList = () => {
             <SelectItem value="oldest">Oldest First</SelectItem>
           </SelectContent>
         </Select>
-        <Select 
-          value={selectedCountry}
-          onValueChange={setSelectedCountry}
-        >
+        <Select value={selectedCountry} onValueChange={setSelectedCountry}>
           <SelectTrigger className="w-[150px]">
             <SelectValue placeholder="Country" />
           </SelectTrigger>
@@ -432,7 +423,7 @@ const AdsList = () => {
             <SelectItem value="ca">Canada</SelectItem>
           </SelectContent>
         </Select>
-        <Select 
+        <Select
           value={selectedAdminStatus}
           onValueChange={setSelectedAdminStatus}
         >
@@ -446,10 +437,7 @@ const AdsList = () => {
             <SelectItem value="rejected">Rejected</SelectItem>
           </SelectContent>
         </Select>
-        <Select 
-          value={selectedAdStatus}
-          onValueChange={setSelectedAdStatus}
-        >
+        <Select value={selectedAdStatus} onValueChange={setSelectedAdStatus}>
           <SelectTrigger className="w-[150px]">
             <SelectValue placeholder="Ad Status" />
           </SelectTrigger>
@@ -461,13 +449,13 @@ const AdsList = () => {
           </SelectContent>
         </Select>
         <div className="flex items-center gap-2">
-          <Button 
+          <Button
             className="h-10 bg-primary-gradient px-6 text-white"
             onClick={handleSearch}
           >
             Search
           </Button>
-          <div 
+          <div
             className="group flex cursor-pointer items-center gap-[3px] text-xs font-semibold text-red-500 transition-all hover:text-red-600 hover:underline"
             onClick={resetFilters}
           >

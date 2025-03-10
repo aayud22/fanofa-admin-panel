@@ -17,6 +17,7 @@ import Promotions from '../pages/promotions/Promotions';
 import { APP_ROUTES } from '../constants/routeConstants';
 import ChatDetails from '../components/chat/ChatDetails';
 import ServerError from '../components/error/ServerError';
+import AdvertsList from '../pages/advertises/AdvertsList';
 import SuperAdminLogin from '../pages/auth/SuperAdminLogin';
 import MaintenancePage from '../pages/error/MaintenancePage';
 import TopInterests from '../pages/topInterests/TopInterests';
@@ -24,7 +25,10 @@ import SelectUserType from '../components/auth/SelectUserType';
 import MySubscribers from '../pages/subscribers/MySubscribers';
 import BillingHistory from '../pages/promotions/BillingHistory';
 import SubscribersPage from '../pages/subscribers/SubscribersPage';
+import AdvertsBannerList from '../pages/advertises/AdvertsBannerList';
 import CountryVisitors from '../pages/countryVisitors/CountryVisitors';
+import NotificationPage from '../pages/notifications/NotificationPage';
+import AdvertisePricingTable from '../pages/advertises/AdvertisePricingTable';
 
 const AppRoutes = () => {
   return (
@@ -79,8 +83,30 @@ const AppRoutes = () => {
         <Route path={APP_ROUTES.DEALS.CREATE} element={<CreateDeal />} />
         <Route path={APP_ROUTES.CHAT.BASE} element={<ChatPage />} />
         <Route path={APP_ROUTES.CHAT.CHAT_DETAILS} element={<ChatDetails />} />
-        <Route path={APP_ROUTES.PROMOTIONS.PROMOTION} element={<Promotions />} />
-        <Route path={APP_ROUTES.PROMOTIONS.BILLING_HISTORY} element={<BillingHistory />} />
+        <Route
+          path={APP_ROUTES.PROMOTIONS.PROMOTION}
+          element={<Promotions />}
+        />
+        <Route
+          path={APP_ROUTES.PROMOTIONS.BILLING_HISTORY}
+          element={<BillingHistory />}
+        />
+        <Route
+          path={APP_ROUTES.NOTIFICATION.NOTIFICATION_LIST}
+          element={<NotificationPage />}
+        />
+        <Route
+          path={APP_ROUTES.ADVERTISES.ADVERTISE_LIST}
+          element={<AdvertsList />}
+        />
+        <Route
+          path={APP_ROUTES.ADVERTISES.ADVERTISE_BANNER_LIST}
+          element={<AdvertsBannerList />}
+        />
+        <Route
+          path={APP_ROUTES.ADVERTISES.ADVERTISE_PAYMENT_AND_TIMING}
+          element={<AdvertisePricingTable />}
+        />
       </Route>
 
       {/* Catch-all */}
