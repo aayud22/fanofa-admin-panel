@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  RotateCcw,
-  MoreHorizontal,
-} from 'lucide-react';
+import { RotateCcw, MoreHorizontal } from 'lucide-react';
 import { Button } from '../ui/button';
 import {
   Select,
@@ -20,19 +17,17 @@ import {
 import dayjs from 'dayjs';
 import { Input } from '../ui/input';
 import PlanSelect from './PlanSelect';
+import { Popover } from '../ui/popover';
 import StatusSelect from './StatusSelect';
 import AddUserModal from './AddUserModal';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import EnhancedTable from '../ui/enhanced-table';
-import { DatePicker, DateCalendar } from '@mui/x-date-pickers';
+import { DatePicker } from '@mui/x-date-pickers';
 import { APP_ROUTES } from '../../constants/routeConstants';
 import { setSelectedUser } from '../../redux/slices/userSlice';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { resetPageInfo, setPageInfo } from '../../redux/slices/pageSlice';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 const initialUsers = [
   {
@@ -210,11 +205,11 @@ const theme = createTheme({
           '& .MuiOutlinedInput-root': {
             borderRadius: '0.5rem',
             backgroundColor: 'white',
-          }
-        }
-      }
-    }
-  }
+          },
+        },
+      },
+    },
+  },
 });
 
 const UsersListTable = () => {
@@ -225,15 +220,15 @@ const UsersListTable = () => {
   const [fromDate, setFromDate] = useState(dayjs());
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedPlan, setSelectedPlan] = useState('');
+  const [selectedDates, setSelectedDates] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState('');
   const [selectedUserIds, setSelectedUserIds] = useState([]);
   const [isLoadingUsers, setIsLoadingUsers] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState('country');
+  const [isDatePopoverOpen, setIsDatePopoverOpen] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState('english');
   const [isAddUserModalOpen, setIsAddUserModalOpen] = useState(false);
   const [selectedVerification, setSelectedVerification] = useState('verified');
-  const [isDatePopoverOpen, setIsDatePopoverOpen] = useState(false);
-  const [selectedDate, setSelectedDate] = useState('');
 
   useEffect(() => {
     setIsLoadingUsers(true);
@@ -285,12 +280,7 @@ const UsersListTable = () => {
     setSelectedCountry('country');
     setSelectedPlan('');
     setSelectedStatus('');
-    setSelectedDate('');
-  };
-
-  const formatDateRange = (from, to) => {
-    if (!from || !to) return 'Register Date';
-    return `${from.format('MM/DD/YYYY')} - ${to.format('MM/DD/YYYY')}`;
+    setSelectedDates([]);
   };
 
   const handleSearch = () => {
@@ -302,7 +292,7 @@ const UsersListTable = () => {
       verification: selectedVerification,
       country: selectedCountry,
       plan: selectedPlan,
-      status: selectedStatus
+      status: selectedStatus,
     };
     console.log('Applying filters:', filters);
   };
@@ -314,98 +304,55 @@ const UsersListTable = () => {
         <div className="flex flex-col gap-4">
           <div className="mb-6 flex flex-wrap gap-4">
             <div className="min-w-[200px] flex-1">
-              <Input 
-                placeholder="Search User ID / Name / Email" 
+              <Input
+                placeholder="Search User ID / Name / Email"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
-            <Popover open={isDatePopoverOpen} onOpenChange={setIsDatePopoverOpen}>
-              <PopoverTrigger asChild>
+            <Popover
+              open={isDatePopoverOpen}
+              onOpenChange={setIsDatePopoverOpen}
+            >
+              <Popover.Trigger asChild>
                 <Button variant="outline" className="w-[180px]">
-                  {selectedDate || 'Register Date'}
+                  {selectedDates.length
+                    ? selectedDates.join(', ')
+                    : 'Register Date'}
                 </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-[350px] p-4">
+              </Popover.Trigger>
+              <Popover.Content className="w-[350px] p-4">
                 <div className="space-y-4">
-                  {/* MUI DatePicker */}
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <div className="date-picker-container" style={{ position: 'relative' }}>
-                      <DateCalendar
-                        value={fromDate}
-                        onChange={(newValue) => setFromDate(newValue)}
-                        sx={{
-                          width: '100%',
-                          '& .MuiPickersDay-root.Mui-selected': {
-                            backgroundColor: '#2196f3',
-                            color: '#fff',
-                            borderRadius: '8px',
-                            '&:hover': {
-                              backgroundColor: '#1976d2'
-                            }
-                          },
-                          '& .MuiDayCalendar-weekDayLabel': {
-                            color: '#666'
-                          }
-                        }}
-                      />
-                      <div className="date-range-inputs" style={{ padding: '1rem' }}>
-                        <p style={{ marginBottom: '0.5rem', color: '#666', fontSize: '0.875rem' }}>*You can choose multiple date</p>
-                        <DatePicker
-                          label="From Date"
-                          value={fromDate}
-                          onChange={(newValue) => setFromDate(newValue)}
-                          sx={{
-                            width: '100%',
-                            marginBottom: '1rem',
-                            '& .MuiOutlinedInput-root': {
-                              borderRadius: '0.5rem'
-                            }
-                          }}
-                        />
-                        <DatePicker
-                          label="To Date"
-                          value={toDate}
-                          onChange={(newValue) => setToDate(newValue)}
-                          sx={{
-                            width: '100%',
-                            marginBottom: '1rem',
-                            '& .MuiOutlinedInput-root': {
-                              borderRadius: '0.5rem'
-                            }
-                          }}
-                        />
-                        <div className="flex gap-3">
-                          <button
-                            className="flex-1 rounded-lg border border-gray-200 bg-white py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
-                            onClick={() => {
-                              setFromDate(null);
-                              setToDate(null);
-                            }}
-                          >
-                            Cancel
-                          </button>
-                          <button
-                            className="flex-1 rounded-lg bg-[#0066FF] py-2.5 text-sm font-medium text-white hover:bg-blue-600"
-                            onClick={() => {
-                              const formattedDateRange = formatDateRange(fromDate, toDate);
-                              setSelectedDate(formattedDateRange);
-                              setIsDatePopoverOpen(false);
-                              handleSearch();
-                            }}
-                          >
-                            Apply Now
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </LocalizationProvider>
-                  {/* Date Inputs */}
-                  {/* Buttons */}
+                  <DatePicker
+                    multiple
+                    value={selectedDates}
+                    onChange={setSelectedDates}
+                    format="YYYY-MM-DD"
+                    calendarPosition="bottom-center"
+                    style={{ width: '100%' }}
+                    open={true} // Ensures it is open by default
+                  />
+                  <div className="mt-4 flex gap-3">
+                    <button
+                      className="flex-1 rounded-lg border border-gray-200 bg-white py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                      onClick={() => setSelectedDates([])}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      className="flex-1 rounded-lg bg-[#0066FF] py-2.5 text-sm font-medium text-white hover:bg-blue-600"
+                      onClick={() => setIsDatePopoverOpen(false)}
+                    >
+                      Apply Now
+                    </button>
+                  </div>
                 </div>
-              </PopoverContent>
+              </Popover.Content>
             </Popover>
-            <Select value={selectedLanguage} onValueChange={setSelectedLanguage}>
+            <Select
+              value={selectedLanguage}
+              onValueChange={setSelectedLanguage}
+            >
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="English" />
               </SelectTrigger>
@@ -415,7 +362,10 @@ const UsersListTable = () => {
                 <SelectItem value="french">French</SelectItem>
               </SelectContent>
             </Select>
-            <Select value={selectedVerification} onValueChange={setSelectedVerification}>
+            <Select
+              value={selectedVerification}
+              onValueChange={setSelectedVerification}
+            >
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Verified" />
               </SelectTrigger>
@@ -436,14 +386,17 @@ const UsersListTable = () => {
               </SelectContent>
             </Select>
             <PlanSelect value={selectedPlan} onPlanSelect={handlePlanSelect} />
-            <StatusSelect value={selectedStatus} onStatusSelect={handleStatusSelect} />
-            <Button 
+            <StatusSelect
+              value={selectedStatus}
+              onStatusSelect={handleStatusSelect}
+            />
+            <Button
               className="bg-primary-gradient text-white"
               onClick={handleSearch}
             >
               Search
             </Button>
-            <div 
+            <div
               className="group flex cursor-pointer items-center gap-[3px] text-xs font-semibold text-red-500 transition-all hover:text-red-600 hover:underline"
               onClick={resetFilters}
             >

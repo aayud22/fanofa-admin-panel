@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
+  Tag,
   Bell,
   Star,
   Send,
@@ -14,18 +15,17 @@ import {
   Sliders,
   BarChart,
   Settings2,
+  Megaphone,
+  ListChecks,
   ChevronDown,
   ChevronsLeft,
   LayoutDashboard,
-  Tag,
-  ListChecks,
-  Megaphone,
 } from 'lucide-react';
 import { cn } from '../../utils/classNames';
 import { ASSETS } from '../../constants/assets';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { APP_ROUTES } from '../../constants/routeConstants';
-import { useDispatch, useSelector } from 'react-redux';
 import { toggleSidebar } from '../../redux/slices/commonSlice';
 
 function NavItem({ href, label, onClick, children, icon: Icon, isCollapsed }) {
@@ -157,39 +157,40 @@ const menuItems = [
     ],
   },
   {
-    href: '#',
-    icon: Settings2,
-    title: 'Manage Footer',
-    items: [
-      { title: 'Footer Settings', icon: Globe, href: '#' },
-      { title: 'Footer Maintenance', icon: Wrench, href: '#' },
-    ],
-  },
-  {
-    href: '#',
-    icon: Settings2,
-    title: 'Manage Auto Emails',
-    items: [
-      { title: 'Email Settings', icon: Mail, href: '#' },
-      { title: 'Email Maintenance', icon: Wrench, href: '#' },
-    ],
-  },
-  {
-    href: '#',
-    icon: Settings2,
-    title: 'Advertising in Banner',
-    items: [
-      { title: 'Banner Settings', icon: Sliders, href: '#' },
-      { title: 'Banner Maintenance', icon: Wrench, href: '#' },
-    ],
-  },
-  {
-    href: '#',
     icon: Settings2,
     title: 'Manage Enquiry',
+    href: APP_ROUTES.ENQUIRY.MANAGE_ENQUIRY,
     items: [
-      { title: 'Enquiry Settings', icon: Wrench, href: '#' },
-      { title: 'Enquiry Maintenance', icon: Wrench, href: '#' },
+      {
+        title: 'Contact Us',
+        icon: Wrench,
+        href: APP_ROUTES.ENQUIRY.CONTACT_US_LIST,
+      },
+      { title: 'Dispute', icon: Wrench, href: APP_ROUTES.ENQUIRY.DISPUTE_LIST },
+      {
+        title: 'Complaints',
+        icon: Wrench,
+        href: APP_ROUTES.ENQUIRY.COMPLAINTS_LIST,
+      },
+      { title: 'Support', icon: Wrench, href: APP_ROUTES.ENQUIRY.SUPPORT_LIST },
+      {
+        title: 'Advertising',
+        icon: Wrench,
+        href: APP_ROUTES.ENQUIRY.REPORT_ADS_LIST,
+      },
+      {
+        title: 'Support Ticket',
+        icon: Wrench,
+        href: APP_ROUTES.ENQUIRY.SUPPORT_TICKET_LIST,
+      },
+    ],
+  },
+  {
+    icon: Users,
+    title: 'Manage Reviews & Stars',
+    href: APP_ROUTES.REVIEW_AND_STAR.REVIEW_AND_STAR_LIST,
+    items: [
+      { title: 'Add Stars & Comment by Admin', icon: BarChart, href: '#' },
     ],
   },
   {

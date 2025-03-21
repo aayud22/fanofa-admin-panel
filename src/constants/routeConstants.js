@@ -18,8 +18,8 @@ export const APP_ROUTES = {
   },
   ADS: {
     BASE: '/ads',
-    AD_LIST: '/ads/list',
     NEW_AD: '/ads/new',
+    AD_LIST: '/ads/list',
     EDIT_AD: '/ads/edit',
     AD_DETAILS: '/ads/:id',
     CATEGORIES: '/ads/categories',
@@ -41,9 +41,9 @@ export const APP_ROUTES = {
   DEALS: {
     BASE: '/deals',
     LIST: '/deals/list',
+    DETAILS: '/deals/:id',
     CREATE: '/deals/create',
     EDIT: '/deals/edit/:id',
-    DETAILS: '/deals/:id',
   },
   LOGIN: {
     BASE: '/login',
@@ -58,5 +58,18 @@ export const APP_ROUTES = {
     NOT_FOUND: '/404',
     SERVER_ERROR: '/500',
     MAINTENANCE: '/maintenance',
+  },
+  ENQUIRY: {
+    SUPPORT_LIST: '/enquiry/support-list',
+    DISPUTE_LIST: '/enquiry/dispute-list',
+    CONTACT_US_LIST: '/enquiry/contact-list',
+    MANAGE_ENQUIRY: '/enquiry/manage-enquiry',
+    REPORT_ADS_LIST: '/enquiry/report-ads-list',
+    COMPLAINTS_LIST: '/enquiry/complaints-list',
+    SUPPORT_TICKET_LIST: '/enquiry/support-ticket-list',
+  },
+  REVIEW_AND_STAR: {
+    REVIEW_AND_STAR_LIST: '/review-and-star-list',
+    REVIEW_AND_STAR_DETAILS: '/review-and-star-details',
   },
 };

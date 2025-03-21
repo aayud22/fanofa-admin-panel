@@ -11,24 +11,32 @@ import NotFound from '../components/error/NotFound';
 import UserDetails from '../pages/user/UserDetails';
 import Dashboard from '../pages/dashboard/Dashboard';
 import AdsPromotions from '../pages/ads/AdsPromotions';
+import DisputeList from '../pages/enquiry/DisputeList';
+import SupportList from '../pages/enquiry/SupportList';
 import Categories from '../pages/categories/Categories';
 import SubAdminLogin from '../pages/auth/SubAdminLogin';
 import Promotions from '../pages/promotions/Promotions';
 import { APP_ROUTES } from '../constants/routeConstants';
 import ChatDetails from '../components/chat/ChatDetails';
+import ReportAdList from '../pages/enquiry/ReportAdList';
 import ServerError from '../components/error/ServerError';
 import AdvertsList from '../pages/advertises/AdvertsList';
+import ContactUsList from '../pages/enquiry/ContactUsList';
 import SuperAdminLogin from '../pages/auth/SuperAdminLogin';
 import MaintenancePage from '../pages/error/MaintenancePage';
+import ComplaintsList from '../pages/enquiry/ComplaintsList';
 import TopInterests from '../pages/topInterests/TopInterests';
 import SelectUserType from '../components/auth/SelectUserType';
 import MySubscribers from '../pages/subscribers/MySubscribers';
 import BillingHistory from '../pages/promotions/BillingHistory';
 import SubscribersPage from '../pages/subscribers/SubscribersPage';
+import SupportTicketList from '../pages/enquiry/SupportTicketList';
 import AdvertsBannerList from '../pages/advertises/AdvertsBannerList';
 import CountryVisitors from '../pages/countryVisitors/CountryVisitors';
 import NotificationPage from '../pages/notifications/NotificationPage';
 import AdvertisePricingTable from '../pages/advertises/AdvertisePricingTable';
+import ManageEnquiryForms from '../pages/enquiry/ManageEnquiryForms';
+import ReviewsWithStars from '../pages/reviewAndStar/ReviewsWithStars';
 
 const AppRoutes = () => {
   return (
@@ -106,6 +114,38 @@ const AppRoutes = () => {
         <Route
           path={APP_ROUTES.ADVERTISES.ADVERTISE_PAYMENT_AND_TIMING}
           element={<AdvertisePricingTable />}
+        />
+        <Route
+          path={APP_ROUTES.ENQUIRY.MANAGE_ENQUIRY}
+          element={<ManageEnquiryForms />}
+        />
+        <Route
+          path={APP_ROUTES.ENQUIRY.CONTACT_US_LIST}
+          element={<ContactUsList />}
+        />
+        <Route
+          path={APP_ROUTES.ENQUIRY.DISPUTE_LIST}
+          element={<DisputeList />}
+        />
+        <Route
+          path={APP_ROUTES.ENQUIRY.COMPLAINTS_LIST}
+          element={<ComplaintsList />}
+        />
+        <Route
+          path={APP_ROUTES.ENQUIRY.SUPPORT_LIST}
+          element={<SupportList />}
+        />
+        <Route
+          path={APP_ROUTES.ENQUIRY.REPORT_ADS_LIST}
+          element={<ReportAdList />}
+        />
+        <Route
+          path={APP_ROUTES.ENQUIRY.SUPPORT_TICKET_LIST}
+          element={<SupportTicketList />}
+        />
+        <Route
+          path={APP_ROUTES.REVIEW_AND_STAR.REVIEW_AND_STAR_LIST}
+          element={<ReviewsWithStars />}
         />
       </Route>
 

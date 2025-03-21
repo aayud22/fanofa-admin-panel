@@ -113,7 +113,7 @@ const AddNewAd = () => {
       <Card className="flex-1 !rounded-none !border-none">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex h-full flex-col"
+          className="flex h-[calc(100vh-200px)] flex-col"
         >
           <CardContent className="flex-1 space-y-6 overflow-auto">
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">

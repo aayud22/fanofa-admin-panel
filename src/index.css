@@ -168,3 +168,30 @@ code {
   border-bottom-left-radius: 0.375rem;
   border-bottom-right-radius: 0.375rem;
 }
+
+/* Make country selector fixed width and add separation */
+.enquiry-phone-input .PhoneInputCountry {
+  display: flex;
+  min-width: 50px;
+  margin-right: 10px;
+  padding-right: 10px;
+  align-items: center;
+  border-right: 1px solid #ccc;
+}
+
+/* Ensure the phone number input takes full width */
+.enquiry-phone-input .PhoneInputInput {
+  flex-grow: 1;
+  font-size: 16px;
+  padding-left: 10px;
+  width: 100% !important;
+  border: none !important;
+  background: transparent;
+  outline: none !important;
+}
+
+.enquiry-phone-input .PhoneInputInput:focus {
+  box-shadow: none !important;
+  border: none !important;
+  outline: none !important;
+}

@@ -29,13 +29,12 @@ import { Provider } from 'react-redux';
 import 'react-quill/dist/quill.snow.css';
 import { Toaster } from 'react-hot-toast';
 import AppRoutes from './routes/AppRoutes';
-import 'react-phone-input-2/lib/style.css';
+import 'react-phone-number-input/style.css';
 import store, { persistor } from './redux/store';
 import ErrorBoundary from './components/ErrorBoundary';
 import { BrowserRouter as Router } from 'react-router-dom';
 import '../node_modules/flag-icon-css/css/flag-icons.min.css';
 import { PersistGate } from 'redux-persist/integration/react';
-import storage from 'redux-persist/lib/storage';
 
 const App = () => {
   return (
