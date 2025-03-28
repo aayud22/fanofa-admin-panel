@@ -24,9 +24,9 @@ import {
 import { cn } from '../../utils/classNames';
 import { ASSETS } from '../../constants/assets';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
 import { APP_ROUTES } from '../../constants/routeConstants';
 import { toggleSidebar } from '../../redux/slices/commonSlice';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 function NavItem({ href, label, onClick, children, icon: Icon, isCollapsed }) {
   const router = useLocation();
@@ -47,7 +47,7 @@ function NavItem({ href, label, onClick, children, icon: Icon, isCollapsed }) {
     if (router.pathname !== href) {
       navigate(href);
     } else {
-      setIsOpen((prev) => !prev); // Toggle dropdown
+      setIsOpen((prev) => !prev);
     }
 
     if (onClick) {
@@ -257,9 +257,9 @@ const Sidebar = () => {
             >
               {item?.items &&
                 item?.items?.map((subItem, subIndex) => (
-                  <a
+                  <Link
                     key={subIndex}
-                    href={subItem.href}
+                    to={subItem?.href} // Use "to" instead of "href"
                     className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-white hover:bg-white/10"
                   >
                     <subItem.icon className="inline-block h-5 w-5" />
@@ -271,7 +271,23 @@ const Sidebar = () => {
                     >
                       {subItem.title}
                     </span>
-                  </a>
+                  </Link>
+
+                  // <a
+                  //   key={subIndex}
+                  //   href={subItem.href}
+                  //   className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-white hover:bg-white/10"
+                  // >
+                  //   <subItem.icon className="inline-block h-5 w-5" />
+                  //   <span
+                  //     className={cn(
+                  //       'text-sm transition-all duration-300',
+                  //       isCollapsed ? 'hidden' : 'block'
+                  //     )}
+                  //   >
+                  //     {subItem.title}
+                  //   </span>
+                  // </a>
                 ))}
             </NavItem>
           ))}
