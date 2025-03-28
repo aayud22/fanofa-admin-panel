@@ -15,13 +15,19 @@ import {
 import {
   Eye,
   Star,
+  Edit3,
   Search,
   Trash2,
+  Eraser,
   Ellipsis,
   FileDown,
   RotateCcw,
+  MessageSquareMore,
 } from 'lucide-react';
+import ReviewModal from './ReviewModal';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import EditReviewModal from './EditReviewModal';
 import DatePicker from 'react-multi-date-picker';
 import { Input } from '../../components/ui/input';
 import { Button } from '../../components/ui/button';
@@ -154,6 +160,7 @@ const mockReviewList = [
 ];
 
 const ReviewsWithStars = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -161,6 +168,9 @@ const ReviewsWithStars = () => {
   const [selectedStatus, setSelectedStatus] = useState('');
   const [selectedCategory, setSelectCategory] = useState('');
   const [selectedCountry, setSelectedCountry] = useState('');
+  const [selectedReview, setSelectedReview] = useState(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isReviewDialogOpen, setIsReviewDialogOpen] = useState(false);
   const [isLoadingReviewList, setIsLoadingReviewList] = useState(false);
 
   useEffect(() => {
@@ -235,8 +245,14 @@ const ReviewsWithStars = () => {
       sortable: false,
       render: (value) => (
         <div className="flex items-center gap-2">
-          <span className="flex items-center">⭐ {value.rating}</span>
-          <span className="flex items-center">💬 {value.comments}</span>
+          <span className="flex items-center">
+            <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />{' '}
+            {value?.rating}
+          </span>
+          <span className="flex items-center">
+            <MessageSquareMore className="!h-4 !w-4 text-blue-500" />{' '}
+            {value?.comments}
+          </span>
         </div>
       ),
     },
@@ -272,12 +288,33 @@ const ReviewsWithStars = () => {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-[160px]">
-            <DropdownMenuItem className="flex items-center gap-2 text-skyBlue">
+            <DropdownMenuItem
+              onClick={() =>
+                navigate(APP_ROUTES.REVIEW_AND_STAR.REVIEW_AND_STAR_DETAILS, {
+                  state: { data: row },
+                })
+              }
+              className="flex items-center gap-2 text-skyBlue"
+            >
               <Eye className="h-4 w-4" />
               View Details
             </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => handleEditReview(row)}
+              className="flex items-center gap-2 text-skyBlue"
+            >
+              <Edit3 className="h-4 w-4" />
+              Edit
+            </DropdownMenuItem>
             <DropdownMenuItem className="flex items-center gap-2 text-yellow-600">
-              <Star className="h-4 w-4" />
+              <Eraser className="h-4 w-4 text-yellow-400" />
+              Remove
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              className="flex items-center gap-2 text-yellow-600"
+              onClick={() => handleGiveRating()}
+            >
+              <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
               Give Rating
             </DropdownMenuItem>
             <DropdownMenuItem className="flex items-center gap-2 text-red-600">
@@ -311,107 +348,143 @@ const ReviewsWithStars = () => {
     setSelectedCountry('');
   };
 
+  const handleGiveRating = () => {
+    setIsReviewDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setIsReviewDialogOpen(false);
+  };
+
+  const handleSubmitReview = (reviewData) => {
+    // Handle review submission here
+    console.log(reviewData);
+  };
+
+  const handleEditReview = (row) => {
+    setSelectedReview(row);
+    setIsEditModalOpen(true);
+  };
+
+  const handleCloseEditModal = () => {
+    setIsEditModalOpen(false);
+    setSelectedReview(null);
+  };
+
   return (
-    <div className="space-y-4">
-      <div className="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
-        <h2 className="text-lg font-semibold text-darkBlueText">
-          All review and starts List ({mockReviewList?.length})
-        </h2>
+    <>
+      <div className="space-y-4">
+        <div className="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+          <h2 className="text-lg font-semibold text-darkBlueText">
+            All review and starts List ({mockReviewList?.length})
+          </h2>
 
-        <div className="flex flex-wrap items-center gap-2 sm:flex-nowrap">
-          <Button
-            size="sm"
-            variant="outline"
-            className="w-full text-xs font-medium text-darkBlueText sm:w-auto md:text-sm"
-          >
-            <FileDown className="h-4 w-4" />
-            Download
-          </Button>
-        </div>
-      </div>
-
-      <div className="flex flex-wrap gap-4">
-        <div className="min-w-[200px] flex-1">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-            <Input
-              className="pl-10"
-              value={searchQuery}
-              placeholder="Ad ID / Ad Owner ID / Customer Id"
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
+          <div className="flex flex-wrap items-center gap-2 sm:flex-nowrap">
+            <Button
+              size="sm"
+              variant="outline"
+              className="w-full text-xs font-medium text-darkBlueText sm:w-auto md:text-sm"
+            >
+              <FileDown className="h-4 w-4" />
+              Download
+            </Button>
           </div>
         </div>
-        <Select value={selectedCountry} onValueChange={setSelectedCountry}>
-          <SelectTrigger className="w-[150px]">
-            <SelectValue placeholder="Country" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="india">India</SelectItem>
-            <SelectItem value="usa">USA</SelectItem>
-            <SelectItem value="uk">Uk</SelectItem>
-          </SelectContent>
-        </Select>
-        <Select value={selectedCategory} onValueChange={setSelectCategory}>
-          <SelectTrigger className="w-[150px]">
-            <SelectValue placeholder="Category" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="vehicles">Vehicles</SelectItem>
-            <SelectItem value="mobile">Mobile</SelectItem>
-            <SelectItem value="jobs">Jobs</SelectItem>
-          </SelectContent>
-        </Select>
-        <Select value={selectedDate} onValueChange={setSelectedDate}>
-          <SelectTrigger className="w-[150px]">
-            <SelectValue placeholder="Review Date " />
-          </SelectTrigger>
-          <SelectContent>
-            <DatePicker
-              format="DD-MM-YYYY"
-              value={selectedDate}
-              onChange={(date) => setSelectedDate(date)}
-            />
-          </SelectContent>
-        </Select>
-        <Select value={selectedStatus} onValueChange={setSelectedStatus}>
-          <SelectTrigger className="w-[150px]">
-            <SelectValue placeholder="Status" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="active">Active</SelectItem>
-            <SelectItem value="inActive">Inactive</SelectItem>
-          </SelectContent>
-        </Select>
-        <div className="flex items-center gap-2">
-          <Button
-            className="h-10 bg-primary-gradient px-6 text-white"
-            onClick={handleSearch}
-          >
-            Search
-          </Button>
-          <div
-            className="group flex cursor-pointer items-center gap-[3px] text-xs font-semibold text-red-500 transition-all hover:text-red-600 hover:underline"
-            onClick={resetFilters}
-          >
-            <RotateCcw className="h-4 w-4 group-hover:text-red-600" />
-            Reset Filter
+
+        <div className="flex flex-wrap gap-4">
+          <div className="min-w-[200px] flex-1">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+              <Input
+                className="pl-10"
+                value={searchQuery}
+                placeholder="Ad ID / Ad Owner ID / Customer Id"
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
           </div>
+          <Select value={selectedCountry} onValueChange={setSelectedCountry}>
+            <SelectTrigger className="w-[150px]">
+              <SelectValue placeholder="Country" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="india">India</SelectItem>
+              <SelectItem value="usa">USA</SelectItem>
+              <SelectItem value="uk">Uk</SelectItem>
+            </SelectContent>
+          </Select>
+          <Select value={selectedCategory} onValueChange={setSelectCategory}>
+            <SelectTrigger className="w-[150px]">
+              <SelectValue placeholder="Category" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="vehicles">Vehicles</SelectItem>
+              <SelectItem value="mobile">Mobile</SelectItem>
+              <SelectItem value="jobs">Jobs</SelectItem>
+            </SelectContent>
+          </Select>
+          <Select value={selectedDate} onValueChange={setSelectedDate}>
+            <SelectTrigger className="w-[150px]">
+              <SelectValue placeholder="Review Date " />
+            </SelectTrigger>
+            <SelectContent>
+              <DatePicker
+                format="DD-MM-YYYY"
+                value={selectedDate}
+                onChange={(date) => setSelectedDate(date)}
+              />
+            </SelectContent>
+          </Select>
+          <Select value={selectedStatus} onValueChange={setSelectedStatus}>
+            <SelectTrigger className="w-[150px]">
+              <SelectValue placeholder="Status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="active">Active</SelectItem>
+              <SelectItem value="inActive">Inactive</SelectItem>
+            </SelectContent>
+          </Select>
+          <div className="flex items-center gap-2">
+            <Button
+              className="h-10 bg-primary-gradient px-6 text-white"
+              onClick={handleSearch}
+            >
+              Search
+            </Button>
+            <div
+              className="group flex cursor-pointer items-center gap-[3px] text-xs font-semibold text-red-500 transition-all hover:text-red-600 hover:underline"
+              onClick={resetFilters}
+            >
+              <RotateCcw className="h-4 w-4 group-hover:text-red-600" />
+              Reset Filter
+            </div>
+          </div>
+        </div>
+
+        <div className="w-full overflow-x-auto rounded-lg border">
+          <EnhancedTable
+            pagination
+            columns={columns}
+            data={mockReviewList}
+            searchQuery={searchQuery}
+            isLoading={isLoadingReviewList}
+            // onRowClick={handleRowClick}
+            // onSelectionChange={handleSelectionChange}
+          />
         </div>
       </div>
 
-      <div className="w-full overflow-x-auto rounded-lg border">
-        <EnhancedTable
-          pagination
-          columns={columns}
-          data={mockReviewList}
-          searchQuery={searchQuery}
-          isLoading={isLoadingReviewList}
-          // onRowClick={handleRowClick}
-          // onSelectionChange={handleSelectionChange}
-        />
-      </div>
-    </div>
+      <ReviewModal
+        isOpen={isReviewDialogOpen}
+        onClose={handleCloseDialog}
+        onSubmit={handleSubmitReview}
+      />
+      <EditReviewModal
+        isOpen={isEditModalOpen}
+        onClose={handleCloseEditModal}
+        reviewData={selectedReview}
+      />
+    </>
   );
 };
 

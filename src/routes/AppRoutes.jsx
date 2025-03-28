@@ -31,12 +31,13 @@ import MySubscribers from '../pages/subscribers/MySubscribers';
 import BillingHistory from '../pages/promotions/BillingHistory';
 import SubscribersPage from '../pages/subscribers/SubscribersPage';
 import SupportTicketList from '../pages/enquiry/SupportTicketList';
+import ReviewsDetails from '../pages/reviewAndStar/ReviewsDetails';
+import ManageEnquiryForms from '../pages/enquiry/ManageEnquiryForms';
 import AdvertsBannerList from '../pages/advertises/AdvertsBannerList';
 import CountryVisitors from '../pages/countryVisitors/CountryVisitors';
 import NotificationPage from '../pages/notifications/NotificationPage';
-import AdvertisePricingTable from '../pages/advertises/AdvertisePricingTable';
-import ManageEnquiryForms from '../pages/enquiry/ManageEnquiryForms';
 import ReviewsWithStars from '../pages/reviewAndStar/ReviewsWithStars';
+import AdvertisePricingTable from '../pages/advertises/AdvertisePricingTable';
 
 const AppRoutes = () => {
   return (
@@ -146,6 +147,10 @@ const AppRoutes = () => {
         <Route
           path={APP_ROUTES.REVIEW_AND_STAR.REVIEW_AND_STAR_LIST}
           element={<ReviewsWithStars />}
+        />
+        <Route
+          path={APP_ROUTES.REVIEW_AND_STAR.REVIEW_AND_STAR_DETAILS}
+          element={<ReviewsDetails />}
         />
       </Route>
 
